@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1034039822045",
+    "project_id": "insco-9e17a",
+    "storage_bucket": "insco-9e17a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034039822045:android:8d5ec483e4bdc82d18bd34",
+        "android_client_info": {
+          "package_name": "com.theeracreation.insco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034039822045-jbkneik8l4fnv183s2l2dufagh7orltt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-NEUBqSeUNuHyzwCgsGSdUwDGGfO4TJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034039822045-jbkneik8l4fnv183s2l2dufagh7orltt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
