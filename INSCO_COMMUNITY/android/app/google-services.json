@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1034039822045",
-    "project_id": "insco-9e17a",
-    "storage_bucket": "insco-9e17a.appspot.com"
+    "project_number": "1034098748529",
+    "project_id": "insco-2fd82",
+    "storage_bucket": "insco-2fd82.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1034039822045:android:8d5ec483e4bdc82d18bd34",
+        "mobilesdk_app_id": "1:1034098748529:android:e6eaa44eeb27ea34213fd0",
         "android_client_info": {
-          "package_name": "com.theeracreation.insco"
+          "package_name": "com.theeracreation.INSCO_COMMUNITY"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1034039822045-jbkneik8l4fnv183s2l2dufagh7orltt.apps.googleusercontent.com",
+          "client_id": "1034098748529-1inqqvl3j5ilce4saq746b86nvk6po3f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA-NEUBqSeUNuHyzwCgsGSdUwDGGfO4TJY"
+          "current_key": "AIzaSyCsOtDbu4VQprBjXX2PNjiTzy-8nEmE3Ic"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1034039822045-jbkneik8l4fnv183s2l2dufagh7orltt.apps.googleusercontent.com",
+              "client_id": "1034098748529-1inqqvl3j5ilce4saq746b86nvk6po3f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
