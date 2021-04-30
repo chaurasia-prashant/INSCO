@@ -1,3 +1,5 @@
+import 'package:INSCO_COMMUNITY/pages/authentication/authenicate.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/login.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,8 @@ class _InscoAppState extends State<InscoApp> {
 
   @override
   Widget build(BuildContext context) {
-    return HomePage();
+    return MaterialApp(
+      home: LoginScreen(),
+    );
   }
 }

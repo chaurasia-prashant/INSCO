@@ -7,9 +7,11 @@ class Account {
   int batch;
   bool isInscoMember;
   String title;
+  String mobileNumber;
 
   Account(
       {this.id,
+      this.mobileNumber,
       this.username,
       this.batch,
       this.bio,
@@ -27,6 +29,7 @@ class Account {
     batch = json['batch'];
     isInscoMember = json['isInscoMember'];
     title = json['title'];
+    mobileNumber = json['mobileNumber'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class Account {
     data['batch'] = batch;
     data['isInscoMember'] = isInscoMember;
     data['title'] = title;
+    data['mobileNumber'] = mobileNumber == null ? '' : mobileNumber;
     return data;
   }
 }

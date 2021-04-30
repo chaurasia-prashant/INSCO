@@ -24,6 +24,7 @@ class LocalStorage {
     prefs.setString('title', account.title);
     prefs.setInt('batch', account.batch);
     prefs.setBool('isInscoMember', account.isInscoMember);
+    prefs.setString('mobileNumber', account.mobileNumber);
   }
 
   Future<Account> getAccount() async {
@@ -39,6 +40,7 @@ class LocalStorage {
     data['batch'] = prefs.getInt('batch');
     data['isInscoMember'] = prefs.getBool('isInscoMember');
     data['title'] = prefs.getString('title');
+    data['mobileNumber'] = prefs.getString('mobileNumber');
     return Account.fromJson(data);
   }
 }
