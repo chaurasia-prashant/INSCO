@@ -29,6 +29,7 @@ dependencies:
   uuid: ^2.2.2
   dio: ^3.0.10
   google_fonts: ^1.1.2
+  form_field_validator: ^1.0.1
 
 dev_dependencies:
   flutter_test:
