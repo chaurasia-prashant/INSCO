@@ -1,5 +1,6 @@
 import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/authenicate_page.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/login.dart';
 
 import 'package:INSCO_COMMUNITY/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -54,9 +55,10 @@ class _InscoAppState extends State<InscoApp> {
     return MaterialApp(
       home: showSplashScreen == true
           ? SplashScreen()
-          : AuthenticatePage(
-              loadHome: loadHomeScreen,
-            ),
+          : LoginScreen(
+              // : AuthenticatePage(
+              //     loadHome: loadHomeScreen,
+              ),
     );
   }
   //TODO implement future for splash screen using ternary
