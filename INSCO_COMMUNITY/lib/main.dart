@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-
-=======
 import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/authenicate_page.dart';
 
 import 'package:INSCO_COMMUNITY/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
->>>>>>> 28d649d3fb54de8646f2b0913df019488840b751
 import 'package:flutter/material.dart';
 
 import 'pages/authentication/registration.dart';
@@ -56,15 +52,11 @@ class _InscoAppState extends State<InscoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< HEAD
-      home: RegistrationScreen(),
-=======
       home: showSplashScreen == true
           ? SplashScreen()
           : AuthenticatePage(
               loadHome: loadHomeScreen,
             ),
->>>>>>> 28d649d3fb54de8646f2b0913df019488840b751
     );
   }
   //TODO implement future for splash screen using ternary
