@@ -5,6 +5,8 @@ import 'package:INSCO_COMMUNITY/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/authentication/registration.dart';
+
 void main() {
   runApp(InscoApp());
 }
