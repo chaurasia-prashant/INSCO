@@ -52,11 +52,7 @@ class _InscoAppState extends State<InscoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: showSplashScreen == true
-          ? SplashScreen()
-          : AuthenticatePage(
-              loadHome: loadHomeScreen,
-            ),
+      home: RegistrationScreen(),
     );
   }
   //TODO implement future for splash screen using ternary

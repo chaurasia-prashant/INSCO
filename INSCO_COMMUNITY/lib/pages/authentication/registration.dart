@@ -4,6 +4,7 @@ import 'package:INSCO_COMMUNITY/component/font_text.dart';
 import 'package:INSCO_COMMUNITY/component/text_field.dart';
 import 'package:INSCO_COMMUNITY/helper/screen_size.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -40,31 +41,52 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.all(screen.horizontal(4)),
+              padding: EdgeInsets.all(screen.horizontal(4.0)),
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 children: [
                   SizedBox(
-                    height: screen.vertical(10),
+                    height: screen.vertical(10.0),
                   ),
                   LatoText(
                     "Let's integrate with INSCO Community",
-                    size: 15,
+                    size: 25,
                   ),
                   SizedBox(
-                    height: screen.vertical(45),
+                    height: screen.vertical(45.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Your Name',
+                      style: GoogleFonts.lato(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white),
+                    ),
                   ),
                   CustomTextField(
-                    hintText: 'Your Name',
+                    hintText: 'Type your name',
                     textAlignment: TextAlign.start,
                     keyboard: TextInputType.name,
                   ),
                   SizedBox(
-                    height: screen.vertical(25),
+                    height: screen.vertical(25.0),
                   ),
                   Row(
                     children: [
-                      Text('Are you a pre student of INSCO?'),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Are you a pre student of INSCO?',
+                            style: GoogleFonts.lato(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey),
+                          ),
+                        ),
+                      ),
                       Switch(
                         value: isMember,
                         onChanged: (value) {
@@ -72,48 +94,81 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             isMember = value;
                           });
                         },
+                        inactiveTrackColor: Colors.grey,
                         activeTrackColor: Colors.blue,
                         activeColor: Colors.blue[900],
                       ),
                     ],
                   ),
                   isMember
-                      ? DropDownField(
-                          hintText: 'Select your batch',
-                          textAlignment: TextAlign.start,
-                          items: batch.map((valueItem) {
-                            return DropdownMenuItem(
-                              value: valueItem,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 5.0),
-                                child: Text('Batch ${valueItem.toString()}'),
+                      ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Select Your Batch',
+                      style: GoogleFonts.lato(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white),
+                    ),
+                  ) : SizedBox(height:0.0),
+                  isMember
+                      ? DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.black,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
                               ),
-                            );
-                          }).toList(),
-                          value: userBatch.toString(),
+                              borderSide: BorderSide(
+                                  width: 0.0,
+                                  style: BorderStyle.none,
+                                  color: Colors.transparent),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              borderSide: BorderSide(
+                                  width: 0.0,
+                                  style: BorderStyle.none,
+                                  color: Colors.transparent),
+                            ),
+                          ),
+                          value: userBatch,
                           onChanged: (newValue) {
                             setState(() {
                               userBatch = newValue;
                             });
                           },
+                          items: batch.map((valueItem) {
+                            return DropdownMenuItem(
+                              value: valueItem,
+                              child: Text(
+                                'Batch ${valueItem.toString()}',
+                                style: GoogleFonts.lato(color: Colors.grey),
+                              ),
+                            );
+                          }).toList(),
                         )
                       : SizedBox(
-                          height: 0,
+                          height: 0.0,
                         ),
+                  SizedBox(
+                    height: screen.vertical(25.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Who is using this ?',
+                      style: GoogleFonts.lato(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white),
+                    ),
+                  ),
                   DropDownField(
-                    hintText: 'Who is using this?',
                     textAlignment: TextAlign.start,
-                    items: titleOption.map((valueItem) {
-                      return DropdownMenuItem(
-                        value: valueItem,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 5.0),
-                          child: Text(valueItem),
-                        ),
-                      );
-                    }).toList(),
+                    items: titleOption,
                     value: userTitle,
                     onChanged: (newValue) {
                       setState(() {
@@ -122,7 +177,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     },
                   ),
                   SizedBox(
-                    height: screen.vertical(25),
+                    height: screen.vertical(25.0),
                   ),
                   Button(
                     'Continue',
@@ -152,19 +207,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.all(screen.horizontal(4)),
+              padding: EdgeInsets.all(screen.horizontal(4.0)),
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 children: [
                   SizedBox(
-                    height: screen.vertical(150),
+                    height: screen.vertical(150.0),
                   ),
                   LatoText(
-                    'Just fef steps',
-                    size: 15,
+                    'Just few steps more',
+                    size: 25,
                   ),
                   SizedBox(
-                    height: screen.vertical(45),
+                    height: screen.vertical(45.0),
                   ),
                   CustomTextField(
                     hintText: 'Email',
@@ -176,7 +231,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: screen.vertical(25),
+                    height: screen.vertical(25.0),
                   ),
                   CustomTextField(
                     hintText: 'Password',
@@ -188,7 +243,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: screen.vertical(25),
+                    height: screen.vertical(25.0),
                   ),
                   CustomTextField(
                     hintText: 'Password',
@@ -200,13 +255,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: screen.vertical(25),
+                    height: screen.vertical(25.0),
                   ),
-                  Button(
-                    'Create Account',
-                    onPressed: () {
-                      debugPrint('Login');
-                    },
+                  Row(
+                    children: [
+                      Button(
+                        'Go Back',
+                        onPressed: () {
+                          setState(() {
+                            changePage = false;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Button(
+                          'Create Account',
+                          onPressed: () {
+                            debugPrint('Login');
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -230,7 +300,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           alignment: Alignment.topCenter,
         ),
       ),
-      child: isMember ? emailAndPassword(screen) : detailPage(screen),
+      child: changePage ? emailAndPassword(screen) : detailPage(screen),
     );
   }
 }
