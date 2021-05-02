@@ -1,7 +1,10 @@
+import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/main_screen.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/profile.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/search.dart';
 import 'package:flutter/material.dart';
+
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -31,8 +34,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   onTap(int pageIndex) {
-    pageController.jumpToPage(pageIndex,);
-
+    pageController.jumpToPage(
+      pageIndex,
+    );
   }
 
   @override
@@ -40,7 +44,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          MainScreen(),
+          MainScreen(
+           
+          ),
           SearchScreen(),
           ProfileScreen(),
         ],
