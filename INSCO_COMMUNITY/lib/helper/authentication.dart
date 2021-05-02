@@ -15,6 +15,7 @@ class Authentication extends FirebaseAuthFunctions {
   createUserInFirebase(String email, String password) async {
     newUser = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
+    uid = auth.currentUser.uid;
     if (newUser != null) {
       if (localStorage.prefs == null) {
         await localStorage.init();

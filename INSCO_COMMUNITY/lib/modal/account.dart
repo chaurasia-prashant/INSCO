@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 class Account {
   String id;
   String username;
@@ -10,15 +12,15 @@ class Account {
   String mobileNumber;
 
   Account(
-      {this.id,
+      {@required this.id,
       this.mobileNumber,
-      this.username,
-      this.batch,
+      @required this.username,
+      @required this.batch,
       this.bio,
-      this.email,
-      this.isInscoMember = false,
+      @required this.email,
+      @required this.isInscoMember,
       this.photoUrl,
-      this.title});
+      @required this.title});
 
   Account.fromJson(Map<String, dynamic> json) {
     id = json['id'];

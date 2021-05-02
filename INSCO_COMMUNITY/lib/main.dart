@@ -3,8 +3,10 @@ import 'package:INSCO_COMMUNITY/pages/authentication/authenicate_page.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/login.dart';
 
 import 'package:INSCO_COMMUNITY/pages/splash_screen.dart';
+import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'pages/authentication/registration.dart';
 
@@ -52,13 +54,22 @@ class _InscoAppState extends State<InscoApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return MaterialApp(
       home: showSplashScreen == true
           ? SplashScreen()
-          : LoginScreen(
-              // : AuthenticatePage(
-              //     loadHome: loadHomeScreen,
-              ),
+          : AuthenticatePage(
+              loadHome: loadHomeScreen,
+            ),
+      // initialRoute: 'splash_screen',
+      // routes: {
+      //   'welcome_screen': (context) => WelcomePage(),
+      //   'splash_screen': (context) => SplashScreen(),
+      //   'login_screen': (context) => LoginScreen(),
+      //   'registration_screen': (context) => RegistrationScreen(),
+      // }
     );
   }
   //TODO implement future for splash screen using ternary
