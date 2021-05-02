@@ -373,7 +373,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             context,
                             MaterialPageRoute<dynamic>(
                               builder: (BuildContext context) =>
-                                  RegistrationScreen(),
+                                  HomePage(),
                             ),
                             (route) =>
                                 false, //if you want to disable back feature set to false
