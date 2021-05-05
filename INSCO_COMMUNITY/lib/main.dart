@@ -1,14 +1,13 @@
 import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/authenicate_page.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/login.dart';
 
 import 'package:INSCO_COMMUNITY/pages/splash_screen.dart';
-import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'pages/authentication/registration.dart';
+
 
 void main() {
   runApp(InscoApp());
