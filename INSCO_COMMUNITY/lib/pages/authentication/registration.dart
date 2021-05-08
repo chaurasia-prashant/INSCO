@@ -355,39 +355,40 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           setState(() {
                             showLoading = true;
                           });
-                          await authentication.createUserInFirebase(
-                              email, password);
-                          id = FirebaseAuth.instance.currentUser.uid;
-                          Account account = Account(
-                              id: id,
-                              username: name,
-                              email: email,
-                              batch: userBatch,
-                              title: userTitle,
-                              isInscoMember: isMember);
-                          await authentication.saveDataInFirebase(account);
-                          await authentication.saveDataInLocalStorage(account);
-                          debugPrint("All done");
-                          //TODO check here
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) =>
-                                  HomePage(),
-                            ),
-                            (route) =>
-                                false, //if you want to disable back feature set to false
-                          );
-                          Navigator.push(
+                          final newUser = await authentication
+                              .createUserInFirebase(email, password);
+                          if (newUser != null) {
+                            id = FirebaseAuth.instance.currentUser.uid;
+                            Account account = Account(
+                                id: id,
+                                username: name,
+                                email: email,
+                                batch: userBatch,
+                                title: userTitle,
+                                isInscoMember: isMember);
+                            await authentication.saveDataInFirebase(account);
+                            await authentication
+                                .saveDataInLocalStorage(account);
+                            debugPrint("All done");
+                            //TODO check here
+                            Navigator.pushAndRemoveUntil<dynamic>(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) => HomePage(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
 
-                          setState(() {
-                            showLoading = false;
-                          });
+                            setState(() {
+                              showLoading = false;
+                            });
+                          }
                         }
-                        //TODO implement submit to firebase and create account
                       },
                     ),
                     SizedBox(
