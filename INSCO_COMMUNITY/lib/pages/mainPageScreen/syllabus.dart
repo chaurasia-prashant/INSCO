@@ -1,6 +1,7 @@
 import 'package:INSCO_COMMUNITY/widget/pdf_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:INSCO_COMMUNITY/widget/header.dart';
 
 class SyllabusPage extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       key: _scaffoldKey,
-      appBar: AppBar(title: Text('SYLLABUS'),),
+      appBar: header(context,titleText: "Syllabus"),
       body: RefreshIndicator(
         onRefresh: () => getSyllabus(),
         child: buildSyllabus(),

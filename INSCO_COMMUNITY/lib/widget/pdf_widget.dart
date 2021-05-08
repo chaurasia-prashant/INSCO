@@ -40,7 +40,7 @@ class _PdfDocState extends State<PdfDoc> {
   syllabusHeader() {
     return Column(
       children: [
-        SizedBox(height: 10.0),
+        SizedBox(height: 1.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Align(
@@ -64,7 +64,7 @@ class _PdfDocState extends State<PdfDoc> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30.0),
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: Center(
                       child: Text(
                         name.toUpperCase(),
@@ -77,7 +77,7 @@ class _PdfDocState extends State<PdfDoc> {
             ),
           ),
         ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 1.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Divider(thickness: 1.0, color: Colors.white,),
