@@ -32,6 +32,7 @@ class _InscoAppState extends State<InscoApp> {
       await localStorage.init();
     }
     value = localStorage.prefs.getString('key');
+    final value2 = localStorage.prefs.getString('username');
     // value = "suyash";
     if (value == null) {
       setState(() {
@@ -44,7 +45,7 @@ class _InscoAppState extends State<InscoApp> {
     setState(() {
       showSplashScreen = false;
     });
-    print(value);
+    print(value2);
   }
 
   @override

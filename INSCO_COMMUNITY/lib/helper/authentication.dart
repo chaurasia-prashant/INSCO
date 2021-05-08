@@ -1,4 +1,3 @@
-import 'package:INSCO_COMMUNITY/helper/get_data.dart';
 import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/repo/firebase_auth.dart';
@@ -8,12 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Authentication extends FirebaseAuthFunctions {
   final auth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance.collection('accounts');
-  UserCredential newUser;
+
   String uid;
   LocalStorage localStorage = LocalStorage();
 
   @override
   createUserInFirebase(String email, String password) async {
+    UserCredential newUser;
     try {
       newUser = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -27,6 +27,7 @@ class Authentication extends FirebaseAuthFunctions {
     } catch (e) {
       print(e);
     }
+    return newUser;
   }
 
   @override
@@ -41,8 +42,9 @@ class Authentication extends FirebaseAuthFunctions {
 
   @override
   loginUser(String email, String password) async {
+    var user;
     try {
-      final user = await auth.signInWithEmailAndPassword(
+      user = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (user != null) {
         uid = auth.currentUser.uid;
@@ -50,15 +52,11 @@ class Authentication extends FirebaseAuthFunctions {
           await localStorage.init();
         }
         await localStorage.prefs.setString('key', password);
-        print(localStorage.prefs.getString('key'));
-        UserDataFromFirebase userDataFromFirebase = UserDataFromFirebase();
-        final data = await userDataFromFirebase.getUserData(uid, "accounts");
-        final account = Account.fromJson(data);
-        await localStorage.setAccount(account);
       }
     } catch (e) {
       print(e);
     }
+    return user;
   }
 
   @override
