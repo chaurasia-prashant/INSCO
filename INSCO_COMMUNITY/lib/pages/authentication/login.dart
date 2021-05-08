@@ -2,8 +2,14 @@ import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/component/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/component/font_text.dart';
 import 'package:INSCO_COMMUNITY/component/text_field.dart';
+import 'package:INSCO_COMMUNITY/helper/authentication.dart';
+import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:INSCO_COMMUNITY/helper/screen_size.dart';
+import 'package:INSCO_COMMUNITY/helper/validators.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+import '../homepage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +17,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool showLoading = false;
+  String password;
+  String email;
   @override
   Widget build(BuildContext context) {
     Screen screen = Screen(context);
@@ -18,94 +27,124 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('./assets/images/bg.png'))),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        // resizeToAvoidBottomInset: false,
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(screen.horizontal(4)),
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    SizedBox(
-                      height: screen.vertical(150),
-                    ),
-                    LatoText(
-                      'Welcome\nBack',
-                      size: 48,
-                    ),
-                    SizedBox(
-                      height: screen.vertical(25),
-                    ),
-                    RailwayText(
-                      'Enter your email and password to login\nin INSCO community.',
-                      fontColor: Colors.grey[400],
-                      size: 18,
-                    ),
-                    SizedBox(
-                      height: screen.vertical(45),
-                    ),
-                    CustomTextField(
-                      hintText: 'Email',
-                      textAlignment: TextAlign.start,
-                      keyboard: TextInputType.emailAddress,
-                      preffixWidget: Icon(
-                        Icons.email_outlined,
-                        color: Colors.grey,
+          image: DecorationImage(
+              fit: BoxFit.fill, image: AssetImage('./assets/images/bg.png'))),
+      child: ModalProgressHUD(
+        inAsyncCall: showLoading,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          // resizeToAvoidBottomInset: false,
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(screen.horizontal(4)),
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        height: screen.vertical(150),
                       ),
-                    ),
-                    SizedBox(
-                      height: screen.vertical(25),
-                    ),
-                    CustomTextField(
-                      hintText: 'Password',
-                      textAlignment: TextAlign.start,
-                      hideText: true,
-                      preffixWidget: Icon(
-                        Icons.vpn_key_outlined,
-                        color: Colors.grey,
+                      LatoText(
+                        'Welcome\nBack',
+                        size: 48,
                       ),
-                    ),
-                    SizedBox(
-                      height: screen.vertical(25),
-                    ),
-                    Button(
-                      'Login',
-                      onPressed: () {
-                        debugPrint('Login');
-                      },
-                    ),
-                    SizedBox(
-                      height: screen.vertical(70),
-                    ),
-                    RailwayText(
-                      'New to INSCO ?',
-                      fontColor: Colors.grey[400],
-                      size: 14,
-                    ),
-                    SizedBox(
-                      height: screen.vertical(10),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint('Sign up');
-                      },
-                      child: RailwayText(
-                        'SIGN UP',
-                        fontColor: Colors.white,
+                      SizedBox(
+                        height: screen.vertical(25),
+                      ),
+                      RailwayText(
+                        'Enter your email and password to login\nin INSCO community.',
+                        fontColor: Colors.grey[400],
+                        size: 18,
+                      ),
+                      SizedBox(
+                        height: screen.vertical(45),
+                      ),
+                      CustomTextField(
+                        hintText: 'Email',
+                        validator: emailValidator,
+                        onChanged: (value) {
+                          email = password;
+                        },
+                        textAlignment: TextAlign.start,
+                        keyboard: TextInputType.emailAddress,
+                        preffixWidget: Icon(
+                          Icons.email_outlined,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(
+                        height: screen.vertical(25),
+                      ),
+                      CustomTextField(
+                        hintText: 'Password',
+                        validator: passwordValidator,
+                        onChanged: (value) {
+                          password = value;
+                        },
+                        textAlignment: TextAlign.start,
+                        hideText: true,
+                        preffixWidget: Icon(
+                          Icons.vpn_key_outlined,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(
+                        height: screen.vertical(25),
+                      ),
+                      Button(
+                        'Login',
+                        onPressed: () async {
+                          setState(() {
+                            showLoading = true;
+                          });
+                          Authentication authentication = Authentication();
+                          await authentication.loginUser(email, password);
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) => HomePage(),
+                            ),
+                            (route) =>
+                                false, //if you want to disable back feature set to false
+                          );
+                          setState(() {
+                            showLoading = false;
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                          debugPrint('Login');
+                        },
+                      ),
+                      SizedBox(
+                        height: screen.vertical(70),
+                      ),
+                      RailwayText(
+                        'New to INSCO ?',
+                        fontColor: Colors.grey[400],
                         size: 14,
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: screen.vertical(10),
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: RailwayText(
+                          'SIGN UP',
+                          fontColor: Colors.white,
+                          size: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

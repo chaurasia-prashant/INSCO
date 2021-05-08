@@ -44,6 +44,7 @@ class _InscoAppState extends State<InscoApp> {
     setState(() {
       showSplashScreen = false;
     });
+    print(value);
   }
 
   @override

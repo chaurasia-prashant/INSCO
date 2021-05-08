@@ -12,15 +12,15 @@ class Account {
   String mobileNumber;
 
   Account(
-      {@required this.id,
+      {this.id,
       this.mobileNumber,
-      @required this.username,
-      @required this.batch,
+      this.username,
+      this.batch,
       this.bio,
-      @required this.email,
-      @required this.isInscoMember,
+      this.email,
+      this.isInscoMember,
       this.photoUrl,
-      @required this.title});
+      this.title});
 
   Account.fromJson(Map<String, dynamic> json) {
     id = json['id'];

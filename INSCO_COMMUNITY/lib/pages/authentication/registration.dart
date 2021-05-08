@@ -372,8 +372,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           Navigator.pushAndRemoveUntil<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) =>
-                                  RegistrationScreen(),
+                              builder: (BuildContext context) => HomePage(),
                             ),
                             (route) =>
                                 false, //if you want to disable back feature set to false

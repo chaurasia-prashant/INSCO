@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/helper/get_data.dart';
 import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/repo/firebase_auth.dart';
@@ -13,14 +14,18 @@ class Authentication extends FirebaseAuthFunctions {
 
   @override
   createUserInFirebase(String email, String password) async {
-    newUser = await auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    uid = auth.currentUser.uid;
-    if (newUser != null) {
-      if (localStorage.prefs == null) {
-        await localStorage.init();
+    try {
+      newUser = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      uid = auth.currentUser.uid;
+      if (newUser != null) {
+        if (localStorage.prefs == null) {
+          await localStorage.init();
+        }
+        localStorage.prefs.setString('key', password);
       }
-      localStorage.prefs.setString('key', password);
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -35,14 +40,33 @@ class Authentication extends FirebaseAuthFunctions {
   }
 
   @override
-  loginUser(String email, String password) {
-    // TODO: implement loginUser
-    throw UnimplementedError();
+  loginUser(String email, String password) async {
+    try {
+      final user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (user != null) {
+        uid = auth.currentUser.uid;
+        if (localStorage.prefs == null) {
+          await localStorage.init();
+        }
+        await localStorage.prefs.setString('key', password);
+        print(localStorage.prefs.getString('key'));
+        UserDataFromFirebase userDataFromFirebase = UserDataFromFirebase();
+        final data = await userDataFromFirebase.getUserData(uid, "accounts");
+        final account = Account.fromJson(data);
+        await localStorage.setAccount(account);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
-  logoutUser() {
-    // TODO: implement logoutUser
-    throw UnimplementedError();
+  logoutUser() async {
+    await auth.signOut();
+    if (localStorage.prefs == null) {
+      await localStorage.init();
+    }
+    await localStorage.prefs.clear();
   }
 }
