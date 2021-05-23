@@ -1,8 +1,8 @@
 import 'package:INSCO_COMMUNITY/modal/account.dart';
-import 'package:INSCO_COMMUNITY/widget/header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MembersPage extends StatefulWidget {
   final String getYear;
@@ -34,6 +34,7 @@ class _MembersPageState extends State<MembersPage>
     });
   }
 
+
   buildSearchResults() {
     return FutureBuilder(
       future: searchResultsFuture,
@@ -41,6 +42,7 @@ class _MembersPageState extends State<MembersPage>
         if (!snapshot.hasData) {
           return Text("Loading");
         }
+
         List<UserResult> searchResults = [];
         snapshot.data.docs.forEach((doc) {
           Account user = Account.fromJson(doc.data());
@@ -61,7 +63,7 @@ class _MembersPageState extends State<MembersPage>
       children: [
         Container(
           child: Text(
-            'Sorry no Data yet Uploaded',
+            'No user in this batch',
             style: TextStyle(
               fontSize: 20.0,
             ),
@@ -84,36 +86,79 @@ class _MembersPageState extends State<MembersPage>
 
   dropdownBody() {
     return Container(
-      color: Colors.deepOrange,
-      child: Row(
+      color: Color(0xff5804BC),
+      child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0),
-            child: Text('Select Batch Here'),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_back, color: Colors.white),
+                  Text(
+                    "Members",
+                    style: GoogleFonts.lato(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30.0),
-            child: DropdownButton(
-              // isExpanded: true,
-              underline: SizedBox(height: 0.0,),
-              dropdownColor: Colors.white,
-              value: valueChose,
-              onChanged: (newValue) {
-                setState(() {
-                  valueChose = newValue;
-                  handleSearch();
-                });
-              },
-              items: batch.map((valueItem) {
-                return DropdownMenuItem(
-                  value: valueItem,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 5.0),
-                    child: Text('Batch ${valueItem.toString()}'),
-                  ),
-                );
-              }).toList(),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Color(0x8844088D),
+                  borderRadius: BorderRadius.all(Radius.circular(50.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Select Batch",
+                        style: GoogleFonts.lato(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                    DropdownButton(
+                      // isExpanded: true,
+                      underline: SizedBox(
+                        height: 0.0,
+                      ),
+                      dropdownColor: Color(0xFF3F0788),
+                      value: valueChose,
+                      onChanged: (newValue) {
+                        setState(() {
+                          valueChose = newValue;
+                          handleSearch();
+                        });
+                      },
+                      items: batch.map((valueItem) {
+                        return DropdownMenuItem(
+                          value: valueItem,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 5.0),
+                            child: Text(
+                              'Batch ${valueItem.toString()}',
+                              style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -126,18 +171,23 @@ class _MembersPageState extends State<MembersPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      // backgroundColor: Colors.grey[300],
-      key: _scaffoldKey,
-      appBar: header(context, titleText: 'Members'),
-      body: Column(
-        children: [
-          dropdownBody(),
-          Expanded(
-            child:
-                searchResultsFuture == null ? retText() : buildSearchResults(),
-          )
-        ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color(0xff121212),
+        key: _scaffoldKey,
+        body: Column(
+          children: [
+            dropdownBody(),
+            SizedBox(
+              height: 8.0,
+            ),
+            Expanded(
+              child:
+              // TODO: add terenery operator to check if no user in the batch and return a retText
+                  buildSearchResults(),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -151,36 +201,82 @@ class UserResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {},
-            child: ListTile(
-              leading: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey[300],
-                      blurRadius: 8.0,
-                      spreadRadius: 4.0),
-                ]),
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  backgroundImage: user.photoUrl == "" ? AssetImage("./assets/images/avtar.png") :CachedNetworkImageProvider(user.photoUrl),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage: user.photoUrl == ""
+                            ? AssetImage("./assets/images/avtar.png")
+                            : CachedNetworkImageProvider(user.photoUrl),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30.0),
+                            child: Text(
+                              user.username,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 30.0, top: 8.0),
+                            child: Text(
+                              user.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              title: Text(
-                user.username,
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              ),            
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 60.0, right: 10.0),
-            child: Divider(height: 2.0, color: Colors.grey[500]),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 10.0),
+              child: Divider(height: 2.0, color: Colors.grey[400]),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+// ListTile(
+//               leading: Container(
+//                 decoration: BoxDecoration(boxShadow: [
+//                   BoxShadow(
+//                       color: Colors.grey[300],
+//                       blurRadius: 8.0,
+//                       spreadRadius: 4.0),
+//                 ]),
+//                 child: CircleAvatar(
+//                   backgroundColor: Colors.grey,
+//                   backgroundImage: user.photoUrl == ""
+//                       ? AssetImage("./assets/images/avtar.png")
+//                       : CachedNetworkImageProvider(user.photoUrl),
+//                 ),
+//               ),
+//               title: Text(
+//                 user.username,
+//                 style:
+//                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+//               ),
+//             ),

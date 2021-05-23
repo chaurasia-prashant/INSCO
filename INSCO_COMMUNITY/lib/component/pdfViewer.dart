@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
 class ViewPdf extends StatefulWidget {
   final String pathId;
   final String nameId;
-
 
   ViewPdf({Key key, @required this.pathId, @required this.nameId})
       : super(key: key);
@@ -27,8 +27,15 @@ class _ViewPdfState extends State<ViewPdf> {
         title: Text(widget.nameId),
       ),
       body: Center(
-        child: PDF().cachedFromUrl(
+        child: PDF(
+        ).cachedFromUrl(
           widget.pathId,
+          placeholder: (progress)=>Center(
+            child: Text("Loading... \n \n \n   $progress %"),
+          ), 
+          errorWidget: (e) => Center(
+            child: Text("Please check your Internet Connection, and Try Again"),
+          ),
         ),
       ),
     );

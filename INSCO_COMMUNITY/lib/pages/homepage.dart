@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/main_screen.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/profile.dart';
@@ -12,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   PageController pageController;
   int pageIndex = 0;
 
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     pageController = PageController();
   }
+
 
   @override
   void dispose() {
@@ -39,10 +41,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: PageView(
         children: <Widget>[
           MainScreen(),
@@ -69,34 +71,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
-
-
-// Container(
-//       child: GestureDetector(
-//           onTap: () async {
-//             Authentication authentication = Authentication();
-//             await authentication.logoutUser();
-//             Navigator.pushAndRemoveUntil<dynamic>(
-//               context,
-//               MaterialPageRoute<dynamic>(
-//                 builder: (BuildContext context) => WelcomePage(),
-//               ),
-//               (route) =>
-//                   false, //if you want to disable back feature set to false
-//             );
-//             Navigator.push(context,
-//                 MaterialPageRoute(builder: (context) => WelcomePage()));
-//           },
-//           child: Text('Home Page')),
-//     );
-//   }
-// }
-
-
-
-
-
-

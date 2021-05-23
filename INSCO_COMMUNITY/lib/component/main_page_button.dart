@@ -18,7 +18,7 @@ class MainPageButton extends StatelessWidget {
       child: Container(
           child: Column(children: [
         CircleAvatar(
-          backgroundColor: Colors.grey[850],
+          backgroundColor: Colors.white,
           radius: 40.0,
           backgroundImage: AssetImage(imagePath),
         ),

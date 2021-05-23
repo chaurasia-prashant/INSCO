@@ -31,8 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage('./assets/images/bg.png'))),
+        image: DecorationImage(
+            fit: BoxFit.fill, image: AssetImage('./assets/images/bg.png')),
+      ),
       child: ModalProgressHUD(
         inAsyncCall: showLoading,
         child: Form(

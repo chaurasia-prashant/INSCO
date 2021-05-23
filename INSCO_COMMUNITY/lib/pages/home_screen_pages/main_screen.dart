@@ -6,11 +6,10 @@ import 'package:INSCO_COMMUNITY/pages/mainPageScreen/history.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/members.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/syllabus.dart';
-
 import 'package:INSCO_COMMUNITY/helper/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -20,50 +19,51 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.only(left:10.0, top:5.0,bottom:5.0),
+          padding: const EdgeInsets.only(left: 10.0, top: 5.0, bottom: 5.0),
           child: CircleAvatar(
-          backgroundColor: Colors.grey,
-          backgroundImage: AssetImage("./assets/images/avtar.png"),
+            backgroundColor: Colors.grey,
+            backgroundImage: AssetImage("./assets/images/avtar.png"),
           ),
         ),
-          title: Center(
-            child: Text(
-              "username",
-              style: TextStyle(
-                fontFamily: "Niconne",
-                fontSize: 30.0,
-                color: Colors.white,
-              ),
+        title: Center(
+          child: Text(
+            "username",
+            style: TextStyle(
+              fontFamily: "Niconne",
+              fontSize: 30.0,
+              color: Colors.white,
             ),
           ),
-          actions: [
-            Container(
-      child: GestureDetector(
-          onTap: () async {
-            Authentication authentication = Authentication();
-            await authentication.logoutUser();
-            Navigator.pushAndRemoveUntil<dynamic>(
-              context,
-              MaterialPageRoute<dynamic>(
-                builder: (BuildContext context) => WelcomePage(),
-              ),
-              (route) =>
-                  false, //if you want to disable back feature set to false
-            );
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => WelcomePage()));
-          },
-          child: Icon(Icons.logout)),
-    )
-],
-          backgroundColor: Colour.bgColor,
-          ),
-          backgroundColor: Colour.bgColor,
+        ),
+        actions: [
+          Container(
+            child: GestureDetector(
+                onTap: () async {
+                  Authentication authentication = Authentication();
+                  await authentication.logoutUser();
+                  Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => WelcomePage(),
+                    ),
+                    (route) =>
+                        false, //if you want to disable back feature set to false
+                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WelcomePage()));
+                },
+                child: Icon(Icons.logout)),
+          )
+        ],
+        backgroundColor: Colour.bgColor,
+      ),
+      backgroundColor: Colour.bgColor,
       body: Column(
         children: [
           Divider(
@@ -71,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
             color: Colors.white,
           ),
           Expanded(
-                      child: Center(
+            child: Center(
               child: Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 70.0,
@@ -111,7 +111,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          
         ],
       ),
     );
