@@ -1,4 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 
 class Account {
   String id;
@@ -21,6 +24,7 @@ class Account {
       this.isInscoMember,
       this.photoUrl,
       this.title});
+
 
   Account.fromJson(Map<String, dynamic> json) {
     id = json['id'];

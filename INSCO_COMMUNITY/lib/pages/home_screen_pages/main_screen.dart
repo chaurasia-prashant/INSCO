@@ -6,7 +6,12 @@ import 'package:INSCO_COMMUNITY/pages/mainPageScreen/history.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/members.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/syllabus.dart';
+
+import 'package:INSCO_COMMUNITY/helper/authentication.dart';
+import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
+
+
 
 class MainScreen extends StatefulWidget {
 
@@ -36,6 +41,26 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
+          actions: [
+            Container(
+      child: GestureDetector(
+          onTap: () async {
+            Authentication authentication = Authentication();
+            await authentication.logoutUser();
+            Navigator.pushAndRemoveUntil<dynamic>(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => WelcomePage(),
+              ),
+              (route) =>
+                  false, //if you want to disable back feature set to false
+            );
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => WelcomePage()));
+          },
+          child: Icon(Icons.logout)),
+    )
+],
           backgroundColor: Colour.bgColor,
           ),
           backgroundColor: Colour.bgColor,
