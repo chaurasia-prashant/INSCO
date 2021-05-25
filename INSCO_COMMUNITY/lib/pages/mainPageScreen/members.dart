@@ -34,7 +34,6 @@ class _MembersPageState extends State<MembersPage>
     });
   }
 
-
   buildSearchResults() {
     return FutureBuilder(
       future: searchResultsFuture,
@@ -94,13 +93,20 @@ class _MembersPageState extends State<MembersPage>
               padding: const EdgeInsets.only(left: 16.0, top: 8.0),
               child: Row(
                 children: [
-                  Icon(Icons.arrow_back, color: Colors.white),
-                  Text(
-                    "Members",
-                    style: GoogleFonts.lato(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(child: Icon(Icons.arrow_back, color: Colors.white),),),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50.0),
+                    child: Text(
+                      "Members",
+                      style: GoogleFonts.lato(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -183,7 +189,7 @@ class _MembersPageState extends State<MembersPage>
             ),
             Expanded(
               child:
-              // TODO: add terenery operator to check if no user in the batch and return a retText
+                  // TODO: add terenery operator to check if no user in the batch and return a retText
                   buildSearchResults(),
             )
           ],
@@ -202,55 +208,36 @@ class UserResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.only(left: 4.0, right:8.0),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: user.photoUrl == ""
-                            ? AssetImage("./assets/images/avtar.png")
-                            : CachedNetworkImageProvider(user.photoUrl),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30.0),
-                            child: Text(
-                              user.username,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 30.0, top: 8.0),
-                            child: Text(
-                              user.title,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+            ListTile(
+              leading: CircleAvatar(
+                radius: 30.0,
+                backgroundColor: Colors.white,
+                backgroundImage: user.photoUrl == ""
+                    ? AssetImage("./assets/images/avtar.png")
+                    : CachedNetworkImageProvider(user.photoUrl),
               ),
+              title: Text(
+                user.username,
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              subtitle: 
+               Padding(
+                 padding: const EdgeInsets.only(top: 8.0),
+                 child: Text(
+                  user.title,
+                  style: TextStyle(
+                      color: Colors.white,),
+              ),
+               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 10.0),
-              child: Divider(height: 2.0, color: Colors.grey[400]),
+              padding: const EdgeInsets.only(
+                  left: 80.0, right: 10.0, top: 1.0, bottom: 1.0),
+              child: Divider(height: 1.0, color: Colors.grey[600]),
             ),
           ],
         ),
@@ -258,25 +245,3 @@ class UserResult extends StatelessWidget {
     );
   }
 }
-
-// ListTile(
-//               leading: Container(
-//                 decoration: BoxDecoration(boxShadow: [
-//                   BoxShadow(
-//                       color: Colors.grey[300],
-//                       blurRadius: 8.0,
-//                       spreadRadius: 4.0),
-//                 ]),
-//                 child: CircleAvatar(
-//                   backgroundColor: Colors.grey,
-//                   backgroundImage: user.photoUrl == ""
-//                       ? AssetImage("./assets/images/avtar.png")
-//                       : CachedNetworkImageProvider(user.photoUrl),
-//                 ),
-//               ),
-//               title: Text(
-//                 user.username,
-//                 style:
-//                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-//               ),
-//             ),

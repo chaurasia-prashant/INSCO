@@ -53,14 +53,7 @@ class _PdfDocState extends State<PdfDoc> {
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: <Color>[
-                             Color(0xffC96EE9),
-                            Color(0xff77A8F1),
-                           
-                          ]),
+                      color: Color(0xFF7B4BB3),
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   width: double.infinity,
                   child: Padding(
