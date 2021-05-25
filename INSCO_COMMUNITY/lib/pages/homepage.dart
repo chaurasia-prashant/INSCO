@@ -1,9 +1,15 @@
+import 'package:INSCO_COMMUNITY/modal/account.dart';
+import 'package:INSCO_COMMUNITY/pages/home_screen_pages/discussion.dart';
+import 'package:INSCO_COMMUNITY/pages/home_screen_pages/post.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/main_screen.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/profile.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/search.dart';
 
-
+final userRef = FirebaseFirestore.instance.collection("accounts");
+Account currentUser;
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,13 +26,32 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     pageController = PageController();
+    getUser();
+    // print(currentUser.username);
+    // print(currentUser.batch);
+    // print(currentUser.title);
+    print(currentUser);
   }
-
 
   @override
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+
+  void getUser() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      DocumentSnapshot doc = await userRef.doc(user.uid).get();
+      if (user != null) {
+        currentUser = Account.fromJson(doc.data());
+        print(user.uid);
+        print(currentUser);
+        print(currentUser.batch);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   onPageChanged(int pageIndex) {
@@ -47,9 +72,11 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       body: PageView(
         children: <Widget>[
-          MainScreen(),
+          MainScreen(user: currentUser,),
           SearchScreen(),
-          ProfileScreen(),
+          PostScreen(),
+          DiscussionScreen(),
+          ProfileScreen(profileId: currentUser.id),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,
@@ -59,11 +86,15 @@ class _HomePageState extends State<HomePage> {
         currentIndex: pageIndex,
         onTap: onTap,
         backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
+        selectedItemColor: Colors.red,
         unselectedItemColor: Colors.grey[500],
-        items: const <BottomNavigationBarItem>[
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Chat'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: 'Profile'),
         ],

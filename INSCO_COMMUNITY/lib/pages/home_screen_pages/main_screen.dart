@@ -1,5 +1,7 @@
 import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/component/main_page_button.dart';
+import 'package:INSCO_COMMUNITY/modal/account.dart';
+import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/creators.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/gallery.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/history.dart';
@@ -8,18 +10,18 @@ import 'package:INSCO_COMMUNITY/pages/mainPageScreen/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/syllabus.dart';
 import 'package:INSCO_COMMUNITY/helper/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
-
 import 'package:flutter/material.dart';
 
 
 class MainScreen extends StatefulWidget {
+  final Account user;
+  MainScreen({this.user});
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +35,10 @@ class _MainScreenState extends State<MainScreen> {
         ),
         title: Center(
           child: Text(
-            "username",
+            currentUser.username.toUpperCase(),
             style: TextStyle(
               fontFamily: "Niconne",
-              fontSize: 30.0,
+              fontSize: 20.0,
               color: Colors.white,
             ),
           ),
