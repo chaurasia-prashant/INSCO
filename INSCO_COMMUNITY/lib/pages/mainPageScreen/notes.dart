@@ -27,7 +27,6 @@ class _NotesPageState extends State<NotesPage> {
         snapshot.docs.map((doc) => PdfDoc.fromDocument(doc)).toList();
     setState(() {
       this.pdfDoc = pdfDoc;
-      print(pdfDoc);
     });
   }
 
@@ -122,7 +121,7 @@ class _NotesPageState extends State<NotesPage> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5.0, vertical: 5.0),
                             child: Text(
-                              valueItem,
+                              valueItem.toUpperCase(),
                               style: GoogleFonts.lato(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
