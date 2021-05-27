@@ -72,11 +72,11 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       body: PageView(
         children: <Widget>[
-          MainScreen(user: currentUser,),
+          MainScreen(),
           SearchScreen(),
           PostScreen(),
           DiscussionScreen(),
-          ProfileScreen(profileId: currentUser.id),
+          ProfileScreen(),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,

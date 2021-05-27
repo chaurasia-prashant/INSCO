@@ -3,16 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../homepage.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String profileId;
-
-  ProfileScreen({this.profileId});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final String currentUserId = currentUser?.id;
   @override
   void initState() {
     super.initState();
