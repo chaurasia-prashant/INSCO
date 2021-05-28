@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -83,9 +84,9 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: pageIndex,
         onTap: onTap,
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.grey[500],
+        backgroundColor: Colour.secondaryColor,
+        selectedItemColor: Colour.buttonColor,
+        unselectedItemColor: Colour.lineColor,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         items: <BottomNavigationBarItem>[

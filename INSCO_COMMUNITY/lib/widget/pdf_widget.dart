@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/component/pdfViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _PdfDocState extends State<PdfDoc> {
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xFF7B4BB3),
+                      color: Colour.buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   width: double.infinity,
                   child: Padding(

@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/component/drop_down.dart';
 import 'package:INSCO_COMMUNITY/component/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/component/font_text.dart';
@@ -69,7 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       children: [
                         CircleAvatar(
                           radius: screen.horizontal(8.0),
-                          backgroundColor: Colors.grey[900],
+                          backgroundColor: Colour.lineColor,
                           child: IconButton(
                             icon: Icon(
                               Icons.keyboard_arrow_left,
@@ -134,7 +135,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               style: GoogleFonts.lato(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.grey),
+                                  color: Colour.lineColor),
                             ),
                           ),
                         ),
@@ -145,9 +146,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               isMember = value;
                             });
                           },
-                          inactiveTrackColor: Colors.grey,
-                          activeTrackColor: Colors.blue,
-                          activeColor: Colors.blue[900],
+                          inactiveTrackColor: Colour.lineColor,
+                          activeTrackColor: Colour.buttonColor,
+                          activeColor: Colour.buttonColor,
                         ),
                       ],
                     ),
@@ -167,7 +168,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ? DropdownButtonFormField(
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.black,
+                              fillColor: Colour.primaryColor,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(12),
@@ -197,7 +198,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 value: valueItem,
                                 child: Text(
                                   'Batch ${valueItem.toString()}',
-                                  style: GoogleFonts.lato(color: Colors.grey),
+                                  style: GoogleFonts.lato(color: Colour.lineColor),
                                 ),
                               );
                             }).toList(),
@@ -276,7 +277,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       children: [
                         CircleAvatar(
                           radius: screen.horizontal(8.0),
-                          backgroundColor: Colors.grey[900],
+                          backgroundColor: Colour.lineColor,
                           child: IconButton(
                             icon: Icon(
                               Icons.keyboard_arrow_left,
@@ -311,7 +312,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       keyboard: TextInputType.emailAddress,
                       preffixWidget: Icon(
                         Icons.email_outlined,
-                        color: Colors.grey,
+                        color: Colour.lineColor,
                       ),
                     ),
                     SizedBox(
@@ -323,7 +324,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       hideText: true,
                       preffixWidget: Icon(
                         Icons.vpn_key_outlined,
-                        color: Colors.grey,
+                        color: Colour.lineColor,
                       ),
                       validator: passwordValidator,
                       onChanged: (value) {
@@ -339,7 +340,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       hideText: true,
                       preffixWidget: Icon(
                         Icons.vpn_key_outlined,
-                        color: Colors.grey,
+                        color: Colour.lineColor,
                       ),
                       validator: (value) =>
                           MatchValidator(errorText: 'Passwords do not match')
@@ -396,7 +397,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     RailwayText(
                       'Already INSCO member ?',
-                      fontColor: Colors.grey[400],
+                      fontColor: Colour.lineColor,
                       size: 14,
                     ),
                     SizedBox(

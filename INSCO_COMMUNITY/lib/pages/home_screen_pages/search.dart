@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,10 +34,10 @@ class _SearchScreenState extends State<SearchScreen>
   AppBar buildSearchField() {
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: Color(0xff5804BC),
+      backgroundColor: Colour.secondaryColor,
       title: Container(
         decoration: BoxDecoration(
-            color: Color(0x8844088D),
+            color: Colour.tertioryColor,
             borderRadius: BorderRadius.all(Radius.circular(25.0))),
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0),
@@ -72,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen>
           "Find Members",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.black,
+            color: Colour.buttonColor,
             fontWeight: FontWeight.w600,
             fontSize: 20.0,
           ),
@@ -108,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen>
     super.build(context);
 
     return Scaffold(
-        backgroundColor: Color(0xff121212),
+        backgroundColor: Colour.primaryColor,
         appBar: buildSearchField(),
         body: Container(
           child: searchResultsFuture == null
@@ -158,7 +159,7 @@ class UserResult extends StatelessWidget {
                     Text(
                       "Batch ${user.batch}",
                       style: TextStyle(
-                        color: Colors.deepPurple,
+                        color: Colour.buttonColor,
                       ),
                     ),
                   ],
@@ -168,7 +169,7 @@ class UserResult extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(
                   left: 80.0, right: 10.0, top: 1.0, bottom: 1.0),
-              child: Divider(height: 1.0, color: Colors.grey[600]),
+              child: Divider(height: 1.0, color: Colour.lineColor),
             ),
           ],
         ),

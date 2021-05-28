@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -85,7 +86,7 @@ class _MembersPageState extends State<MembersPage>
 
   dropdownBody() {
     return Container(
-      color: Color(0xff5804BC),
+      color: Colour.secondaryColor,
       child: Column(
         children: [
           Container(
@@ -117,7 +118,7 @@ class _MembersPageState extends State<MembersPage>
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Container(
               decoration: BoxDecoration(
-                  color: Color(0x8844088D),
+                  color: Colour.tertioryColor,
                   borderRadius: BorderRadius.all(Radius.circular(50.0))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -137,7 +138,7 @@ class _MembersPageState extends State<MembersPage>
                       underline: SizedBox(
                         height: 0.0,
                       ),
-                      dropdownColor: Color(0xFF3F0788),
+                      dropdownColor: Colour.secondaryColor,
                       value: valueChose,
                       onChanged: (newValue) {
                         setState(() {
@@ -179,7 +180,7 @@ class _MembersPageState extends State<MembersPage>
     super.build(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff121212),
+        backgroundColor: Colour.primaryColor,
         key: _scaffoldKey,
         body: Column(
           children: [
@@ -237,7 +238,7 @@ class UserResult extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(
                   left: 80.0, right: 10.0, top: 1.0, bottom: 1.0),
-              child: Divider(height: 1.0, color: Colors.grey[600]),
+              child: Divider(height: 1.0, color: Colour.lineColor),
             ),
           ],
         ),

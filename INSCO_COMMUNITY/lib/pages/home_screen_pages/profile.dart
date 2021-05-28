@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../homepage.dart';
@@ -60,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50.0),
-                color: Colors.grey[200],
+                color: Colour.lineColor,
               ),
             ),
           ),
@@ -76,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: Center(child: Text("Profile")),
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.indigo[800],
+        backgroundColor: Colour.buttonColor,
         // actions: <Widget>[
         //   IconButton(
         //       icon: const Icon(Icons.logout),

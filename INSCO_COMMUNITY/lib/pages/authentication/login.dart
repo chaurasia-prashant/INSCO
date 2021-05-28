@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         RailwayText(
                           'Enter your email and password to login\nin INSCO community.',
-                          fontColor: Colors.grey[400],
+                          fontColor: Colour.lineColor,
                           size: 18,
                         ),
                         SizedBox(
@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboard: TextInputType.emailAddress,
                           preffixWidget: Icon(
                             Icons.email_outlined,
-                            color: Colors.grey,
+                            color: Colour.lineColor,
                           ),
                         ),
                         SizedBox(
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           hideText: true,
                           preffixWidget: Icon(
                             Icons.vpn_key_outlined,
-                            color: Colors.grey,
+                            color: Colour.lineColor,
                           ),
                         ),
                         SizedBox(
@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         RailwayText(
                           'New to INSCO ?',
-                          fontColor: Colors.grey[400],
+                          fontColor: Colour.lineColor,
                           size: 14,
                         ),
                         SizedBox(

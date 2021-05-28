@@ -1,9 +1,11 @@
 import 'package:INSCO_COMMUNITY/component/chat_constants.dart';
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/modal/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:INSCO_COMMUNITY/modal/account.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -14,7 +16,6 @@ class DiscussionScreen extends StatefulWidget {
 
 class _DiscussionScreenState extends State<DiscussionScreen> {
   final messageTextController = TextEditingController();
-  String messageText;
 
   @override
   void initState() {
@@ -24,11 +25,11 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121212),
+      backgroundColor: Colour.primaryColor,
       appBar: AppBar(
-        title: Center(child: Text("Chat")),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.deepPurple,
+        title: Center(child: Text("Community Discussion")),
+        automaticallyImplyLeading: true,
+        backgroundColor: Colour.secondaryColor,
         actions: [
           currentUser.title == 'Admin'
               ? GestureDetector(
@@ -49,46 +50,61 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             MessageStream(),
-            Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: messageTextController,
-                      style: TextStyle(color: Colors.white),
-                      onChanged: (value) {
-                        messageText = value;
-                      },
-                      decoration: kMessageTextFieldDecoration,
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: 10.0, top: 5.0, left: 10.0, right: 5.0),
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: kMessageContainerDecoration,
+                        child: TextField(
+                          controller: messageTextController,
+                          maxLines: 5,
+                          minLines: 1,
+                          style: TextStyle(color: Colors.white),
+                          decoration: kMessageTextFieldDecoration,
+                        ),
+                      ),
                     ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      final msgPath=
-                          _firestore.collection('messages');
-                      DocumentReference msgRef =
-                          msgPath.doc();
-                      msgRef.set({
-                        'id': currentUser.id,
-                        'sender': currentUser.username,
-                        'batch': currentUser.batch,
-                        'title': currentUser.title,
-                        'msg': messageText,
-                        'msgTime': DateTime.now(),
-                        'msgId': null,
-                      }).whenComplete(() =>msgPath.doc(msgRef.id).update({
-                        'msgId': msgRef.id,
-                      }) );
-                      messageTextController.clear();
-                    },
-                    child: Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Container(
+                        decoration: kSendButtonDecoration,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (messageTextController.text != '' &&
+                                messageTextController.text != null) {
+                              final msgPath = _firestore.collection('messages');
+                              DocumentReference msgRef = msgPath.doc();
+                              msgRef.set({
+                                'id': currentUser.id,
+                                'sender': currentUser.username,
+                                'batch': currentUser.batch,
+                                'title': currentUser.title,
+                                'msg': messageTextController.text,
+                                'msgTime': DateTime.now(),
+                                'msgId': null,
+                              }).whenComplete(
+                                  () => msgPath.doc(msgRef.id).update({
+                                        'msgId': msgRef.id,
+                                      }));
+                              messageTextController.clear();
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            child: Icon(Icons.send_sharp,
+                                color: Colour.tertioryColor),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
@@ -110,7 +126,7 @@ class MessageStream extends StatelessWidget {
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(
-              backgroundColor: Colors.blue,
+              backgroundColor: Colour.buttonColor,
             ),
           );
         }
@@ -140,23 +156,23 @@ class MessageBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10.0),
       child: Column(
         crossAxisAlignment: currentUser.username == message.sender
             ? CrossAxisAlignment.end
             : CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 7.0),
+            padding: const EdgeInsets.only(bottom: 3.0, right:15.0, left: 15.0),
             child: Text(
               message.sender,
-              style: GoogleFonts.lato(color: Colors.grey[200], fontSize: 8.0),
+              style: GoogleFonts.lato(color: Colour.lineColor, fontSize: 8.0),
             ),
           ),
           Padding(
             padding: currentUser.username == message.sender
-                ? EdgeInsets.only(right: 5.0, left: 60.0)
-                : EdgeInsets.only(right: 60.0, left: 5.0),
+                ? EdgeInsets.only(right: 15.0, left: 60.0)
+                : EdgeInsets.only(right: 60.0, left: 15.0),
             child: GestureDetector(
               onLongPress: () {
                 if (currentUser.username == message.sender) {
@@ -164,15 +180,21 @@ class MessageBox extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return Container(
-                            color: Colors.red,
+                            color: Colors.deepOrange,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 new Wrap(children: <Widget>[
                                   new ListTile(
-                                      leading: new Icon(Icons.delete, color: Colors.white,),
-                                      title: new Text('Delete', style: TextStyle(color: Colors.white),),
+                                      leading: new Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                      title: new Text(
+                                        'Delete',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       onTap: () {
                                         _firestore
                                             .collection('messages')
@@ -203,20 +225,24 @@ class MessageBox extends StatelessWidget {
                           ),
                     elevation: 5.0,
                     color: currentUser.username == message.sender
-                        ? Colors.deepPurpleAccent
-                        : Colors.blue,
+                        ? Colour.buttonColor
+                        : Colour.secondaryColor,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 15.0),
                         child: Text(
                           message.msg,
                           style: GoogleFonts.lato(
-                              color: Colors.white, fontSize: 12.0),
+                              color: Colors.white, fontSize: 13.0),
                         )),
                   ),
                   Container(
                     child: currentUser.username == message.sender
-                        ? (message.msgId == null ? Icon(Icons.dangerous, color:Colors.red, size:12.0) : Icon(Icons.check, color:Colors.white, size:12.0))
+                        ? (message.msgId == null
+                            ? Icon(Icons.dangerous,
+                                color: Colors.red, size: 12.0)
+                            : Icon(Icons.check,
+                                color: Colors.white, size: 12.0))
                         : Text(''),
                   ),
                 ],

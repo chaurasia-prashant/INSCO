@@ -1,20 +1,22 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:flutter/material.dart';
 
-const kSendButtonTextStyle = TextStyle(
-  color: Colors.lightBlueAccent,
-  fontWeight: FontWeight.bold,
-  fontSize: 18.0,
+const kSendButtonDecoration = BoxDecoration(
+  color: Colour.buttonColor,
+ borderRadius: BorderRadius.all(Radius.circular(30))
 );
 
+
+
 const kMessageTextFieldDecoration = InputDecoration(
-  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
   hintText: 'Type your message here...',
   hintStyle: TextStyle(color:Colors.white),
   border: InputBorder.none,
 );
 
 const kMessageContainerDecoration = BoxDecoration(
-  border: Border(
-    top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-  ),
+  color: Colour.secondaryColor,
+ borderRadius: BorderRadius.all(Radius.circular(30))
 );
+

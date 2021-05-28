@@ -18,25 +18,29 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          body: Column(
-        children: [
-          FlatButton(
-            color: Colors.blue,
-            child: Text('Login'),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-          ),
-          FlatButton(
-            color: Colors.green,
-            child: Text('Sign Up'),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegistrationScreen()));
-            },
-          )
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            FlatButton(
+              color: Colors.blue,
+              child: Text('Login'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+            ),
+            FlatButton(
+              color: Colors.green,
+              child: Text('Sign Up'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RegistrationScreen()));
+              },
+            )
+          ],
+        ),
       ),
     );
   }

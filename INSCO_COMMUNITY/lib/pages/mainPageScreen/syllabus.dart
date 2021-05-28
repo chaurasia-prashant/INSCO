@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/widget/pdf_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colour.primaryColor,
       key: _scaffoldKey,
       appBar: header(context,titleText: "Syllabus"),
       body: RefreshIndicator(

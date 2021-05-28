@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,6 +13,6 @@ AppBar header(context,
       overflow: TextOverflow.ellipsis,
     ),
     centerTitle: true,
-    backgroundColor: Color(0xff5804BC),
+    backgroundColor: Colour.secondaryColor,
   );
 }

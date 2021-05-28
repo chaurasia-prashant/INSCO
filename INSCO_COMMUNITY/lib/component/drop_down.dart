@@ -14,7 +14,7 @@ class DropDownField extends StatelessWidget {
   final String value;
   DropDownField({
     @required this.textAlignment,
-    this.fillColor = Colour.textfieldColor,
+    this.fillColor = Colour.secondaryColor,
     this.borderWidth = 0,
     this.borderColor = Colors.transparent,
     this.borderStyle = BorderStyle.none,
@@ -34,7 +34,7 @@ class DropDownField extends StatelessWidget {
           value: valueItem,
           child: Text(
             valueItem.toString(),
-            style: GoogleFonts.lato(color: Colors.grey),
+            style: GoogleFonts.lato(color: Colour.lineColor),
           ),
         );
       }).toList(),

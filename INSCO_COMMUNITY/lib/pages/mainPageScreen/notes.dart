@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/widget/pdf_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class _NotesPageState extends State<NotesPage> {
 
   dropdownBody() {
     return Container(
-      color: Color(0xff5804BC),
+      color: Colour.secondaryColor,
       child: Column(
         children: [
           Container(
@@ -87,7 +88,7 @@ class _NotesPageState extends State<NotesPage> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Container(
               decoration: BoxDecoration(
-                  color: Color(0x8844088D),
+                  color: Colour.tertioryColor,
                   borderRadius: BorderRadius.all(Radius.circular(50.0))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -105,7 +106,7 @@ class _NotesPageState extends State<NotesPage> {
                       underline: SizedBox(
                         height: 0.0,
                       ),
-                      dropdownColor: Color(0xFF3F0788),
+                      dropdownColor: Colour.secondaryColor,
                       value: valueChose,
                       onChanged: (newValue) {
                         setState(() {
@@ -145,7 +146,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: Colors.grey[300],
+        backgroundColor: Colour.primaryColor,
         key: _scaffoldKey,
         body: Column(
           children: [
