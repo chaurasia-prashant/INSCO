@@ -6,11 +6,8 @@ import 'package:INSCO_COMMUNITY/pages/mainPageScreen/history.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/members.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/syllabus.dart';
-import 'package:INSCO_COMMUNITY/helper/authentication.dart';
-import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
+import 'package:INSCO_COMMUNITY/pages/home_screen_pages/discussion.dart';
 import 'package:flutter/material.dart';
-
-import '../homepage.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -18,8 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-@override
+  @override
   void initState() {
     super.initState();
   }
@@ -28,16 +24,9 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 10.0, top: 5.0, bottom: 5.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.grey,
-            backgroundImage: AssetImage("./assets/images/avtar.png"),
-          ),
-        ),
         title: Center(
           child: Text(
-            currentUser.username == null ? 'Welcome' : currentUser.username,
+            'Insco',
             style: TextStyle(
               fontFamily: "Niconne",
               fontSize: 20.0,
@@ -45,26 +34,40 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
+
         actions: [
           Container(
             child: GestureDetector(
-                onTap: () async {
-                  Authentication authentication = Authentication();
-                  await authentication.logoutUser();
-                  Navigator.pushAndRemoveUntil<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => WelcomePage(),
-                    ),
-                    (route) =>
-                        false, //if you want to disable back feature set to false
-                  );
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DiscussionScreen()));
                 },
-                child: Icon(Icons.logout)),
+                child: Icon(Icons.chat)),
           )
         ],
+
+        // actions: [
+        //   Container(
+        //     child: GestureDetector(
+        //         onTap: () async {
+        //           Authentication authentication = Authentication();
+        //           await authentication.logoutUser();
+        //           Navigator.pushAndRemoveUntil<dynamic>(
+        //             context,
+        //             MaterialPageRoute<dynamic>(
+        //               builder: (BuildContext context) => WelcomePage(),
+        //             ),
+        //             (route) =>
+        //                 false, //if you want to disable back feature set to false
+        //           );
+        //           Navigator.push(context,
+        //               MaterialPageRoute(builder: (context) => WelcomePage()));
+        //         },
+        //         child: Icon(Icons.logout)),
+        //   )
+        // ],
         backgroundColor: Colour.bgColor,
       ),
       backgroundColor: Colour.bgColor,

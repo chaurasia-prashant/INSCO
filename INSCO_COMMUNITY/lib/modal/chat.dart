@@ -7,9 +7,16 @@ class ChatData {
   String title;
   String msg;
   Timestamp msgTime;
+  String msgId;
 
   ChatData(
-      {this.id, this.sender, this.batch, this.title, this.msg, this.msgTime});
+      {this.id,
+      this.sender,
+      this.batch,
+      this.title,
+      this.msg,
+      this.msgTime,
+      this.msgId});
 
   ChatData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -18,6 +25,7 @@ class ChatData {
     title = json['title'];
     msg = json['msg'];
     msgTime = json['msgTime'];
+    msgId = json['msgId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +36,7 @@ class ChatData {
     data['title'] = title;
     data['msg'] = msg;
     data['msgTime'] = msgTime;
+    data['msgId'] = msgId;
     return data;
   }
 }

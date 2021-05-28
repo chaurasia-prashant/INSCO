@@ -21,7 +21,6 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +29,19 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
         title: Center(child: Text("Chat")),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurple,
+        actions: [
+          currentUser.title == 'Admin'
+              ? GestureDetector(
+                  onTap: () {
+                    _firestore.collection('messages').get().then((snapshot) {
+                      for (DocumentSnapshot ds in snapshot.docs) {
+                        ds.reference.delete();
+                      }
+                    });
+                  },
+                  child: Container(child: Icon(Icons.clear)))
+              : Text('')
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -54,14 +66,21 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                   ),
                   FlatButton(
                     onPressed: () {
-                      _firestore.collection('messages').add({
+                      final msgPath=
+                          _firestore.collection('messages');
+                      DocumentReference msgRef =
+                          msgPath.doc();
+                      msgRef.set({
                         'id': currentUser.id,
                         'sender': currentUser.username,
                         'batch': currentUser.batch,
                         'title': currentUser.title,
                         'msg': messageText,
-                        'msgTime' : DateTime.now(),
-                      });
+                        'msgTime': DateTime.now(),
+                        'msgId': null,
+                      }).whenComplete(() =>msgPath.doc(msgRef.id).update({
+                        'msgId': msgRef.id,
+                      }) );
                       messageTextController.clear();
                     },
                     child: Text(
@@ -83,7 +102,10 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection("messages").orderBy('msgTime', descending: true).snapshots(),
+      stream: _firestore
+          .collection("messages")
+          .orderBy('msgTime', descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -93,6 +115,7 @@ class MessageStream extends StatelessWidget {
           );
         }
         // final messages = snapshot.data.docs;
+
         List<MessageBox> messageWidgets = [];
         snapshot.data.docs.forEach((doc) {
           ChatData message = ChatData.fromJson(doc.data());
@@ -112,7 +135,6 @@ class MessageStream extends StatelessWidget {
 
 class MessageBox extends StatelessWidget {
   final ChatData message;
-
   MessageBox(this.message);
 
   @override
@@ -135,30 +157,70 @@ class MessageBox extends StatelessWidget {
             padding: currentUser.username == message.sender
                 ? EdgeInsets.only(right: 5.0, left: 60.0)
                 : EdgeInsets.only(right: 60.0, left: 5.0),
-            child: Material(
-              borderRadius: currentUser.username == message.sender
-                  ? BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      bottomLeft: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0),
-                    )
-                  : BorderRadius.only(
-                      topRight: Radius.circular(30.0),
-                      bottomLeft: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0),
-                    ),
-              elevation: 5.0,
-              color: currentUser.username == message.sender
-                  ? Colors.deepPurpleAccent
-                  : Colors.blue,
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15.0),
-                  child: Text(
-                    message.msg,
-                    style:
-                        GoogleFonts.lato(color: Colors.white, fontSize: 12.0),
-                  )),
+            child: GestureDetector(
+              onLongPress: () {
+                if (currentUser.username == message.sender) {
+                  showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                            color: Colors.red,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                new Wrap(children: <Widget>[
+                                  new ListTile(
+                                      leading: new Icon(Icons.delete, color: Colors.white,),
+                                      title: new Text('Delete', style: TextStyle(color: Colors.white),),
+                                      onTap: () {
+                                        _firestore
+                                            .collection('messages')
+                                            .doc(message.msgId)
+                                            .delete();
+                                        Navigator.pop(context);
+                                      })
+                                ]),
+                              ],
+                            ));
+                      });
+                }
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Material(
+                    borderRadius: currentUser.username == message.sender
+                        ? BorderRadius.only(
+                            topLeft: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0),
+                            bottomRight: Radius.circular(30.0),
+                          )
+                        : BorderRadius.only(
+                            topRight: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0),
+                            bottomRight: Radius.circular(30.0),
+                          ),
+                    elevation: 5.0,
+                    color: currentUser.username == message.sender
+                        ? Colors.deepPurpleAccent
+                        : Colors.blue,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 15.0),
+                        child: Text(
+                          message.msg,
+                          style: GoogleFonts.lato(
+                              color: Colors.white, fontSize: 12.0),
+                        )),
+                  ),
+                  Container(
+                    child: currentUser.username == message.sender
+                        ? (message.msgId == null ? Icon(Icons.dangerous, color:Colors.red, size:12.0) : Icon(Icons.check, color:Colors.white, size:12.0))
+                        : Text(''),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

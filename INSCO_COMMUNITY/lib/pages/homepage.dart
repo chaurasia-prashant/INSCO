@@ -1,5 +1,4 @@
 import 'package:INSCO_COMMUNITY/modal/account.dart';
-import 'package:INSCO_COMMUNITY/pages/home_screen_pages/discussion.dart';
 import 'package:INSCO_COMMUNITY/pages/home_screen_pages/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,7 +74,6 @@ class _HomePageState extends State<HomePage> {
           MainScreen(),
           SearchScreen(),
           PostScreen(),
-          DiscussionScreen(),
           ProfileScreen(),
         ],
         controller: pageController,
@@ -93,8 +91,7 @@ class _HomePageState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Chat'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Post'),
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: 'Profile'),
         ],
