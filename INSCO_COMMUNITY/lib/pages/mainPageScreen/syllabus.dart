@@ -33,7 +33,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
 
   buildSyllabus() {
     if (pdfDoc == null) {
-      return Text('Loading Data');
+      return Center(child: CircularProgressIndicator());
     } else {
       return ListView(
         children: pdfDoc,

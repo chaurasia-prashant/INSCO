@@ -5,7 +5,11 @@ class MainPageButton extends StatelessWidget {
   final String imagePath;
   final String buttonName;
 
-  MainPageButton({@required this.widScreen,this.imagePath, this.buttonName,});
+  MainPageButton({
+    @required this.widScreen,
+    this.imagePath,
+    this.buttonName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +23,15 @@ class MainPageButton extends StatelessWidget {
           child: Column(children: [
         CircleAvatar(
           backgroundColor: Colors.white,
-          radius: 40.0,
+          radius: 35.0,
           backgroundImage: AssetImage(imagePath),
         ),
         SizedBox(height: 5.0),
         Text(
           buttonName,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 15.0,
+            color: Colors.black,
+            fontSize: 13.0,
           ),
         )
       ])),

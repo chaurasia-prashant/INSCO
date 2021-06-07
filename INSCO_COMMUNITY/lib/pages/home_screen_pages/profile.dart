@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../homepage.dart';
 
 class ProfileScreen extends StatefulWidget {
-
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -19,13 +18,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CircleAvatar(
-            radius: 60.0,
-            backgroundColor: Colors.white,
-            backgroundImage: currentUser.photoUrl == ""
-                    ? AssetImage("./assets/images/avtar.png")
-                    : CachedNetworkImageProvider(currentUser.photoUrl),
+          Center(
+            child: CircleAvatar(
+              radius: 60.0,
+              backgroundColor: Colour.primaryColor,
+              backgroundImage: currentUser.photoUrl == ""
+                  ? AssetImage("./assets/images/avtar.png")
+                  : CachedNetworkImageProvider(currentUser.photoUrl),
+            ),
           ),
           SizedBox(
             height: 15.0,
@@ -41,17 +43,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(
             height: 15.0,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text(
-                  "Batch ${currentUser.batch.toString()}",
-                  style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+          Text(
+            "Batch ${currentUser.batch.toString()}",
+            style: TextStyle(
+                color: Colour.textColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 20.0,
@@ -73,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121212),
+      backgroundColor: Colour.primaryColor,
       appBar: AppBar(
         title: Center(child: Text("Profile")),
         automaticallyImplyLeading: false,

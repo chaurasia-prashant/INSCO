@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: passwordValidator,
                           onChanged: (value) {
                             password = value;
-                            print(password);
+                            // print(password);
                           },
                           textAlignment: TextAlign.start,
                           hideText: true,
@@ -110,40 +110,46 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(() {
                                 showLoading = true;
                               });
-                              Authentication authentication = Authentication();
-                              final user = await authentication.loginUser(
-                                  email, password);
-                              if (user != null) {
-                                final userid =
-                                    FirebaseAuth.instance.currentUser.uid;
-                                final data = await FirebaseFirestore.instance
-                                    .collection('accounts')
-                                    .doc(userid)
-                                    .get();
-                                // print(data.data());
-                                Account account = Account.fromJson(data.data());
-                                LocalStorage localStorage = LocalStorage();
-                                if (localStorage.prefs == null) {
-                                  localStorage.init();
-                                }
-                                await localStorage.setAccount(account);
-                                Navigator.pushAndRemoveUntil<dynamic>(
-                                  context,
-                                  MaterialPageRoute<dynamic>(
-                                    builder: (BuildContext context) =>
-                                        HomePage(),
-                                  ),
-                                  (route) =>
-                                      false, //if you want to disable back feature set to false
-                                );
-                                setState(() {
-                                  showLoading = false;
-                                });
-                                Navigator.push(
+                              try {
+                                Authentication authentication =
+                                    Authentication();
+                                final user = await authentication.loginUser(
+                                    email, password);
+                                if (user != null) {
+                                  final userid =
+                                      FirebaseAuth.instance.currentUser.uid;
+                                  final data = await FirebaseFirestore.instance
+                                      .collection('accounts')
+                                      .doc(userid)
+                                      .get();
+                                  // print(data.data());
+                                  Account account =
+                                      Account.fromJson(data.data());
+                                  LocalStorage localStorage = LocalStorage();
+                                  if (localStorage.prefs == null) {
+                                    localStorage.init();
+                                  }
+                                  await localStorage.setAccount(account);
+                                  Navigator.pushAndRemoveUntil<dynamic>(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()));
-                                debugPrint('Login');
+                                    MaterialPageRoute<dynamic>(
+                                      builder: (BuildContext context) =>
+                                          HomePage(),
+                                    ),
+                                    (route) =>
+                                        false, //if you want to disable back feature set to false
+                                  );
+                                  setState(() {
+                                    showLoading = false;
+                                  });
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()));
+                                  debugPrint('Login');
+                                }
+                              } catch (e) {
+                                debugPrint('error is :${e.toString()}');
                               }
                             }
                           },

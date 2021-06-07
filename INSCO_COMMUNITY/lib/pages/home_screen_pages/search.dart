@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:INSCO_COMMUNITY/component/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -37,22 +39,24 @@ class _SearchScreenState extends State<SearchScreen>
       backgroundColor: Colour.secondaryColor,
       title: Container(
         decoration: BoxDecoration(
-            color: Colour.tertioryColor,
+            color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(25.0))),
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0),
           child: TextFormField(
             controller: searchController,
-            cursorColor: Colors.white,
+            cursorColor: Colour.textColor,
             style: GoogleFonts.lato(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colour.textColor),
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Search by name.",
               hintStyle: GoogleFonts.lato(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Colour.lineColor),
               suffixIcon: IconButton(
                 icon: Icon(Icons.clear),
                 onPressed: clearSearch,
@@ -70,10 +74,10 @@ class _SearchScreenState extends State<SearchScreen>
     return Container(
       child: Center(
         child: Text(
-          "Find Members",
+          "Search Members Here",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colour.buttonColor,
+            color: Colour.buttonLight,
             fontWeight: FontWeight.w600,
             fontSize: 20.0,
           ),
@@ -87,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen>
       future: searchResultsFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Text("Loading");
+          return Center(child: CircularProgressIndicator());
         }
         List<UserResult> searchResults = [];
         snapshot.data.docs.forEach((doc) {
@@ -128,49 +132,53 @@ class UserResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.only(left: 4.0, right: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: Column(
           children: <Widget>[
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30.0,
-                backgroundColor: Colors.white,
-                backgroundImage: user.photoUrl == ""
-                    ? AssetImage("./assets/images/avtar.png")
-                    : CachedNetworkImageProvider(user.photoUrl),
-              ),
-              title: Text(
-                user.username,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        user.title,
-                        style: TextStyle(
-                          color: Colors.deepOrange
+            Material(
+              elevation:8.0,
+              shadowColor: Colors.grey[100],
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              color: Color(0xFFF3EBFC),
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30.0,
+                  backgroundColor: Color(0xFFF3EBFC),
+                  backgroundImage: user.photoUrl == ""
+                      ? AssetImage("./assets/images/avtar.png")
+                      : CachedNetworkImageProvider(user.photoUrl),
+                ),
+                title: Text(
+                  user.username,
+                  style: TextStyle(
+                      color: Colour.textColor, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          user.title,
+                          style: TextStyle(color: Colour.buttonColor),
                         ),
                       ),
-                    ),
-                    Text(
-                      "Batch ${user.batch}",
-                      style: TextStyle(
-                        color: Colour.buttonColor,
+                      Text(
+                        "Batch ${user.batch}",
+                        style: TextStyle(
+                          color: Colour.buttonColor,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 80.0, right: 10.0, top: 1.0, bottom: 1.0),
-              child: Divider(height: 1.0, color: Colour.lineColor),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //       left: 80.0, right: 10.0, top: 1.0, bottom: 1.0),
+            //   child: Divider(height: 1.0, color: Colour.lineColor),
+            // ),
           ],
         ),
       ),

@@ -31,11 +31,9 @@ class _NotesPageState extends State<NotesPage> {
     });
   }
 
-
-
   buildSyllabus() {
     if (pdfDoc == null) {
-      return Text("loading");
+      return Center(child: CircularProgressIndicator());
     } else {
       return ListView(
         children: pdfDoc,
@@ -65,10 +63,13 @@ class _NotesPageState extends State<NotesPage> {
               child: Row(
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(child: Icon(Icons.arrow_back, color: Colors.white),),),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      child: Icon(Icons.arrow_back, color: Colors.white),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 50.0),
                     child: Text(
@@ -88,7 +89,7 @@ class _NotesPageState extends State<NotesPage> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colour.tertioryColor,
+                  color: Colour.secondaryColorDark,
                   borderRadius: BorderRadius.all(Radius.circular(50.0))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -98,7 +99,7 @@ class _NotesPageState extends State<NotesPage> {
                         child: Text(
                       'Select Semester',
                       style: GoogleFonts.lato(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     )),
@@ -124,7 +125,7 @@ class _NotesPageState extends State<NotesPage> {
                             child: Text(
                               valueItem.toUpperCase(),
                               style: GoogleFonts.lato(
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),

@@ -98,7 +98,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 10.0),
                             child: Icon(Icons.send_sharp,
-                                color: Colour.tertioryColor),
+                                color: Colour.primaryColor),
                           ),
                         ),
                       ),
@@ -163,10 +163,11 @@ class MessageBox extends StatelessWidget {
             : CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 3.0, right:15.0, left: 15.0),
+            padding:
+                const EdgeInsets.only(bottom: 3.0, right: 15.0, left: 15.0),
             child: Text(
               message.sender,
-              style: GoogleFonts.lato(color: Colour.lineColor, fontSize: 8.0),
+              style: GoogleFonts.lato(color: Colour.textColor,fontSize: 10.0),
             ),
           ),
           Padding(
@@ -226,14 +227,14 @@ class MessageBox extends StatelessWidget {
                     elevation: 5.0,
                     color: currentUser.username == message.sender
                         ? Colour.buttonColor
-                        : Colour.secondaryColor,
+                        : Colour.tertioryColor,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 15.0),
                         child: Text(
                           message.msg,
                           style: GoogleFonts.lato(
-                              color: Colors.white, fontSize: 13.0),
+                              color: Colors.white, fontSize: 15.0),
                         )),
                   ),
                   Container(

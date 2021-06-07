@@ -62,7 +62,8 @@ class _PdfDocState extends State<PdfDoc> {
                     child: Center(
                       child: Text(
                         name.toUpperCase(),
-                        style: GoogleFonts.lato(color: Colors.white, fontSize:20.0),
+                        style: GoogleFonts.lato(
+                            color: Colors.white, fontSize: 20.0),
                       ),
                     ),
                   ),
@@ -71,12 +72,14 @@ class _PdfDocState extends State<PdfDoc> {
             ),
           ),
         ),
-                SizedBox(height: 1.0),
+        SizedBox(height: 1.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Divider(thickness: 1.0, color: Colors.white,),
+          child: Divider(
+            thickness: 1.0,
+            color: Colour.lineColor,
+          ),
         ),
-
       ],
     );
   }

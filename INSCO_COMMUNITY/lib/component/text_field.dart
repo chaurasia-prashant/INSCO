@@ -83,10 +83,14 @@ class CustomTextField extends StatelessWidget {
         ),
         labelText: label,
         labelStyle: GoogleFonts.lato(
-            fontSize: 16, fontWeight: FontWeight.normal, color: Colour.lineColor),
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: Colour.lineColor),
         hintText: hintText,
         hintStyle: GoogleFonts.lato(
-            fontSize: 16, fontWeight: FontWeight.normal, color: Colour.lineColor),
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: Colour.lineColor),
       ),
     );
   }

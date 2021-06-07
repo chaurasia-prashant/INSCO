@@ -4,6 +4,7 @@ import 'package:INSCO_COMMUNITY/component/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/component/font_text.dart';
 import 'package:INSCO_COMMUNITY/component/text_field.dart';
 import 'package:INSCO_COMMUNITY/helper/authentication.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/intro_page.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 // import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -198,7 +199,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 value: valueItem,
                                 child: Text(
                                   'Batch ${valueItem.toString()}',
-                                  style: GoogleFonts.lato(color: Colour.lineColor),
+                                  style:
+                                      GoogleFonts.lato(color: Colour.lineColor),
                                 ),
                               );
                             }).toList(),
@@ -356,38 +358,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           setState(() {
                             showLoading = true;
                           });
-                          final newUser = await authentication
-                              .createUserInFirebase(email, password);
-                          if (newUser != null) {
-                            id = FirebaseAuth.instance.currentUser.uid;
-                            Account account = Account(
-                                id: id,
-                                username: name,
-                                email: email,
-                                batch: userBatch,
-                                title: userTitle,
-                                isInscoMember: isMember);
-                            await authentication.saveDataInFirebase(account);
-                            await authentication
-                                .saveDataInLocalStorage(account);
-                            debugPrint("All done");
-                            //TODO check here
-                            Navigator.pushAndRemoveUntil<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) => HomePage(),
-                              ),
-                              (route) =>
-                                  false, //if you want to disable back feature set to false
-                            );
-                            Navigator.push(
+                          try {
+                            final newUser = await authentication
+                                .createUserInFirebase(email, password);
+                            if (newUser != null) {
+                              id = FirebaseAuth.instance.currentUser.uid;
+                              Account account = Account(
+                                  id: id,
+                                  username: name,
+                                  email: email,
+                                  batch: userBatch,
+                                  title: userTitle,
+                                  isInscoMember: isMember);
+                              await authentication.saveDataInFirebase(account);
+                              await authentication
+                                  .saveDataInLocalStorage(account);
+                              debugPrint("All done");
+                              //TODO check here
+                              Navigator.pushAndRemoveUntil<dynamic>(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                                MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) =>
+                                      IntroPage(),
+                                ),
+                                (route) =>
+                                    false, //if you want to disable back feature set to false
+                              );
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => HomePage()));
 
-                            setState(() {
-                              showLoading = false;
-                            });
+                              setState(() {
+                                showLoading = false;
+                              });
+                            }
+                          } catch (e) {
+                            print(e.toString());
                           }
                         }
                       },

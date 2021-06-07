@@ -26,13 +26,23 @@ class _MembersPageState extends State<MembersPage>
 
   final usersRef = FirebaseFirestore.instance.collection('accounts');
   Future<QuerySnapshot> searchResultsFuture;
+  int cout;
 
   handleSearch() {
     Future<QuerySnapshot> users =
         usersRef.where("batch", isEqualTo: valueChose).get();
-    setState(() {
-      searchResultsFuture = users;
+
+    usersRef.where("batch", isEqualTo: valueChose).get().then((data) {
+      setState(() {
+        cout = data.docs.length;
+        searchResultsFuture = users;
+        print('cout at $valueChose: $cout');
+      });
     });
+    // setState(() {
+    //   searchResultsFuture = users;
+    //   print('cout at $valueChose: $cout');
+    // });
   }
 
   buildSearchResults() {
@@ -40,7 +50,7 @@ class _MembersPageState extends State<MembersPage>
       future: searchResultsFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Text("Loading");
+          return Center(child: CircularProgressIndicator());
         }
 
         List<UserResult> searchResults = [];
@@ -95,10 +105,13 @@ class _MembersPageState extends State<MembersPage>
               child: Row(
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(child: Icon(Icons.arrow_back, color: Colors.white),),),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      child: Icon(Icons.arrow_back, color: Colors.white),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 50.0),
                     child: Text(
@@ -118,7 +131,7 @@ class _MembersPageState extends State<MembersPage>
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colour.tertioryColor,
+                  color: Colour.secondaryColorDark,
                   borderRadius: BorderRadius.all(Radius.circular(50.0))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -128,7 +141,7 @@ class _MembersPageState extends State<MembersPage>
                       child: Text(
                         "Select Batch",
                         style: GoogleFonts.lato(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
@@ -139,6 +152,7 @@ class _MembersPageState extends State<MembersPage>
                         height: 0.0,
                       ),
                       dropdownColor: Colour.secondaryColor,
+                      iconEnabledColor: Colors.white,
                       value: valueChose,
                       onChanged: (newValue) {
                         setState(() {
@@ -155,7 +169,7 @@ class _MembersPageState extends State<MembersPage>
                             child: Text(
                               'Batch ${valueItem.toString()}',
                               style: GoogleFonts.lato(
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
@@ -189,9 +203,7 @@ class _MembersPageState extends State<MembersPage>
               height: 8.0,
             ),
             Expanded(
-              child:
-                  // TODO: add terenery operator to check if no user in the batch and return a retText
-                  buildSearchResults(),
+              child: cout == 0 ? retText() : buildSearchResults(),
             )
           ],
         ),
@@ -209,36 +221,37 @@ class UserResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.only(left: 4.0, right:8.0),
+        padding: const EdgeInsets.only(left: 4.0, right: 8.0),
         child: Column(
           children: <Widget>[
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30.0,
-                backgroundColor: Colors.white,
-                backgroundImage: user.photoUrl == ""
-                    ? AssetImage("./assets/images/avtar.png")
-                    : CachedNetworkImageProvider(user.photoUrl),
-              ),
-              title: Text(
-                user.username,
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              subtitle: 
-               Padding(
-                 padding: const EdgeInsets.only(top: 8.0),
-                 child: Text(
-                  user.title,
+            Material(
+              elevation: 8.0,
+              shadowColor: Colors.grey[100],
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              color: Color(0xFFF3EBFC),
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30.0,
+                  backgroundColor: Colors.white,
+                  backgroundImage: user.photoUrl == ""
+                      ? AssetImage("./assets/images/avtar.png")
+                      : CachedNetworkImageProvider(user.photoUrl),
+                ),
+                title: Text(
+                  user.username,
                   style: TextStyle(
-                      color: Colors.white,),
+                      color: Colour.textColor, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    user.title,
+                    style: TextStyle(
+                      color: Colour.textColor,
+                    ),
+                  ),
+                ),
               ),
-               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 80.0, right: 10.0, top: 1.0, bottom: 1.0),
-              child: Divider(height: 1.0, color: Colour.lineColor),
             ),
           ],
         ),
