@@ -1,5 +1,5 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
-import 'package:INSCO_COMMUNITY/component/font_text.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/helper/screen_size.dart';
 import 'package:flutter/material.dart';
 

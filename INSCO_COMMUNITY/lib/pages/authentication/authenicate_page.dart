@@ -6,7 +6,7 @@ send to welcome page
 */
 
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
-import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticatePage extends StatefulWidget {

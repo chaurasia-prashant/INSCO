@@ -4,7 +4,7 @@ import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:INSCO_COMMUNITY/pages/home_screen_pages/main_screen.dart';
+import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
 // import 'package:INSCO_COMMUNITY/pages/home_screen_pages/profile.dart';
 // import 'package:INSCO_COMMUNITY/pages/home_screen_pages/search.dart';
 

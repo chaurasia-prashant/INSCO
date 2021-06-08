@@ -1,6 +1,6 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:INSCO_COMMUNITY/pages/members/membersResult.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,8 +13,7 @@ class MembersPage extends StatefulWidget {
   _MembersPageState createState() => _MembersPageState();
 }
 
-class _MembersPageState extends State<MembersPage>
-    with AutomaticKeepAliveClientMixin<MembersPage> {
+class _MembersPageState extends State<MembersPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -27,6 +26,13 @@ class _MembersPageState extends State<MembersPage>
   final usersRef = FirebaseFirestore.instance.collection('accounts');
   Future<QuerySnapshot> searchResultsFuture;
   int cout;
+  List batch = [];
+  DateTime timestamp = DateTime.now();
+  void arr() {
+    for (int i = 1974; i <= timestamp.year; i++) {
+      batch.add(i);
+    }
+  }
 
   handleSearch() {
     Future<QuerySnapshot> users =
@@ -36,7 +42,7 @@ class _MembersPageState extends State<MembersPage>
       setState(() {
         cout = data.docs.length;
         searchResultsFuture = users;
-        print('cout at $valueChose: $cout');
+        // print('cout at $valueChose: $cout');
       });
     });
     // setState(() {
@@ -84,15 +90,6 @@ class _MembersPageState extends State<MembersPage>
   }
 
   int valueChose = 2018;
-
-  final DateTime timestamp = DateTime.now();
-
-  List batch = [];
-  void arr() {
-    for (int i = 1974; i <= timestamp.year; i++) {
-      batch.add(i);
-    }
-  }
 
   dropdownBody() {
     return Container(
@@ -187,11 +184,10 @@ class _MembersPageState extends State<MembersPage>
     );
   }
 
-  bool get wantKeepAlive => true;
+ 
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colour.primaryColor,
@@ -210,52 +206,7 @@ class _MembersPageState extends State<MembersPage>
       ),
     );
   }
+
 }
 
-class UserResult extends StatelessWidget {
-  final Account user;
 
-  UserResult(this.user);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 4.0, right: 8.0),
-        child: Column(
-          children: <Widget>[
-            Material(
-              elevation: 8.0,
-              shadowColor: Colors.grey[100],
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              color: Color(0xFFF3EBFC),
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 30.0,
-                  backgroundColor: Colors.white,
-                  backgroundImage: user.photoUrl == ""
-                      ? AssetImage("./assets/images/avtar.png")
-                      : CachedNetworkImageProvider(user.photoUrl),
-                ),
-                title: Text(
-                  user.username,
-                  style: TextStyle(
-                      color: Colour.textColor, fontWeight: FontWeight.bold),
-                ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    user.title,
-                    style: TextStyle(
-                      color: Colour.textColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

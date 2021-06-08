@@ -1,4 +1,4 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:flutter/material.dart';
 
 const kSendButtonDecoration = BoxDecoration(

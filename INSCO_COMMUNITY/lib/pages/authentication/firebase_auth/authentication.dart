@@ -1,6 +1,6 @@
-import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/authStore/local_storage.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
-import 'package:INSCO_COMMUNITY/repo/firebase_auth.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

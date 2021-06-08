@@ -1,5 +1,5 @@
-import 'package:INSCO_COMMUNITY/component/chat_constants.dart';
-import 'package:INSCO_COMMUNITY/component/color.dart';
+import 'package:INSCO_COMMUNITY/pages/chat/chat_constants.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';

@@ -5,8 +5,8 @@ time.
 
 */
 
-import 'package:INSCO_COMMUNITY/pages/authentication/login.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/registration.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/view/login.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/view/registration.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {

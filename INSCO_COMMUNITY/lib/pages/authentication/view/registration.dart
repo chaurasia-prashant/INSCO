@@ -1,11 +1,12 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
-import 'package:INSCO_COMMUNITY/component/drop_down.dart';
-import 'package:INSCO_COMMUNITY/component/flatbutton.dart';
-import 'package:INSCO_COMMUNITY/component/font_text.dart';
-import 'package:INSCO_COMMUNITY/component/text_field.dart';
-import 'package:INSCO_COMMUNITY/helper/authentication.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/intro_page.dart';
-import 'package:INSCO_COMMUNITY/pages/homepage.dart';
+
+import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/widget/drop_down.dart';
+import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
+import 'package:INSCO_COMMUNITY/widget/font_text.dart';
+import 'package:INSCO_COMMUNITY/widget/text_field.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
+import 'package:INSCO_COMMUNITY/pages/appStartPages/intro_page.dart';
+// import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 // import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:INSCO_COMMUNITY/helper/screen_size.dart';
@@ -22,13 +23,14 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
     arr();
   }
 
-  final formKey = GlobalKey<FormState>();
   bool isMember = false;
   bool changePage = false;
   String userTitle = 'User';
@@ -37,11 +39,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
   String id;
-  List batch = [];
   Authentication authentication = Authentication();
   List titleOption = ['HOD', 'Former HOD', 'Teacher', 'Student', 'User'];
+  List batch = [];
+  DateTime timestamp = DateTime.now();
   void arr() {
-    for (int i = 1974; i <= DateTime.now().year; i++) {
+    for (int i = 1974; i <= timestamp.year; i++) {
       batch.add(i);
     }
   }

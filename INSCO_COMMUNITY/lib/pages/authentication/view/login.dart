@@ -1,9 +1,9 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
-import 'package:INSCO_COMMUNITY/component/flatbutton.dart';
-import 'package:INSCO_COMMUNITY/component/font_text.dart';
-import 'package:INSCO_COMMUNITY/component/text_field.dart';
-import 'package:INSCO_COMMUNITY/helper/authentication.dart';
-import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
+import 'package:INSCO_COMMUNITY/widget/font_text.dart';
+import 'package:INSCO_COMMUNITY/widget/text_field.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/authStore/local_storage.dart';
 import 'package:INSCO_COMMUNITY/helper/screen_size.dart';
 import 'package:INSCO_COMMUNITY/helper/validators.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
@@ -12,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import '../homepage.dart';
+import '../../homepage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

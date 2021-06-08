@@ -1,16 +1,16 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
-import 'package:INSCO_COMMUNITY/component/main_page_button.dart';
-import 'package:INSCO_COMMUNITY/pages/home_screen_pages/profile.dart';
-import 'package:INSCO_COMMUNITY/pages/home_screen_pages/search.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/creators.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/gallery.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/history.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/members.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/notes.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/syllabus.dart';
-import 'package:INSCO_COMMUNITY/pages/home_screen_pages/discussion.dart';
-import 'package:INSCO_COMMUNITY/helper/authentication.dart';
-import 'package:INSCO_COMMUNITY/pages/welcome_page.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/pages/mainPageScreen/buttons/main_page_button.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/profile.dart';
+import 'package:INSCO_COMMUNITY/pages/search/search.dart';
+import 'package:INSCO_COMMUNITY/pages/creators.dart';
+import 'package:INSCO_COMMUNITY/pages/gallery/gallery.dart';
+import 'package:INSCO_COMMUNITY/pages/history.dart';
+import 'package:INSCO_COMMUNITY/pages/members/members.dart';
+import 'package:INSCO_COMMUNITY/pages/studyPages/notes.dart';
+import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
+import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Center(
           child: Text(
             'INSCO',

@@ -13,6 +13,13 @@ class ViewPdf extends StatefulWidget {
 }
 
 class _ViewPdfState extends State<ViewPdf> {
+  String e1 = 'Invalid argument(s): No host specified in URI %22%22';
+
+  String e2 =
+      'SocketException: OS Error: Software caused connection abort, errno = 103, address = firebasestorage.googleapis.com, port = 39950';
+
+  String e3 =
+      "SocketException: Failed host lookup: 'firebasestorage.googleapis.com' (OS Error: No address associated with hostname, errno = 7)";
   // PDFDocument doc;
   @override
   void initState() {
@@ -26,14 +33,18 @@ class _ViewPdfState extends State<ViewPdf> {
         title: Text(widget.nameId),
       ),
       body: Center(
-        child: PDF(
-        ).cachedFromUrl(
+        child: PDF().cachedFromUrl(
           widget.pathId,
-          placeholder: (progress)=>Center(
+          placeholder: (progress) => Center(
             child: Text("Loading... \n \n \n   $progress %"),
-          ), 
+          ),
           errorWidget: (e) => Center(
-            child: Text("Please check your Internet Connection, and Try Again"),
+            child: e.toString() == e3
+                ? Text('Please check your internet connection') : e.toString() == e2
+                ? Text('Internet Disconnected')
+                : e.toString() == e1
+                    ? Text('File not found')
+                    : Text('Something Went Wrong'),
           ),
         ),
       ),
