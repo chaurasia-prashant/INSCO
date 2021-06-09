@@ -8,23 +8,23 @@ class IntroPage extends StatelessWidget {
   List<PageViewModel> getPages() {
     return [
       PageViewModel(
-        image: SvgPicture.asset('./assets/images/welcome.svg'),
+        image: Center(child: Image.asset('./assets/images/welcome.png')),
         body:
             "Let's walk through us and enjoy the great plateform of our community",
         title: 'Welcome to INSCO!',
       ),
       PageViewModel(
-        image: SvgPicture.asset('./assets/images/study_material.svg'),
+        image: Center(child: Image.asset('./assets/images/study_material.png')),
         body: "Get all notes and syllabus anywhere and any time",
         title: 'Study Smart',
       ),
       PageViewModel(
-        image: SvgPicture.asset('./assets/images/chat.svg'),
+        image: Center(child: Image.asset('./assets/images/chat.png')),
         body: "Community to anyone and find all our INSCO society members here",
         title: 'Chat among members',
       ),
       PageViewModel(
-        image: SvgPicture.asset('./assets/images/community.svg'),
+        image: Center(child: Image.asset('./assets/images/community.png')),
         body: "Integrate with each other and make INSCO community great ",
         title: 'Great Community',
       ),

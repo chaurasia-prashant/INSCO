@@ -45,11 +45,11 @@ class _SearchScreenState extends State<SearchScreen>
           padding: const EdgeInsets.only(left: 15.0),
           child: TextFormField(
             controller: searchController,
-            cursorColor: Colour.textColor,
+            
             style: GoogleFonts.lato(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colour.textColor),
+               ),
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Search by name.",

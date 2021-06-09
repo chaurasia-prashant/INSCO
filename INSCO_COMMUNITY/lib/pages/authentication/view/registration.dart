@@ -51,7 +51,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Scaffold detailPage(screen) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       // resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
@@ -74,7 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       children: [
                         CircleAvatar(
                           radius: screen.horizontal(8.0),
-                          backgroundColor: Colour.lineColor,
+                          backgroundColor: Colour.buttonColor,
                           child: IconButton(
                             icon: Icon(
                               Icons.keyboard_arrow_left,
@@ -139,7 +139,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               style: GoogleFonts.lato(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
-                                  color: Colour.lineColor),
+                                  color: Colour.tertioryColor),
                             ),
                           ),
                         ),
@@ -151,7 +151,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             });
                           },
                           inactiveTrackColor: Colour.lineColor,
-                          activeTrackColor: Colour.buttonColor,
+                          activeTrackColor: Colour.buttonLight,
                           activeColor: Colour.buttonColor,
                         ),
                       ],
@@ -164,15 +164,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               style: GoogleFonts.lato(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.white),
+                                  ),
                             ),
                           )
                         : SizedBox(height: 0.0),
                     isMember
                         ? DropdownButtonFormField(
+                          dropdownColor: Colour.secondaryColorDark,
+                          iconEnabledColor: Colors.white,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colour.primaryColor,
+                              fillColor: Colour.secondaryColor,
+                              
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(12),
@@ -221,7 +224,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: GoogleFonts.lato(
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
-                            color: Colors.white),
+                            ),
                       ),
                     ),
                     DropDownField(
@@ -247,6 +250,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         }
                       },
                     ),
+                    SizedBox(
+                      height: screen.vertical(50.0),
+                    ),
+                    RailwayText(
+                      'Already INSCO member ?',
+                      size: 14,
+                    ),
+                    SizedBox(
+                      height: screen.vertical(10.0),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        //TODO implement navigation for login page
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RailwayText(
+                          'LOGIN',
+                          fontColor: Colour.buttonColor,
+                          size: 14,
+                          weight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               )
@@ -259,7 +286,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Scaffold emailAndPassword(screen) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       // resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
@@ -282,7 +309,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       children: [
                         CircleAvatar(
                           radius: screen.horizontal(8.0),
-                          backgroundColor: Colour.lineColor,
+                          backgroundColor: Colour.buttonColor,
                           child: IconButton(
                             icon: Icon(
                               Icons.keyboard_arrow_left,
@@ -370,7 +397,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   id: id,
                                   username: name,
                                   email: email,
-                                  batch: userBatch,
+                                  batch: isMember ? userBatch : null,
                                   title: userTitle,
                                   isInscoMember: isMember);
                               await authentication.saveDataInFirebase(account);
@@ -402,27 +429,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: screen.vertical(50.0),
-                    ),
-                    RailwayText(
-                      'Already INSCO member ?',
-                      fontColor: Colour.lineColor,
-                      size: 14,
-                    ),
-                    SizedBox(
-                      height: screen.vertical(10.0),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        //TODO implement navigation for login page
-                      },
-                      child: RailwayText(
-                        'LOGIN',
-                        fontColor: Colors.white,
-                        size: 14,
-                      ),
-                    ),
+                    
                   ],
                 ),
               )
@@ -441,13 +448,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('./assets/images/bg.png'),
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //     image: AssetImage('./assets/images/bg.png'),
+      //     fit: BoxFit.fill,
+      //     alignment: Alignment.topCenter,
+      //   ),
+      // ),
       child: ModalProgressHUD(
           inAsyncCall: showLoading,
           child: changePage ? emailAndPassword(screen) : detailPage(screen)),

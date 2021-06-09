@@ -30,16 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            fit: BoxFit.fill, image: AssetImage('./assets/images/bg.png')),
-      ),
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //       fit: BoxFit.fill, image: AssetImage('./assets/images/bg.png')),
+      // ),
       child: ModalProgressHUD(
         inAsyncCall: showLoading,
         child: Form(
           key: formKey,
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            // backgroundColor: Colors.transparent,
             // resizeToAvoidBottomInset: false,
             body: GestureDetector(
               onTap: () {
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       physics: BouncingScrollPhysics(),
                       children: [
                         SizedBox(
-                          height: screen.vertical(150),
+                          height: screen.vertical(110),
                         ),
                         LatoText(
                           'Welcome\nBack',
@@ -63,8 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: screen.vertical(25),
                         ),
                         RailwayText(
-                          'Enter your email and password to login\nin INSCO community.',
-                          fontColor: Colour.lineColor,
+                          'Enter credentials to login\nin INSCO community.',
+                          fontColor: Colour.tertioryColor,
                           size: 18,
                         ),
                         SizedBox(
@@ -157,20 +157,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: screen.vertical(70),
                         ),
-                        RailwayText(
-                          'New to INSCO ?',
-                          fontColor: Colour.lineColor,
-                          size: 14,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RailwayText(
+                            'New to INSCO ?',
+                            size: 14,
+                          ),
                         ),
                         SizedBox(
-                          height: screen.vertical(10),
+                          height: screen.vertical(2),
                         ),
                         GestureDetector(
                           onTap: () {},
-                          child: RailwayText(
-                            'SIGN UP',
-                            fontColor: Colors.white,
-                            size: 14,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RailwayText(
+                              'SIGN UP',
+                              size: 14,
+                              weight: FontWeight.bold,
+                              fontColor: Colour.buttonColor,
+                            ),
                           ),
                         ),
                       ],

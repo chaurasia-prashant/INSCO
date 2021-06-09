@@ -9,8 +9,9 @@ final emailValidator = MultiValidator([
   RequiredValidator(errorText: 'Email is required'),
   EmailValidator(errorText: 'Must be valid email'),
 ]);
+
 final usernameValidator = MultiValidator([
   RequiredValidator(errorText: 'Name is required'),
-  MinLengthValidator(4, errorText: 'Name must be at least 4 characters'),
-  MaxLengthValidator(10, errorText: 'Name must be less than 12 characters')
+  MinLengthValidator(4, errorText: 'Name must be at least 5 characters'),
+  MaxLengthValidator(40, errorText: 'Name must be less than 40 characters')
 ]);

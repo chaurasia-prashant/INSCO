@@ -15,7 +15,7 @@ class RailwayText extends StatelessWidget {
       this.size = 14,
       this.weight = FontWeight.normal,
       this.style = FontStyle.normal,
-      this.fontColor = Colors.white})
+      this.fontColor = Colors.black})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class LatoText extends StatelessWidget {
     this.size = 14,
     this.weight = FontWeight.normal,
     this.style = FontStyle.normal,
-    this.fontColor = Colors.white,
+    this.fontColor = Colors.black,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -21,6 +21,7 @@ class Button extends StatelessWidget {
           child: LatoText(
             buttonName,
             size: 16,
+            fontColor: Colors.white,
           ),
         ),
       ),

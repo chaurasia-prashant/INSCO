@@ -11,7 +11,10 @@ import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../homepage.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -23,6 +26,18 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
   }
+
+
+// AppBar _customAppBar() => AppBar(
+//     title: Text('Profile'),
+//     automaticallyImplyLeading: true,
+//     backgroundColor: Colour.buttonColor,
+//     elevation: 0.0,
+//   );
+
+  // Drawer widget with Drawer property
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +54,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-        actions: [
-          Container(
-            child: GestureDetector(
-                onTap: () async {
-                  Authentication authentication = Authentication();
-                  await authentication.logoutUser();
-                  Navigator.pushAndRemoveUntil<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => WelcomePage(),
-                    ),
-                    (route) =>
-                        false, //if you want to disable back feature set to false
-                  );
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()));
-                },
-                child: Icon(Icons.logout)),
-          ),
-        ],
         backgroundColor: Colour.secondaryColor,
       ),
       backgroundColor: Colour.primaryColor,

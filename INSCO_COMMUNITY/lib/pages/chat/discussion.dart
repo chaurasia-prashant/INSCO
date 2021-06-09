@@ -64,7 +64,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                           controller: messageTextController,
                           maxLines: 5,
                           minLines: 1,
-                          style: TextStyle(color: Colors.white),
+                          // style: TextStyle(color: Colors.white),
                           decoration: kMessageTextFieldDecoration,
                         ),
                       ),
@@ -82,11 +82,11 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                               msgRef.set({
                                 'id': currentUser.id,
                                 'sender': currentUser.username,
-                                'batch': currentUser.batch,
-                                'title': currentUser.title,
                                 'msg': messageTextController.text,
                                 'msgTime': DateTime.now(),
                                 'msgId': null,
+                                'userPhotoUrl': currentUser.photoUrl,
+                                'isVisibal': true,
                               }).whenComplete(
                                   () => msgPath.doc(msgRef.id).update({
                                         'msgId': msgRef.id,
@@ -136,7 +136,20 @@ class MessageStream extends StatelessWidget {
         snapshot.data.docs.forEach((doc) {
           ChatData message = ChatData.fromJson(doc.data());
           MessageBox msgs = MessageBox(message);
-          messageWidgets.add(msgs);
+          int now = DateTime.now().day;
+          if (message.isVisibal) {
+            if ((now - message.msgTime.toDate().day) >= 1) {
+              FirebaseFirestore.instance
+                  .collection('messages')
+                  .doc(message.msgId)
+                  .update({
+                    'isVisibal': false,
+                  });
+            }else {
+              messageWidgets.add(msgs);
+            }
+            
+          }
         });
         return Expanded(
           child: ListView(
@@ -164,16 +177,16 @@ class MessageBox extends StatelessWidget {
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(bottom: 3.0, right: 15.0, left: 15.0),
+                const EdgeInsets.only(bottom: 3.0, right: 15.0, left: 5.0),
             child: Text(
               message.sender,
-              style: GoogleFonts.lato(color: Colour.textColor,fontSize: 10.0),
+              style: GoogleFonts.lato(fontSize: 10.0),
             ),
           ),
           Padding(
             padding: currentUser.username == message.sender
                 ? EdgeInsets.only(right: 15.0, left: 60.0)
-                : EdgeInsets.only(right: 60.0, left: 15.0),
+                : EdgeInsets.only(right: 60.0, left: 5.0),
             child: GestureDetector(
               onLongPress: () {
                 if (currentUser.username == message.sender) {
@@ -243,7 +256,7 @@ class MessageBox extends StatelessWidget {
                             ? Icon(Icons.dangerous,
                                 color: Colors.red, size: 12.0)
                             : Icon(Icons.check,
-                                color: Colors.white, size: 12.0))
+                                size: 12.0))
                         : Text(''),
                   ),
                 ],

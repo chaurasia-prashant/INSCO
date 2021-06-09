@@ -31,15 +31,13 @@ class UserResult extends StatelessWidget {
                 title: Text(
                   user.username,
                   style: TextStyle(
-                      color: Colour.textColor, fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold),
                 ),
                 subtitle: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     user.title,
-                    style: TextStyle(
-                      color: Colour.textColor,
-                    ),
+                    
                   ),
                 ),
               ),
