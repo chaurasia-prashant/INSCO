@@ -1,7 +1,6 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroPage extends StatelessWidget {

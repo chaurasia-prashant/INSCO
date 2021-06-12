@@ -1,4 +1,4 @@
-import 'package:INSCO_COMMUNITY/constants/color.dart';
+
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

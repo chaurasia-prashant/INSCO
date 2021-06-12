@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:INSCO_COMMUNITY/modal/account.dart';
+
 
 final _firestore = FirebaseFirestore.instance;
 

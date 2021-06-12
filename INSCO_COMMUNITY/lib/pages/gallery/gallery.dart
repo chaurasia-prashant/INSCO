@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/pages/gallery/upload.dart';
 import 'package:flutter/material.dart';
 
 class GalleryPage extends StatefulWidget {
@@ -6,10 +7,28 @@ class GalleryPage extends StatefulWidget {
 }
 
 class _GalleryPageState extends State<GalleryPage> {
+
+
+  
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('GalleryPage'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            GestureDetector(
+              onTap: (){Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Upload()));},
+              child: Container(
+                child: Icon(Icons.add),
+              ),
+            )
+          ],
+        ),
+        body: Container(
+          child: Text('GalleryPage'),
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/edit_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,6 +56,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ListTile(
           leading: Icon(Icons.edit_rounded),
           title: Text('Edit profile', style: TextStyle(fontSize: 18)),
+          onTap: () {
+            // Here you can give your route to navigate
+            Navigator.of(context).pop();
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditProfile()));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.privacy_tip_rounded),
+          title: Text('Privacy', style: TextStyle(fontSize: 18)),
+          onTap: () {
+            // Here you can give your route to navigate
+            Navigator.of(context).pop();
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Privacy()));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('Settings', style: TextStyle(fontSize: 18)),
           onTap: () {
             // Here you can give your route to navigate
             Navigator.of(context).pop();
@@ -185,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 15.0,
                 ),
                 Text(
-                  "Student",
+                  currentUser.title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
                 ),
                 SizedBox(
@@ -206,8 +228,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0, top: 10.0),
-                  child: Text(
-                    'Tata Power',
+                  child: currentUser.workPlace == '' ? Text(
+                     'Not Updated',
+                    style: GoogleFonts.lato(fontSize: 15),
+                  ) : Text(
+                     currentUser.workPlace,
                     style: GoogleFonts.lato(fontSize: 15),
                   ),
                 ),

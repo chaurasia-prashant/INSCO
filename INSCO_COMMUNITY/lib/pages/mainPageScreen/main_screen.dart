@@ -9,12 +9,8 @@ import 'package:INSCO_COMMUNITY/pages/members/members.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage.dart';
 
 class MainScreen extends StatefulWidget {
   @override
