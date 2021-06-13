@@ -1,4 +1,3 @@
-
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/widget/drop_down.dart';
 import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
@@ -6,6 +5,7 @@ import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/widget/text_field.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/appStartPages/intro_page.dart';
+import 'package:email_auth/email_auth.dart';
 // import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 // import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -23,7 +23,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -32,11 +35,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   bool isMember = false;
-  bool changePage = false;
+  bool emailVerifyButtonPressed = false;
+  int pageNo = 1;
+  bool isEmailVerified = false;
   String userTitle = 'User';
   int userBatch = 2018;
   String name;
   String email;
+  String otp;
   String password;
   String id;
   Authentication authentication = Authentication();
@@ -48,6 +54,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       batch.add(i);
     }
   }
+
+  void sendOtp(String userEmail) async {
+    EmailAuth.sessionName = 'Insco Community';
+    var res = await EmailAuth.sendOtp(receiverMail: userEmail);
+    if (res) {
+      setState(() {
+        emailVerifyButtonPressed = true;
+      });
+    } else {
+    }
+  }
+
+  void verifyOtp({String otpCode, String userEmail}) {
+    var res = EmailAuth.validate(receiverMail: userEmail, userOTP: otpCode);
+    if (res) {
+      setState(() {
+        isEmailVerified = true;
+        pageNo = 3;
+        emailVerifyButtonPressed = false;
+      });
+    } else {
+
+      print('invalid otp');
+    }
+  }
+
 
   Scaffold detailPage(screen) {
     return Scaffold(
@@ -162,20 +194,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: Text(
                               'Select Your Batch',
                               style: GoogleFonts.lato(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  ),
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
                           )
                         : SizedBox(height: 0.0),
                     isMember
                         ? DropdownButtonFormField(
-                          dropdownColor: Colour.secondaryColorDark,
-                          iconEnabledColor: Colors.white,
+                            dropdownColor: Colour.secondaryColorDark,
+                            iconEnabledColor: Colors.white,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colour.secondaryColor,
-                              
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(12),
@@ -222,9 +253,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: Text(
                         'Who is using this ?',
                         style: GoogleFonts.lato(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ),
                     DropDownField(
@@ -245,7 +276,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onPressed: () {
                         if (formKey.currentState.validate()) {
                           setState(() {
-                            changePage = true;
+                            pageNo = 2;
                           });
                         }
                       },
@@ -274,6 +305,108 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       ),
                     ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold emailPage(screen) {
+    return Scaffold(
+      // backgroundColor: Colors.transparent,
+      // resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Form(
+          key: formKey,
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(screen.horizontal(4.0)),
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: screen.vertical(140.0),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: screen.horizontal(8.0),
+                          backgroundColor: Colour.buttonColor,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.keyboard_arrow_left,
+                              color: Colors.white,
+                              size: screen.horizontal(8.0),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                pageNo = 1;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: screen.vertical(15.0),
+                    ),
+                    LatoText(
+                      'Just few steps more',
+                      size: 32,
+                    ),
+                    SizedBox(
+                      height: screen.vertical(45.0),
+                    ),
+                    CustomTextField(
+                      hintText: 'Email',
+                      onChanged: (value) {
+                        email = value;
+                      },
+                      textAlignment: TextAlign.start,
+                      keyboard: TextInputType.emailAddress,
+                      preffixWidget: Icon(
+                        Icons.email_outlined,
+                        color: Colour.lineColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: screen.vertical(15.0),
+                    ),
+                    emailVerifyButtonPressed
+                        ? CustomTextField(
+                            hintText: 'Enter Otp',
+                            onChanged: (value) {
+                              otp = value;
+                            },
+                            textAlignment: TextAlign.start,
+                            keyboard: TextInputType.phone,
+                            // preffixWidget: Icon(
+                            //   Icons.email_outlined,
+                            //   color: Colour.lineColor,
+                            // ),
+                          )
+                        : Text(''),
+                    SizedBox(
+                      height: screen.vertical(50.0),
+                    ),
+                    Button(emailVerifyButtonPressed ? 'Verify' : 'Get otp',
+                        onPressed: () {
+                      if (!emailVerifyButtonPressed) {
+                        sendOtp(email);
+                      }
+                      if (emailVerifyButtonPressed) {
+                        verifyOtp(otpCode: otp, userEmail: email);
+                      }
+                    }),
                   ],
                 ),
               )
@@ -318,7 +451,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             onPressed: () {
                               setState(() {
-                                changePage = false;
+                                pageNo = 2;
+                                isEmailVerified = false;
                               });
                             },
                           ),
@@ -329,26 +463,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       height: screen.vertical(15.0),
                     ),
                     LatoText(
-                      'Just few steps more',
+                      "Let's make it secure",
                       size: 32,
                     ),
                     SizedBox(
                       height: screen.vertical(45.0),
-                    ),
-                    CustomTextField(
-                      hintText: 'Email',
-                      onChanged: (value) {
-                        email = value;
-                      },
-                      textAlignment: TextAlign.start,
-                      keyboard: TextInputType.emailAddress,
-                      preffixWidget: Icon(
-                        Icons.email_outlined,
-                        color: Colour.lineColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: screen.vertical(25.0),
                     ),
                     CustomTextField(
                       hintText: 'Password',
@@ -358,6 +477,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Icons.vpn_key_outlined,
                         color: Colour.lineColor,
                       ),
+                      textController: passwordController,
                       validator: passwordValidator,
                       onChanged: (value) {
                         password = value;
@@ -374,6 +494,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Icons.vpn_key_outlined,
                         color: Colour.lineColor,
                       ),
+                      textController: confirmPasswordController,
                       validator: (value) =>
                           MatchValidator(errorText: 'Passwords do not match')
                               .validateMatch(value, password),
@@ -384,7 +505,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Button(
                       'Create Account',
                       onPressed: () async {
-                        if (formKey.currentState.validate()) {
+                        if (formKey.currentState.validate() &&
+                            isEmailVerified) {
                           setState(() {
                             showLoading = true;
                           });
@@ -429,7 +551,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         }
                       },
                     ),
-                    
                   ],
                 ),
               )
@@ -440,11 +561,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
+  changePageNo() {
+    Screen screen = Screen(context);
+    if (pageNo == 1) {
+      return detailPage(screen);
+    } else if (pageNo == 2) {
+      return emailPage(screen);
+    } else if (pageNo == 3) {
+      return emailAndPassword(screen);
+    }
+  }
+
   bool showLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    Screen screen = Screen(context);
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -455,9 +586,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       //     alignment: Alignment.topCenter,
       //   ),
       // ),
-      child: ModalProgressHUD(
-          inAsyncCall: showLoading,
-          child: changePage ? emailAndPassword(screen) : detailPage(screen)),
+      child: ModalProgressHUD(inAsyncCall: showLoading, child: changePageNo()),
     );
   }
 }

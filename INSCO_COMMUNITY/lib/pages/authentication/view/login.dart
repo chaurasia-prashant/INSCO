@@ -1,4 +1,5 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/pages/accountSettings/reset_password.dart';
 import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/widget/text_field.dart';
@@ -154,8 +155,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                         ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ResetPassword()));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'Forget passwor?',
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ),
                         SizedBox(
-                          height: screen.vertical(70),
+                          height: screen.vertical(30),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -9,8 +9,6 @@ final storageRef = FirebaseStorage.instance.ref();
 final postsRef = FirebaseFirestore.instance.collection("gallery");
 
 class Upload extends StatefulWidget {
-  Upload({Key key}) : super(key: key);
-
   @override
   _UploadState createState() => _UploadState();
 }
@@ -31,7 +29,6 @@ class _UploadState extends State<Upload>
       print('file piclked');
     });
   }
-
 
   clearImage() {
     setState(() {
@@ -69,11 +66,11 @@ class _UploadState extends State<Upload>
       description: captionController.text,
     );
     captionController.clear();
-    setState(() {
+    setState(() async {
       file = null;
       isUploading = false;
       postId = Uuid().v4();
-      Future.delayed(const Duration(milliseconds: 250));
+      await Future.delayed(const Duration(milliseconds: 500));
       Navigator.pop(context);
     });
   }
@@ -84,14 +81,17 @@ class _UploadState extends State<Upload>
         backgroundColor: Colors.white70,
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: clearImage),
+            onPressed: () {
+              Navigator.pop(context);
+              clearImage();
+            }),
         title: Text(
           "About Post",
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           GestureDetector(
-            onTap: file == null ? handleChooseFromGallery() : null,
+            onTap: file == null ? handleChooseFromGallery : null,
             child: Container(
               child: Icon(Icons.add_a_photo),
             ),
@@ -111,7 +111,9 @@ class _UploadState extends State<Upload>
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: file == null ? AssetImage("./assets/images/avtar.png") : FileImage(file),
+                      image: file == null
+                          ? AssetImage("./assets/images/avtar.png")
+                          : FileImage(file),
                     ),
                   ),
                 ),
@@ -136,7 +138,7 @@ class _UploadState extends State<Upload>
           ),
           Divider(),
           RaisedButton(
-            onPressed: isUploading ? null : () => handleSubmit(),
+            onPressed: isUploading ? null : handleSubmit,
             child: Text('Upload'),
           ),
         ],
@@ -153,9 +155,6 @@ class _UploadState extends State<Upload>
     return buildUploadForm();
   }
 }
-
-
-
 
 // actions: [GestureDetector(
 //            onTap: () async {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/pages/gallery/upload.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -129,12 +130,12 @@ class _EditProfileState extends State<EditProfile> {
         title: Center(child: Text("Profile")),
         automaticallyImplyLeading: true,
         backgroundColor: Colour.buttonColor,
-        actions: [
-          GestureDetector(
-            onTap: () {},
-            child: Icon(Icons.done),
-          )
-        ],
+        // actions: [
+        //   GestureDetector(
+        //     onTap: () {},
+        //     child: Icon(Icons.done),
+        //   )
+        // ],
       ),
       body: ListView(
         children: <Widget>[
@@ -152,7 +153,9 @@ class _EditProfileState extends State<EditProfile> {
                             radius: 70.0,
                             backgroundColor: Colour.buttonColor,
                             backgroundImage: file == null
-                                ? AssetImage("./assets/images/avtar.png")
+                                ? currentUser.photoUrl == ''
+                    ? AssetImage('./assets/images/avtar.png')
+                    : CachedNetworkImageProvider(currentUser.photoUrl)
                                 : FileImage(file)),
                         GestureDetector(
                             onTap: handleChooseFromGallery,

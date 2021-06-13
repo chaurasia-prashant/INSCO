@@ -67,12 +67,6 @@ class _PrivacyState extends State<Privacy> {
         title: Center(child: Text("Privacy Update")),
         automaticallyImplyLeading: true,
         backgroundColor: Colour.buttonColor,
-        actions: [
-          GestureDetector(
-            onTap: () {},
-            child: Icon(Icons.done),
-          )
-        ],
       ),
       body: ListView(
         children: <Widget>[
@@ -129,7 +123,7 @@ class _PrivacyState extends State<Privacy> {
                           style: GoogleFonts.lato(
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
-                              color: Colour.tertioryColor),
+                              color: Colour.buttonColor),
                         ),
                       ),
                     ),
@@ -159,7 +153,7 @@ class _PrivacyState extends State<Privacy> {
                           style: GoogleFonts.lato(
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
-                              color: Colour.tertioryColor),
+                              color: Colour.buttonColor),
                         ),
                       ),
                     ),
@@ -176,6 +170,7 @@ class _PrivacyState extends State<Privacy> {
                     ),
                   ],
                 ),
+                SizedBox(height:30.0),
                 Center(
                   child: RaisedButton(
                     onPressed: () {

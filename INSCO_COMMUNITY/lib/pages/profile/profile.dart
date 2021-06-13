@@ -30,25 +30,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 backgroundColor: Colors.transparent,
                 backgroundImage: currentUser.photoUrl == ''
                     ? AssetImage('./assets/images/avtar.png')
-                    : CachedNetworkImage(imageUrl: currentUser.photoUrl),
+                    : CachedNetworkImageProvider(currentUser.photoUrl),
                 radius: 40.0,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    currentUser.username,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    currentUser.email,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      currentUser.username,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 25.0),
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      currentUser.email,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14.0),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -69,19 +71,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: () {
             // Here you can give your route to navigate
             Navigator.of(context).pop();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Privacy()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Privacy()));
           },
         ),
         ListTile(
           leading: Icon(Icons.settings),
           title: Text('Settings', style: TextStyle(fontSize: 18)),
           onTap: () {
-            // Here you can give your route to navigate
             Navigator.of(context).pop();
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => ResetPassword()));
           },
         ),
-
         ListTile(
           leading: Icon(Icons.logout),
           title: Text('Log Out', style: TextStyle(fontSize: 18)),
@@ -133,8 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: CircleAvatar(
                         radius: 70.0,
                         backgroundColor: Colour.primaryColor,
-                        backgroundImage:
-                            AssetImage("./assets/images/avtar.png")),
+                        backgroundImage: currentUser.photoUrl == ''
+                            ? AssetImage('./assets/images/avtar.png')
+                            : CachedNetworkImageProvider(currentUser.photoUrl)),
                   ),
                 ),
                 SizedBox(
@@ -228,13 +231,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0, top: 10.0),
-                  child: currentUser.workPlace == '' ? Text(
-                     'Not Updated',
-                    style: GoogleFonts.lato(fontSize: 15),
-                  ) : Text(
-                     currentUser.workPlace,
-                    style: GoogleFonts.lato(fontSize: 15),
-                  ),
+                  child: currentUser.workPlace == ''
+                      ? Text(
+                          'Not Updated',
+                          style: GoogleFonts.lato(fontSize: 15),
+                        )
+                      : Text(
+                          currentUser.workPlace,
+                          style: GoogleFonts.lato(fontSize: 15),
+                        ),
                 ),
                 SizedBox(
                   height: 40.0,

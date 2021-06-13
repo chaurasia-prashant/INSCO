@@ -26,7 +26,6 @@ class LocalStorage {
     prefs.setBool('isInscoMember', account.isInscoMember);
     prefs.setString('mobileNumber', account.mobileNumber);
     prefs.setString('workPlace', account.workPlace);
-    prefs.setBool('title', account.isEmailVerified);
     prefs.setBool('batch', account.isMobileNumberVerified);
     prefs.setBool('isInscoMember', account.showEmail);
     prefs.setBool('mobileNumber', account.showMobileNumber);
@@ -47,7 +46,6 @@ class LocalStorage {
     data['title'] = prefs.getString('title');
     data['mobileNumber'] = prefs.getString('mobileNumber');
     data['workPlace'] = prefs.getString('workPlace');
-    data['isEmailVerified'] = prefs.getBool('isEmailVerified');
     data['isMobileNumberVerified'] = prefs.getBool('isMobileNumberVerified');
     data['showEmail'] = prefs.getBool('showEmail');
     data['showMobileNumber'] = prefs.getBool('showMobileNumber');

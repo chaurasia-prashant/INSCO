@@ -9,7 +9,6 @@ class Account {
   String title;
   String mobileNumber;
   String workPlace;
-  bool isEmailVerified;
   bool isMobileNumberVerified;
   bool showEmail;
   bool showMobileNumber;
@@ -25,7 +24,6 @@ class Account {
     this.photoUrl,
     this.title,
     this.workPlace,
-    this.isEmailVerified,
     this.isMobileNumberVerified,
     this.showEmail,
     this.showMobileNumber,
@@ -42,7 +40,6 @@ class Account {
     title = json['title'];
     mobileNumber = json['mobileNumber'];
     workPlace = json['workPlace'];
-    isEmailVerified = json['isEmailVerified'];
     isMobileNumberVerified = json['isMobileNumberVerified'];
     showEmail = json['showEmail'];
     showMobileNumber = json['showMobileNumber'];
@@ -60,7 +57,6 @@ class Account {
     data['title'] = title;
     data['mobileNumber'] = mobileNumber == null ? '' : mobileNumber;
     data['workPlace'] = '';
-    data['isEmailVerified'] = false;
     data['isMobileNumberVerified'] = false;
     data['showEmail'] = false;
     data['showMobileNumber'] = false;
