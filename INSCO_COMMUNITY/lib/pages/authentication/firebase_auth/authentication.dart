@@ -14,7 +14,7 @@ class Authentication extends FirebaseAuthFunctions {
   @override
   createUserInFirebase(String email, String password) async {
     UserCredential newUser;
-    try {
+
       newUser = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       uid = auth.currentUser.uid;
@@ -24,9 +24,6 @@ class Authentication extends FirebaseAuthFunctions {
         }
         localStorage.prefs.setString('key', password);
       }
-    } catch (e) {
-      print(e);
-    }
     return newUser;
   }
 
@@ -43,7 +40,7 @@ class Authentication extends FirebaseAuthFunctions {
   @override
   loginUser(String email, String password) async {
     var user;
-    try {
+
       user = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (user != null) {
@@ -53,9 +50,6 @@ class Authentication extends FirebaseAuthFunctions {
         }
         await localStorage.prefs.setString('key', password);
       }
-    } catch (e) {
-      print(e);
-    }
     return user;
   }
 

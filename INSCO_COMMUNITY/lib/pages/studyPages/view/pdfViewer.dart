@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
@@ -30,6 +31,7 @@ class _ViewPdfState extends State<ViewPdf> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colour.buttonColor,
         title: Text(widget.nameId),
       ),
       body: Center(

@@ -76,15 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
         ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Settings', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            Navigator.of(context).pop();
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => ResetPassword()));
-          },
-        ),
-        ListTile(
           leading: Icon(Icons.logout),
           title: Text('Log Out', style: TextStyle(fontSize: 18)),
           onTap: () async {

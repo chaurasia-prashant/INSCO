@@ -19,7 +19,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController bioController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController workText = TextEditingController();
@@ -40,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
 
   getPreData() {
     bioController.text = currentUser.bio;
-    phoneNumberController.text = currentUser.mobileNumber.toString();
+    phoneNumberController.text = currentUser.mobileNumber;
     workText.text = currentUser.workPlace;
   }
 
@@ -54,12 +53,12 @@ class _EditProfileState extends State<EditProfile> {
           ? _worktextValid = false
           : _worktextValid = true;
 
-      phoneNumberController.text.trim().length >= 11
+      phoneNumberController.text.trim().length >= 10
           ? _phoneValid = true
           : _phoneValid = false;
     });
-    
-    if(file!= null){
+
+    if (file != null) {
       mediaUrl = await uploadImage(file);
     }
 
@@ -70,30 +69,20 @@ class _EditProfileState extends State<EditProfile> {
             .doc(currentUser.id)
             .update({
           "bio": bioController.text,
-          "mobileNumber": _phoneValid ? phoneNumberController.text : currentUser.mobileNumber,
+          "mobileNumber": _phoneValid
+              ? phoneNumberController.text
+              : currentUser.mobileNumber,
           "workPlace": workText.text,
           'photoUrl': file != null ? mediaUrl : currentUser.photoUrl,
-        }).whenComplete(() {
-          _scaffoldKey.currentState.showSnackBar(
-              snackbar(snackText: "Profile is Successfully Updated!"));
-          Future.delayed(const Duration(seconds: 1));
-          getUserData();
-          Navigator.pop(context);
+        }).whenComplete(() async {
+          showFlushBar(context, title: 'Profile Alert', message: "Profile update initiated and will updated in a moment !" );
         });
       } catch (e) {
-        _scaffoldKey.currentState
-            .showSnackBar(snackbar(snackText: "Something went Wrong!"));
+        showFlushBar(context, title: 'Profile Alert', message: e.message );
       }
     }
   }
 
-  SnackBar snackbar({String snackText}) {
-    return SnackBar(
-      content: Text(snackText),
-      backgroundColor: Colors.purple[300],
-      behavior: SnackBarBehavior.floating,
-    );
-  }
 
   handleChooseFromGallery() async {
     file = File(await ImagePicker.pickImage(source: ImageSource.gallery)
@@ -114,8 +103,7 @@ class _EditProfileState extends State<EditProfile> {
     UploadTask uploadTask = storageRef
         .child("profile/${currentUser.username}/profile_$postId.jpg")
         .putFile(imageFile);
-    TaskSnapshot storageSnap =
-        await uploadTask.whenComplete(() => debugPrint('task completed'));
+    TaskSnapshot storageSnap = await uploadTask;
     // TaskSnapshot storageSnap = await uploadTask.onComplete;
     String downloadUrl = await storageSnap.ref.getDownloadURL();
     return downloadUrl;
@@ -124,10 +112,9 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: Colour.primaryColor,
       appBar: AppBar(
-        title: Center(child: Text("Profile")),
+        title: Center(child: Text("Edit Profile")),
         automaticallyImplyLeading: true,
         backgroundColor: Colour.buttonColor,
         // actions: [
@@ -154,8 +141,9 @@ class _EditProfileState extends State<EditProfile> {
                             backgroundColor: Colour.buttonColor,
                             backgroundImage: file == null
                                 ? currentUser.photoUrl == ''
-                    ? AssetImage('./assets/images/avtar.png')
-                    : CachedNetworkImageProvider(currentUser.photoUrl)
+                                    ? AssetImage('./assets/images/avtar.png')
+                                    : CachedNetworkImageProvider(
+                                        currentUser.photoUrl)
                                 : FileImage(file)),
                         GestureDetector(
                             onTap: handleChooseFromGallery,
@@ -214,16 +202,22 @@ class _EditProfileState extends State<EditProfile> {
                     contentPadding: EdgeInsets.only(bottom: 3),
                     labelText: 'Whatshapp Contact',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Whatshapp contact no",
+                    hintText: phoneNumberController.text,
                     hintStyle:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
                   ),
                 ),
                 SizedBox(height: 5.0),
                 Text(
+                  "Plese enter a valid whatshapp number.",
+                  style: TextStyle(color: Colors.red[300], fontSize: 10.0),
+                ),
+                SizedBox(height: 5.0),
+                Text(
                   "Contact is not menadotry but it can be useful for communication and to reach any needy member to you.",
                   style: TextStyle(color: Colors.red[300], fontSize: 10.0),
                 ),
+                SizedBox(height: 30.0),
                 Center(
                   child: RaisedButton(
                     onPressed: () {
@@ -247,6 +241,8 @@ TextField buildTextField({
   TextEditingController controller,
 }) {
   return TextField(
+      minLines: 1,
+      maxLines: 4,
       controller: controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.only(bottom: 3),

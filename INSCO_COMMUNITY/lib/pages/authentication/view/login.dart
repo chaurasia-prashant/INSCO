@@ -11,8 +11,6 @@ import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-
 import '../../homepage.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,22 +19,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool showLoading = false;
-  String password;
   final formKey = GlobalKey<FormState>();
+  String password;
   String email;
+
+
+
   @override
   Widget build(BuildContext context) {
     Screen screen = Screen(context);
     return Container(
       width: double.infinity,
       height: double.infinity,
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //       fit: BoxFit.fill, image: AssetImage('./assets/images/bg.png')),
-      // ),
-      child: ModalProgressHUD(
-        inAsyncCall: showLoading,
         child: Form(
           key: formKey,
           child: Scaffold(
@@ -108,15 +102,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Login',
                           onPressed: () async {
                             if (formKey.currentState.validate()) {
-                              setState(() {
-                                showLoading = true;
-                              });
                               try {
-                                Authentication authentication =
+                                  Authentication authentication =
                                     Authentication();
-                                final user = await authentication.loginUser(
+                                    
+                                  final user = await authentication.loginUser(
                                     email, password);
-                                if (user != null) {
+                                  if (user != null) {
                                   final userid =
                                       FirebaseAuth.instance.currentUser.uid;
                                   final data = await FirebaseFirestore.instance
@@ -140,17 +132,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     (route) =>
                                         false, //if you want to disable back feature set to false
                                   );
-                                  setState(() {
-                                    showLoading = false;
-                                  });
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HomePage()));
-                                  debugPrint('Login');
+                                  // debugPrint('Login');
                                 }
                               } catch (e) {
-                                debugPrint('error is :${e.toString()}');
+                                
+                                setState(() {
+                                  showFlushBar(context,title: 'Login Alert!', message: e.message);
+                                });
                               }
                             }
                           },
@@ -163,10 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => ResetPassword()));
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Forget passwor?',
-                              textAlign: TextAlign.right,
+                            padding: const EdgeInsets.only(right:10.0, top:15.0),
+                            child: Container(
+                              child: Text(
+                                'Forget passwor?',
+                                textAlign: TextAlign.right,
+                              ),
                             ),
                           ),
                         ),
@@ -203,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
+
     );
   }
 }

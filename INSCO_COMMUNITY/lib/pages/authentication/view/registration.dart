@@ -6,6 +6,8 @@ import 'package:INSCO_COMMUNITY/widget/text_field.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/appStartPages/intro_page.dart';
 import 'package:email_auth/email_auth.dart';
+
+import 'package:flushbar/flushbar.dart';
 // import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 // import 'package:INSCO_COMMUNITY/helper/local_storage.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -17,6 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../homepage.dart';
+
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -26,7 +30,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -61,8 +64,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (res) {
       setState(() {
         emailVerifyButtonPressed = true;
+        showFlushBar(context, title: 'Registration Alert!',
+            message:
+                'An otp is send to your email, please check and verify your email.');
       });
     } else {
+      setState(() {
+        showFlushBar(context,title: 'Registration Alert!', message: 'Something went wrong');
+      });
     }
   }
 
@@ -75,8 +84,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         emailVerifyButtonPressed = false;
       });
     } else {
-
-      print('invalid otp');
+      setState(() {
+        showFlushBar(context,title: 'Registration Alert!', message: 'Enter otp is invalid');
+      });
     }
   }
 
@@ -547,6 +557,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             }
                           } catch (e) {
                             print(e.toString());
+                            setState(() {
+                              showFlushBar(context, title: 'Registration Alert!', message: e.message);
+                              showLoading = false;
+                            });
                           }
                         }
                       },

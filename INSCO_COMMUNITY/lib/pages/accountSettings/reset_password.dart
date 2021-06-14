@@ -5,6 +5,7 @@ import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/widget/text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -15,6 +16,19 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordState extends State<ResetPassword> {
   final formKey = GlobalKey<FormState>();
   String email;
+
+  void showFlushBar(BuildContext context, {String errorText}) => Flushbar(
+        title: 'Reset Alert!',
+        message: errorText,
+        icon: Icon(Icons.info_outline_rounded),
+        duration: Duration(seconds: 3),
+        flushbarPosition: FlushbarPosition.TOP,
+        borderRadius: 16,
+        barBlur: 20,
+        backgroundColor: Colors.black.withOpacity(0.5),
+        padding: EdgeInsets.all(10.0),
+      )..show(context);
+
   @override
   Widget build(BuildContext context) {
     Screen screen = Screen(context);
@@ -67,7 +81,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                               .sendPasswordResetEmail(email: email);
                           Navigator.pop(context);
                         } catch (e) {
-                          debugPrint('error is :${e.toString()}');
+                          print("error  caught by appp");
+                          setState(() {
+                            showFlushBar(context, errorText: e.message);
+                          });
                         }
                       }
                     }),
@@ -85,7 +102,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                       height: screen.vertical(2),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RailwayText(
