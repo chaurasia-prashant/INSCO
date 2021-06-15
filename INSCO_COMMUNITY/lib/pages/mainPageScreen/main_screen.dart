@@ -1,5 +1,9 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/buttons/main_page_button.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/edit_profile.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile.dart';
 import 'package:INSCO_COMMUNITY/pages/search/search.dart';
 import 'package:INSCO_COMMUNITY/pages/creators.dart';
@@ -9,8 +13,10 @@ import 'package:INSCO_COMMUNITY/pages/members/members.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
+import '../homepage.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -21,19 +27,92 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    getUserData();
   }
 
-
-// AppBar _customAppBar() => AppBar(
-//     title: Text('Profile'),
-//     automaticallyImplyLeading: true,
-//     backgroundColor: Colour.buttonColor,
-//     elevation: 0.0,
-//   );
-
-  // Drawer widget with Drawer property
-  
-
+  Drawer _customDrawer() => Drawer(
+          child: ListView(children: <Widget>[
+        DrawerHeader(
+          decoration: BoxDecoration(color: Colour.greyLight),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                backgroundImage: currentUser.photoUrl == ''
+                    ? AssetImage('./assets/images/avtar.png')
+                    : CachedNetworkImageProvider(currentUser.photoUrl),
+                radius: 40.0,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      currentUser.username,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 25.0),
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      currentUser.email,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14.0),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.edit_rounded),
+          title: Text('Edit profile', style: TextStyle(fontSize: 18)),
+          onTap: () {
+            // Here you can give your route to navigate
+            Navigator.of(context).pop();
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditProfile()));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.privacy_tip_rounded),
+          title: Text('Privacy', style: TextStyle(fontSize: 18)),
+          onTap: () {
+            // Here you can give your route to navigate
+            Navigator.of(context).pop();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Privacy()));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text('Log Out', style: TextStyle(fontSize: 18)),
+          onTap: () async {
+            Authentication authentication = Authentication();
+            await authentication.logoutUser();
+            Navigator.pushAndRemoveUntil<dynamic>(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => WelcomePage(),
+              ),
+              (route) =>
+                  false, //if you want to disable back feature set to false
+            );
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => WelcomePage()));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.arrow_back),
+          title: Text('Go back', style: TextStyle(fontSize: 18)),
+          onTap: () {
+            // Here you can give your route to navigate
+            Navigator.of(context).pop();
+          },
+        ),
+      ]));
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +132,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colour.secondaryColor,
       ),
       backgroundColor: Colour.primaryColor,
+      drawer: _customDrawer(),
       body: Column(
         children: [
           Expanded(
@@ -148,8 +228,7 @@ class NavigationButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => widScreen));
+        Navigator.push(context, CustomPageRoute(widget: widScreen));
       },
       child: Material(
         elevation: 5.0,

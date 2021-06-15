@@ -75,14 +75,19 @@ class _EditProfileState extends State<EditProfile> {
           "workPlace": workText.text,
           'photoUrl': file != null ? mediaUrl : currentUser.photoUrl,
         }).whenComplete(() async {
-          showFlushBar(context, title: 'Profile Alert', message: "Profile update initiated and will updated in a moment !" );
+          showFlushBar(context,
+              title: 'Profile Alert',
+              message:
+                  "Profile update initiated and will updated in a moment !");
+          setState(() {
+            getUserData();
+          });
         });
       } catch (e) {
-        showFlushBar(context, title: 'Profile Alert', message: e.message );
+        showFlushBar(context, title: 'Profile Alert', message: e.message);
       }
     }
   }
-
 
   handleChooseFromGallery() async {
     file = File(await ImagePicker.pickImage(source: ImageSource.gallery)
