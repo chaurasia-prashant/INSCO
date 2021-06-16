@@ -1,7 +1,6 @@
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/authStore/local_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
@@ -50,11 +49,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    initiationFirebase();
-  }
-
-  initiationFirebase() async {
-    await Firebase.initializeApp();
     getUserData();
   }
 

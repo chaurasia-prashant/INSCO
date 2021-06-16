@@ -3,6 +3,7 @@ import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/edit_profile.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -73,16 +74,14 @@ class _SettingsState extends State<Settings> {
           leading: Icon(Icons.edit_rounded),
           title: Text('Edit profile', style: TextStyle(fontSize: 18)),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditProfile()));
+            Navigator.push(context, CustomPageRoute(widget: EditProfile()));
           },
         ),
         ListTile(
           leading: Icon(Icons.privacy_tip_rounded),
           title: Text('Privacy', style: TextStyle(fontSize: 18)),
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Privacy()));
+            Navigator.push(context, CustomPageRoute(widget: Privacy()));
           },
         ),
         ListTile(
@@ -99,8 +98,7 @@ class _SettingsState extends State<Settings> {
               (route) =>
                   false, //if you want to disable back feature set to false
             );
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => WelcomePage()));
+            Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
           },
         ),
       ]),

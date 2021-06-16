@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:flutter/material.dart';
 
 class MainPageButton extends StatelessWidget {
@@ -16,8 +17,7 @@ class MainPageButton extends StatelessWidget {
     // final scale = Screen(context);
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => widScreen));
+        Navigator.push(context, CustomPageRoute(widget: widScreen));
       },
       child: Container(
           child: Column(children: [

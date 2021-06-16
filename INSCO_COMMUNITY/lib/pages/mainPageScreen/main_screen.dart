@@ -1,4 +1,5 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
@@ -15,6 +16,7 @@ import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../homepage.dart';
 
@@ -27,43 +29,52 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    getUserData();
   }
+  final user = FirebaseAuth.instance.currentUser;
 
   Drawer _customDrawer() => Drawer(
           child: ListView(children: <Widget>[
         DrawerHeader(
           decoration: BoxDecoration(color: Colour.greyLight),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: currentUser.photoUrl == ''
-                    ? AssetImage('./assets/images/avtar.png')
-                    : CachedNetworkImageProvider(currentUser.photoUrl),
-                radius: 40.0,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      currentUser.username,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 25.0),
+          child: FutureBuilder(
+        future: userRef.doc(user.uid).get(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator(),);
+          }
+          Account userData = Account.fromJson(snapshot.data.data());
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: userData.photoUrl == ''
+                        ? AssetImage('./assets/images/avtar.png')
+                        : CachedNetworkImageProvider(userData.photoUrl),
+                    radius: 40.0,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          userData.username,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25.0),
+                        ),
+                        SizedBox(height: 10.0),
+                        Text(
+                          userData.email,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14.0),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      currentUser.email,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14.0),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              );
+            }
           ),
         ),
         ListTile(
@@ -72,8 +83,7 @@ class _MainScreenState extends State<MainScreen> {
           onTap: () {
             // Here you can give your route to navigate
             Navigator.of(context).pop();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditProfile()));
+            Navigator.push(context, CustomPageRoute(widget: EditProfile()));
           },
         ),
         ListTile(
@@ -82,8 +92,7 @@ class _MainScreenState extends State<MainScreen> {
           onTap: () {
             // Here you can give your route to navigate
             Navigator.of(context).pop();
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Privacy()));
+            Navigator.push(context, CustomPageRoute(widget: Privacy()));
           },
         ),
         ListTile(
@@ -100,16 +109,7 @@ class _MainScreenState extends State<MainScreen> {
               (route) =>
                   false, //if you want to disable back feature set to false
             );
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => WelcomePage()));
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.arrow_back),
-          title: Text('Go back', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            // Here you can give your route to navigate
-            Navigator.of(context).pop();
+            Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
           },
         ),
       ]));
@@ -118,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: Center(
           child: Text(
             'INSCO',

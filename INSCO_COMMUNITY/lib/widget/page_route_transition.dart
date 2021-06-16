@@ -5,15 +5,24 @@ class CustomPageRoute extends PageRouteBuilder {
 
   CustomPageRoute({this.widget})
       : super(
-            transitionDuration: Duration(seconds: 2),
+            transitionDuration: Duration(milliseconds: 400),
             transitionsBuilder: (BuildContext context,
                 Animation<double> animation,
                 Animation<double> secAnimation,
                 Widget child) {
-              animation = CurvedAnimation(
-                  curve: Curves.elasticInOut, parent: animation);
-              return ScaleTransition(
-                  alignment: Alignment.center, scale: animation, child: child);
+              // animation = CurvedAnimation(
+              //     curve: Curves.linear , parent: animation);
+
+              //   return ScaleTransition(
+              //       alignment: Alignment.bottomCenter,
+              //       scale: animation,
+             //       child: child);
+
+              return new FadeTransition(
+                child: child,
+                opacity: animation,
+
+              );
             },
             pageBuilder: (
               BuildContext context,

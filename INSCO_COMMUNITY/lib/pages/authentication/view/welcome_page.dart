@@ -7,6 +7,7 @@ time.
 
 import 'package:INSCO_COMMUNITY/pages/authentication/view/login.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/registration.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -25,8 +26,7 @@ class _WelcomePageState extends State<WelcomePage> {
               color: Colors.blue,
               child: Text('Login'),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.push(context, CustomPageRoute(widget: LoginScreen()));
               },
             ),
             FlatButton(

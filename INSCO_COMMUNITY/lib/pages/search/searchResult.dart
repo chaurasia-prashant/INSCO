@@ -1,6 +1,7 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_to_other.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +9,16 @@ class UserResult extends StatelessWidget {
   final Account user;
   UserResult(this.user);
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileToOther(userId: user.id,)));
+        Navigator.push(
+            context,
+            CustomPageRoute(
+                widget: ProfileToOther(
+              userId: user.id,
+            )));
       },
       child: Container(
         child: Padding(
@@ -29,7 +33,7 @@ class UserResult extends StatelessWidget {
                 child: ListTile(
                   leading: Hero(
                     tag: 'id-${user.id}',
-                                      child: CircleAvatar(
+                    child: CircleAvatar(
                       radius: 30.0,
                       backgroundColor: Color(0xFFF3EBFC),
                       backgroundImage: user.photoUrl == ""

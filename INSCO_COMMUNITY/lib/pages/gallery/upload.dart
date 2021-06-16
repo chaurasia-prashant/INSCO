@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
+import '../homepage.dart';
+
 final storageRef = FirebaseStorage.instance.ref();
 final postsRef = FirebaseFirestore.instance.collection("gallery");
 
@@ -46,31 +48,27 @@ class _UploadState extends State<Upload>
     return downloadUrl;
   }
 
-  createPostInFirestore(
-      {String mediaUrl, String location, String description}) {
+  createPostInFirestore({String mediaUrl, String description}) {
     postsRef.doc(postId).set({
       "postId": postId,
       "mediaUrl": mediaUrl,
       "description": description,
+      "senderId": currentUser.id,
     });
   }
 
   handleSubmit() async {
-    setState(() {
-      isUploading = true;
-    });
     String mediaUrl = await uploadImage(file);
     createPostInFirestore(
       mediaUrl: mediaUrl,
-      location: locationController.text,
       description: captionController.text,
     );
     captionController.clear();
-    setState(() async {
+    setState(()  {
       file = null;
       isUploading = false;
       postId = Uuid().v4();
-      await Future.delayed(const Duration(milliseconds: 500));
+      // await Future.delayed(const Duration(milliseconds: 500));
       Navigator.pop(context);
     });
   }
@@ -138,7 +136,12 @@ class _UploadState extends State<Upload>
           ),
           Divider(),
           RaisedButton(
-            onPressed: isUploading ? null : handleSubmit,
+            onPressed: () {         
+                handleSubmit();
+                setState(() {
+                  isUploading = true;
+                });             
+            },
             child: Text('Upload'),
           ),
         ],
@@ -169,6 +172,6 @@ class _UploadState extends State<Upload>
 //                   false, //if you want to disable back feature set to false
 //             );
 //             Navigator.push(context,
-//                 MaterialPageRoute(builder: (context) => WelcomePage()));
+//                 CustomPageRoute(widget: WelcomePage()));
 //           },
 //           child: Icon(Icons.logout))],

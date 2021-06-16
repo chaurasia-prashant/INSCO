@@ -60,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //           // Here you can give your route to navigate
   //           Navigator.of(context).pop();
   //           Navigator.push(context,
-  //               MaterialPageRoute(builder: (context) => EditProfile()));
+  //               CustomPageRoute(widget: EditProfile()));
   //         },
   //       ),
   //       ListTile(
@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //           // Here you can give your route to navigate
   //           Navigator.of(context).pop();
   //           Navigator.push(
-  //               context, MaterialPageRoute(builder: (context) => Privacy()));
+  //               context, CustomPageRoute(widget: Privacy()));
   //         },
   //       ),
   //       ListTile(
@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //                 false, //if you want to disable back feature set to false
   //           );
   //           Navigator.push(context,
-  //               MaterialPageRoute(builder: (context) => WelcomePage()));
+  //               CustomPageRoute(widget: WelcomePage()));
   //         },
   //       ),
   //       ListTile(
@@ -134,12 +134,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
                       tag: 'id-${currentUser.id}',
-                                          child: CircleAvatar(
+                      child: CircleAvatar(
                           radius: 70.0,
                           backgroundColor: Colour.primaryColor,
                           backgroundImage: currentUser.photoUrl == ''
                               ? AssetImage('./assets/images/avtar.png')
-                              : CachedNetworkImageProvider(currentUser.photoUrl)),
+                              : CachedNetworkImageProvider(
+                                  currentUser.photoUrl)),
                     ),
                   ),
                 ),
