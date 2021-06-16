@@ -27,12 +27,14 @@ class _ProfileImageState extends State<ProfileImage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.contain,
-                      image:
-                          CachedNetworkImageProvider(widget.imageUrl),
+                child: Hero(
+                  tag: 'id-photoUrl',
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: CachedNetworkImageProvider(widget.imageUrl),
+                      ),
                     ),
                   ),
                 ),

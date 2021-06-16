@@ -1,4 +1,4 @@
-import 'package:INSCO_COMMUNITY/widget/one_image.dart';
+import 'package:INSCO_COMMUNITY/pages/gallery/one_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

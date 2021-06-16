@@ -1,6 +1,9 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/profile_image.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/profile_shimmer.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +34,7 @@ class _ProfileToOtherState extends State<ProfileToOther> {
   // @override
   // void initState() {
   //   super.initState();
-    
+
   // }
 
   profileBody() {
@@ -39,7 +42,7 @@ class _ProfileToOtherState extends State<ProfileToOther> {
         future: userRef.doc(widget.userId).get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator(),);
+            return ProfileShimmer();
           }
           Account memberData = Account.fromJson(snapshot.data.data());
           return Padding(
@@ -51,13 +54,29 @@ class _ProfileToOtherState extends State<ProfileToOther> {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
-                      tag: 'id-${widget.userId}',
-                                          child: CircleAvatar(
-                          radius: 70.0,
-                          backgroundColor: Colour.primaryColor,
-                          backgroundImage: memberData.photoUrl == ''
-                              ? AssetImage('./assets/images/avtar.png')
-                              : CachedNetworkImageProvider(memberData.photoUrl)),
+                      tag: 'id-photoUrl',
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CustomPageRoute(
+                              widget: ProfileImage(
+                                username: memberData.username,
+                                imageUrl: memberData.photoUrl == ''
+                                    ? './assets/images/avtar.png'
+                                    : memberData.photoUrl,
+                              ),
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                            radius: 70.0,
+                            backgroundColor: Colour.primaryColor,
+                            backgroundImage: memberData.photoUrl == ''
+                                ? AssetImage('./assets/images/avtar.png')
+                                : CachedNetworkImageProvider(
+                                    memberData.photoUrl)),
+                      ),
                     ),
                   ),
                 ),

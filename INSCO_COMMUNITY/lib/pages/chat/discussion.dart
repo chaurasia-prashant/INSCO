@@ -138,7 +138,7 @@ class MessageStream extends StatelessWidget {
           MessageBox msgs = MessageBox(message);
           int now = DateTime.now().day;
           if (message.isVisibal) {
-            if ((now - message.msgTime.toDate().day) >= 1) {
+            if ((now - message.msgTime.toDate().day) >= 30) {
               FirebaseFirestore.instance
                   .collection('messages')
                   .doc(message.msgId)

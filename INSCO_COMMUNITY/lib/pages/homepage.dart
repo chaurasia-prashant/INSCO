@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final userRef = FirebaseFirestore.instance.collection("accounts");
 
+
 Account currentUser;
 
 getUserData() async {

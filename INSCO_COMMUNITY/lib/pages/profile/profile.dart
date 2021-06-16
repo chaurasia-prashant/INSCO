@@ -1,5 +1,8 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
-import 'package:INSCO_COMMUNITY/pages/settings/settings.dart';
+import 'package:INSCO_COMMUNITY/modal/account.dart';
+import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/profile_image.dart';
+import 'package:INSCO_COMMUNITY/pages/profile/profile_shimmer.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -101,30 +104,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //       ),
   //     ]));
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colour.primaryColor,
-      appBar: AppBar(
-        title: Center(child: Text("Profile")),
-        automaticallyImplyLeading: true,
-        backgroundColor: Colour.buttonColor,
-        // actions: [
-        //   GestureDetector(
-        //     onTap: (){
-        //       Navigator.push(context,
-        //          CustomPageRoute(widget: Settings()));
-        //     },
-        //     child: Container(
-        //       child: Icon(Icons.settings),
-        //     ),
-        //   ),
-        // ],
-      ),
-      // endDrawer: _customDrawer(),
-      body: ListView(
-        children: <Widget>[
-          Padding(
+  profileBody() {
+    return FutureBuilder(
+        future: userRef.doc(user.uid).get(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return ProfileShimmer();
+          }
+          Account currentUser = Account.fromJson(snapshot.data.data());
+          return Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,14 +121,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
-                      tag: 'id-${currentUser.id}',
-                      child: CircleAvatar(
-                          radius: 70.0,
-                          backgroundColor: Colour.primaryColor,
-                          backgroundImage: currentUser.photoUrl == ''
-                              ? AssetImage('./assets/images/avtar.png')
-                              : CachedNetworkImageProvider(
-                                  currentUser.photoUrl)),
+                      tag: 'id-photoUrl',
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CustomPageRoute(
+                              widget: ProfileImage(
+                                username: currentUser.username,
+                                imageUrl: currentUser.photoUrl == ''
+                                    ? './assets/images/avtar.png'
+                                    : currentUser.photoUrl,
+                              ),
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                            radius: 70.0,
+                            backgroundColor: Colour.primaryColor,
+                            backgroundImage: currentUser.photoUrl == ''
+                                ? AssetImage('./assets/images/avtar.png')
+                                : CachedNetworkImageProvider(
+                                    currentUser.photoUrl)),
+                      ),
                     ),
                   ),
                 ),
@@ -279,7 +282,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               ],
             ),
-          )
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colour.primaryColor,
+      appBar: AppBar(
+        title: Center(child: Text("Profile")),
+        automaticallyImplyLeading: true,
+        backgroundColor: Colour.buttonColor,
+      ),
+      body: ListView(
+        children: <Widget>[
+          profileBody(),
         ],
       ),
     );

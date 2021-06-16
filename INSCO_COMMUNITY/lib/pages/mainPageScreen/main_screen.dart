@@ -16,9 +16,12 @@ import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../homepage.dart';
+
+final user = FirebaseAuth.instance.currentUser;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -29,53 +32,63 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    currentUserData();
   }
-  final user = FirebaseAuth.instance.currentUser;
+
+  Future<DocumentSnapshot> _userData;
+
+  currentUserData() async {
+    DocumentSnapshot currentuser = await userRef.doc(user.uid).get();
+    setState(() {
+      _userData = currentuser as Future<DocumentSnapshot>;
+    });
+  }
 
   Drawer _customDrawer() => Drawer(
           child: ListView(children: <Widget>[
         DrawerHeader(
           decoration: BoxDecoration(color: Colour.greyLight),
           child: FutureBuilder(
-        future: userRef.doc(user.uid).get(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator(),);
-          }
-          Account userData = Account.fromJson(snapshot.data.data());
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: userData.photoUrl == ''
-                        ? AssetImage('./assets/images/avtar.png')
-                        : CachedNetworkImageProvider(userData.photoUrl),
-                    radius: 40.0,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          userData.username,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                        SizedBox(height: 10.0),
-                        Text(
-                          userData.email,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14.0),
-                        ),
-                      ],
+              future: _userData,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                Account userData = Account.fromJson(snapshot.data.data());
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: userData.photoUrl == ''
+                          ? AssetImage('./assets/images/avtar.png')
+                          : CachedNetworkImageProvider(userData.photoUrl),
+                      radius: 40.0,
                     ),
-                  )
-                ],
-              );
-            }
-          ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            userData.username,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25.0),
+                          ),
+                          SizedBox(height: 10.0),
+                          Text(
+                            userData.email,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14.0),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }),
         ),
         ListTile(
           leading: Icon(Icons.edit_rounded),
@@ -119,6 +132,14 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         // automaticallyImplyLeading: false,
+        // actions: [
+        //   GestureDetector(
+        //     onTap: (){
+        //       Navigator.push(context, CustomPageRoute(widget: ProfileShimmer()));
+        //     },
+        //     child: Icon(Icons.settings),
+        //   ),
+        // ],
         title: Center(
           child: Text(
             'INSCO',
