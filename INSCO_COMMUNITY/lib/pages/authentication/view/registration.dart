@@ -64,13 +64,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (res) {
       setState(() {
         emailVerifyButtonPressed = true;
-        showFlushBar(context, title: 'Registration Alert!',
+        showFlushBar(context,
+            title: 'Registration Alert!',
             message:
                 'An otp is send to your email, please check and verify your email.');
       });
     } else {
       setState(() {
-        showFlushBar(context,title: 'Registration Alert!', message: 'Something went wrong');
+        showFlushBar(context,
+            title: 'Registration Alert!', message: 'Something went wrong');
       });
     }
   }
@@ -85,11 +87,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
     } else {
       setState(() {
-        showFlushBar(context,title: 'Registration Alert!', message: 'Enter otp is invalid');
+        showFlushBar(context,
+            title: 'Registration Alert!', message: 'Enter otp is invalid');
       });
     }
   }
-
 
   Scaffold detailPage(screen) {
     return Scaffold(
@@ -109,7 +111,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   physics: BouncingScrollPhysics(),
                   children: [
                     SizedBox(
-                      height: screen.vertical(140.0),
+                      height: screen.vertical(50.0),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,6 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               size: screen.horizontal(8.0),
                             ),
                             onPressed: () {
+                              Navigator.pop(context);
                               /*
                               this code is for testing
                               LocalStorage localStorage = LocalStorage();
@@ -147,7 +150,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       size: 25,
                     ),
                     SizedBox(
-                      height: screen.vertical(45.0),
+                      height: screen.vertical(20.0),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -558,7 +561,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           } catch (e) {
                             print(e.toString());
                             setState(() {
-                              showFlushBar(context, title: 'Registration Alert!', message: e.message);
+                              showFlushBar(context,
+                                  title: 'Registration Alert!',
+                                  message: e.message);
                               showLoading = false;
                             });
                           }

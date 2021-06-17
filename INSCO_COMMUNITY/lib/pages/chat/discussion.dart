@@ -6,7 +6,6 @@ import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 final _firestore = FirebaseFirestore.instance;
 
 class DiscussionScreen extends StatefulWidget {
@@ -125,8 +124,14 @@ class MessageStream extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colour.buttonColor,
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+              color: Colour.primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: CircularProgressIndicator(),
+              ),
             ),
           );
         }
@@ -143,12 +148,11 @@ class MessageStream extends StatelessWidget {
                   .collection('messages')
                   .doc(message.msgId)
                   .update({
-                    'isVisibal': false,
-                  });
-            }else {
+                'isVisibal': false,
+              });
+            } else {
               messageWidgets.add(msgs);
             }
-            
           }
         });
         return Expanded(
@@ -175,51 +179,78 @@ class MessageBox extends StatelessWidget {
             ? CrossAxisAlignment.end
             : CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding:
-                const EdgeInsets.only(bottom: 3.0, right: 15.0, left: 5.0),
-            child: Text(
-              message.sender,
-              style: GoogleFonts.lato(fontSize: 10.0),
-            ),
-          ),
+          currentUser.username != message.sender
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 3.0, right: 15.0, left: 5.0),
+                  child: Text(
+                    message.sender,
+                    style: GoogleFonts.lato(fontSize: 10.0),
+                  ),
+                )
+              : Text(''),
           Padding(
             padding: currentUser.username == message.sender
                 ? EdgeInsets.only(right: 15.0, left: 60.0)
                 : EdgeInsets.only(right: 60.0, left: 5.0),
             child: GestureDetector(
               onLongPress: () {
-                if (currentUser.username == message.sender) {
-                  showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                            color: Colors.deepOrange,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                new Wrap(children: <Widget>[
-                                  new ListTile(
-                                      leading: new Icon(
-                                        Icons.delete,
-                                        color: Colors.white,
-                                      ),
-                                      title: new Text(
-                                        'Delete',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onTap: () {
-                                        _firestore
-                                            .collection('messages')
-                                            .doc(message.msgId)
-                                            .delete();
-                                        Navigator.pop(context);
-                                      })
-                                ]),
-                              ],
-                            ));
-                      });
+                int timegap =
+                    DateTime.now().difference(message.msgTime.toDate()).inMinutes;
+                print("timegap is : $timegap");
+                if (currentUser.username != message.sender) {
+                  if (timegap < 6) {
+                    showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                              color: Colour.buttonColor,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  new Wrap(children: <Widget>[
+                                    new ListTile(
+                                        leading: new Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                        ),
+                                        title: new Text(
+                                          'Delete',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onTap: () {
+                                          try {
+                                            _firestore
+                                                .collection('messages')
+                                                .doc(message.msgId)
+                                                .delete();
+                                            Navigator.pop(context);
+                                          } catch (e) {}
+                                        })
+                                  ]),
+                                ],
+                              ));
+                        });
+                  } else {
+                    showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 50,
+                            color: Colour.buttonColor,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Cannot delete post after 5 minutes",
+                                  style: TextStyle(color: Colour.primaryColor),
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  }
                 }
               },
               child: Column(
@@ -255,8 +286,7 @@ class MessageBox extends StatelessWidget {
                         ? (message.msgId == null
                             ? Icon(Icons.dangerous,
                                 color: Colors.red, size: 12.0)
-                            : Icon(Icons.check,
-                                size: 12.0))
+                            : Icon(Icons.check, size: 12.0))
                         : Text(''),
                   ),
                 ],

@@ -120,30 +120,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: Hero(
-                      tag: 'id-photoUrl',
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CustomPageRoute(
-                              widget: ProfileImage(
-                                username: currentUser.username,
-                                imageUrl: currentUser.photoUrl == ''
-                                    ? './assets/images/avtar.png'
-                                    : currentUser.photoUrl,
-                              ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CustomPageRoute(
+                            widget: ProfileImage(
+                              username: currentUser.username,
+                              imageUrl: currentUser.photoUrl == ''
+                                  ? './assets/images/avtar.png'
+                                  : currentUser.photoUrl,
                             ),
-                          );
-                        },
-                        child: CircleAvatar(
-                            radius: 70.0,
-                            backgroundColor: Colour.primaryColor,
-                            backgroundImage: currentUser.photoUrl == ''
-                                ? AssetImage('./assets/images/avtar.png')
-                                : CachedNetworkImageProvider(
-                                    currentUser.photoUrl)),
-                      ),
+                          ),
+                        );
+                      },
+                      child: CircleAvatar(
+                          radius: 70.0,
+                          backgroundColor: Colour.primaryColor,
+                          backgroundImage: currentUser.photoUrl == ''
+                              ? AssetImage('./assets/images/avtar.png')
+                              : CachedNetworkImageProvider(
+                                  currentUser.photoUrl)),
                     ),
                   ),
                 ),
@@ -291,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colour.primaryColor,
       appBar: AppBar(
-        title: Center(child: Text("Profile")),
+        title: Text("Profile"),
         automaticallyImplyLeading: true,
         backgroundColor: Colour.buttonColor,
       ),

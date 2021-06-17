@@ -1,5 +1,6 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/widgets/pdf_widget.dart';
+import 'package:INSCO_COMMUNITY/pages/studyPages/widgets/study_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,7 +34,7 @@ class _NotesPageState extends State<NotesPage> {
 
   buildSyllabus() {
     if (pdfDoc == null) {
-      return Center(child: CircularProgressIndicator());
+      return StudyShimmer();
     } else {
       return ListView(
         children: pdfDoc,

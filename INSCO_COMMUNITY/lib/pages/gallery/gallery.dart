@@ -1,9 +1,9 @@
+import 'package:INSCO_COMMUNITY/pages/gallery/gallery_shimmer.dart';
 import 'package:INSCO_COMMUNITY/pages/gallery/one_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/image.dart';
 import 'package:INSCO_COMMUNITY/pages/gallery/upload.dart';
@@ -35,11 +35,7 @@ class _GalleryPageState extends State<GalleryPage> {
             stream: postsRef.orderBy('postId', descending: true).snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colour.buttonColor,
-                  ),
-                );
+                return GalleryShimmer();
               }
               List images = [];
               snapshot.data.docs.forEach((doc) {
@@ -80,14 +76,17 @@ class ImageCard extends StatelessWidget {
             )));
         // print(imagedata.mediaUrl);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: CachedNetworkImageProvider(imagedata.mediaUrl),
+      child: Hero(
+        tag: 'gallery-${imagedata.postId}',
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(imagedata.mediaUrl),
+            ),
           ),
         ),
       ),

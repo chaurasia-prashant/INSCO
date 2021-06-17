@@ -20,6 +20,7 @@ class LocalStorage {
     prefs.setString('email', account.email);
     prefs.setString('username', account.username);
     prefs.setString('photoUrl', account.photoUrl);
+    prefs.setString('photoId', account.photoId);
     prefs.setString('bio', account.bio);
     prefs.setString('title', account.title);
     prefs.setInt('batch', account.batch);
@@ -40,6 +41,7 @@ class LocalStorage {
     data['username'] = prefs.getString('username');
     data['email'] = prefs.getString('email');
     data['photoUrl'] = prefs.getString('photoUrl');
+    data['photoId'] = prefs.getString('photoId');
     data['bio'] = prefs.getString('bio');
     data['batch'] = prefs.getInt('batch');
     data['isInscoMember'] = prefs.getBool('isInscoMember');
@@ -49,7 +51,6 @@ class LocalStorage {
     data['isMobileNumberVerified'] = prefs.getBool('isMobileNumberVerified');
     data['showEmail'] = prefs.getBool('showEmail');
     data['showMobileNumber'] = prefs.getBool('showMobileNumber');
-
 
     return Account.fromJson(data);
   }

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:image/image.dart' as Im;
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/pages/gallery/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../homepage.dart';
@@ -23,13 +25,14 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController workText = TextEditingController();
 
-  bool isLoading = false;
-  bool _bioValid = false;
+  bool showLoading = false;
+  bool _bioValid = true;
   bool _phoneValid = true;
-  bool _worktextValid = false;
+  bool _worktextValid = true;
   File file;
   String postId = Uuid().v4();
   String mediaUrl;
+  String prePhotoId;
 
   @override
   void initState() {
@@ -41,29 +44,34 @@ class _EditProfileState extends State<EditProfile> {
     bioController.text = currentUser.bio;
     phoneNumberController.text = currentUser.mobileNumber;
     workText.text = currentUser.workPlace;
+    prePhotoId = currentUser.photoId;
   }
 
   void updateProfileData() async {
     setState(() {
-      bioController.text.trim().length > 100
-          ? _bioValid = false
-          : _bioValid = true;
+      bioController.text.trim().length < 100
+          ? _bioValid = true
+          : _bioValid = false;
 
-      workText.text.trim().length > 100
-          ? _worktextValid = false
-          : _worktextValid = true;
+      workText.text.trim().length < 100
+          ? _worktextValid = true
+          : _worktextValid = false;
 
-      phoneNumberController.text.trim().length >= 10
+      phoneNumberController.text.trim().length == 10 ||
+              phoneNumberController.text.trim().length == 0
           ? _phoneValid = true
           : _phoneValid = false;
     });
 
-    if (file != null) {
-      mediaUrl = await uploadImage(file);
-    }
-
-    if (_bioValid && _worktextValid) {
+    if (_bioValid && _worktextValid && _phoneValid) {
       try {
+        setState(() {
+          showLoading = true;
+        });
+        if (file != null) {
+          await compressImage();
+          mediaUrl = await uploadImage(file);
+        }
         FirebaseFirestore.instance
             .collection('accounts')
             .doc(currentUser.id)
@@ -74,18 +82,30 @@ class _EditProfileState extends State<EditProfile> {
               : currentUser.mobileNumber,
           "workPlace": workText.text,
           'photoUrl': file != null ? mediaUrl : currentUser.photoUrl,
+          'photoId': postId,
         }).whenComplete(() async {
-          showFlushBar(context,
-              title: 'Profile Alert',
-              message:
-                  "Profile update initiated and will updated in a moment !");
           setState(() {
+            showFlushBar(context,
+                title: 'Profile Alert',
+                message:
+                    "Profile update initiated and will updated in a moment !");
+            showLoading = false;
             getUserData();
           });
         });
       } catch (e) {
-        showFlushBar(context, title: 'Profile Alert', message: e.message);
+        setState(() {
+          showFlushBar(context, title: 'Profile Alert', message: e.message);
+          showLoading = false;
+        });
       }
+    } else {
+      setState(() {
+        showFlushBar(context,
+            title: 'Profile Alert',
+            message:
+                'Entered Information is not accepted\nAbout and Work info must have less then 100 letters\nPhone number must have 10 digits');
+      });
     }
   }
 
@@ -101,6 +121,17 @@ class _EditProfileState extends State<EditProfile> {
   clearImage() {
     setState(() {
       file = null;
+    });
+  }
+
+  compressImage() async {
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    Im.Image imageFile = Im.decodeImage(file.readAsBytesSync());
+    final compressedImageFile = File('$path/img_$postId.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(imageFile, quality: 85));
+    setState(() {
+      file = compressedImageFile;
     });
   }
 
@@ -138,23 +169,47 @@ class _EditProfileState extends State<EditProfile> {
               children: <Widget>[
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Stack(
                       children: [
-                        CircleAvatar(
-                            radius: 70.0,
-                            backgroundColor: Colour.buttonColor,
-                            backgroundImage: file == null
-                                ? currentUser.photoUrl == ''
-                                    ? AssetImage('./assets/images/avtar.png')
-                                    : CachedNetworkImageProvider(
-                                        currentUser.photoUrl)
-                                : FileImage(file)),
-                        GestureDetector(
-                            onTap: handleChooseFromGallery,
-                            child: Icon(
-                              Icons.add_a_photo_rounded,
-                            )),
+                        Material(
+                          color: Colour.primaryColor,
+                          elevation: 10.0,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(100.0)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: CircleAvatar(
+                                radius: 70.0,
+                                backgroundColor: Colour.primaryColor,
+                                backgroundImage: file == null
+                                    ? currentUser.photoUrl == ''
+                                        ? AssetImage(
+                                            './assets/images/avtar.png')
+                                        : CachedNetworkImageProvider(
+                                            currentUser.photoUrl)
+                                    : FileImage(file)),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                              onTap: handleChooseFromGallery,
+                              child: Material(
+                                color: Colour.buttonColor,
+                                elevation: 10.0,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100.0)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.add_a_photo_rounded,
+                                    color: Colour.primaryColor,
+                                  ),
+                                ),
+                              )),
+                        ),
                       ],
                     ),
                   ),
@@ -224,12 +279,34 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 SizedBox(height: 30.0),
                 Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      updateProfileData();
-                    },
-                    child: Text('Update'),
-                  ),
+                  child: showLoading
+                      ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                            elevation: 8,
+                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            color: Colour.primaryColor,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: CircularProgressIndicator(),
+                            )),
+                      )
+                      : Material(
+                        color: Colour.buttonColor,
+                          elevation: 8.0,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(50.0)),
+                          child: GestureDetector(
+                            onTap: () {
+                              updateProfileData();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 30.0),
+                              child: Text('Update', style: TextStyle(color: Colour.primaryColor),),
+                            ),
+                          ),
+                        ),
                 ),
               ],
             ),

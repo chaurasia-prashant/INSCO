@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-
+import 'package:image/image.dart' as Im;
 import '../homepage.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
@@ -38,6 +39,17 @@ class _UploadState extends State<Upload>
     });
   }
 
+  compressImage() async {
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    Im.Image imageFile = Im.decodeImage(file.readAsBytesSync());
+    final compressedImageFile = File('$path/img_$postId.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(imageFile, quality: 85));
+    setState(() {
+      file = compressedImageFile;
+    });
+  }
+
   Future<String> uploadImage(imageFile) async {
     UploadTask uploadTask =
         storageRef.child("gallery/post_$postId.jpg").putFile(imageFile);
@@ -58,13 +70,14 @@ class _UploadState extends State<Upload>
   }
 
   handleSubmit() async {
+    await compressImage();
     String mediaUrl = await uploadImage(file);
     createPostInFirestore(
       mediaUrl: mediaUrl,
       description: captionController.text,
     );
     captionController.clear();
-    setState(()  {
+    setState(() {
       file = null;
       isUploading = false;
       postId = Uuid().v4();
@@ -136,11 +149,11 @@ class _UploadState extends State<Upload>
           ),
           Divider(),
           RaisedButton(
-            onPressed: () {         
-                handleSubmit();
-                setState(() {
-                  isUploading = true;
-                });             
+            onPressed: () {
+              handleSubmit();
+              setState(() {
+                isUploading = true;
+              });
             },
             child: Text('Upload'),
           ),

@@ -4,6 +4,7 @@ import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/buttons/main_page_button.dart';
+import 'package:INSCO_COMMUNITY/pages/mainPageScreen/drawer_shimmer.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/edit_profile.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile.dart';
 import 'package:INSCO_COMMUNITY/pages/search/search.dart';
@@ -11,14 +12,15 @@ import 'package:INSCO_COMMUNITY/pages/creators.dart';
 import 'package:INSCO_COMMUNITY/pages/gallery/gallery.dart';
 import 'package:INSCO_COMMUNITY/pages/history.dart';
 import 'package:INSCO_COMMUNITY/pages/members/members.dart';
+import 'package:INSCO_COMMUNITY/pages/settings/settings.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:INSCO_COMMUNITY/widget/search_shimmer.dart';
 import '../homepage.dart';
 
 final user = FirebaseAuth.instance.currentUser;
@@ -32,114 +34,116 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    currentUserData();
+    // currentUserData();
   }
 
-  Future<DocumentSnapshot> _userData;
+  // Future<QuerySnapshot> _userData;
 
-  currentUserData() async {
-    DocumentSnapshot currentuser = await userRef.doc(user.uid).get();
-    setState(() {
-      _userData = currentuser as Future<DocumentSnapshot>;
-    });
-  }
+  // currentUserData() {
+  //   Future<QuerySnapshot> currentuser =
+  //       userRef.where('id', isEqualTo: user.uid).get();
+  //   setState(() {
+  //     _userData = currentuser;
+  //   });
+  // }
 
-  Drawer _customDrawer() => Drawer(
-          child: ListView(children: <Widget>[
-        DrawerHeader(
-          decoration: BoxDecoration(color: Colour.greyLight),
-          child: FutureBuilder(
-              future: _userData,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                Account userData = Account.fromJson(snapshot.data.data());
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: userData.photoUrl == ''
-                          ? AssetImage('./assets/images/avtar.png')
-                          : CachedNetworkImageProvider(userData.photoUrl),
-                      radius: 40.0,
-                    ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            userData.username,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25.0),
-                          ),
-                          SizedBox(height: 10.0),
-                          Text(
-                            userData.email,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              }),
-        ),
-        ListTile(
-          leading: Icon(Icons.edit_rounded),
-          title: Text('Edit profile', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            // Here you can give your route to navigate
-            Navigator.of(context).pop();
-            Navigator.push(context, CustomPageRoute(widget: EditProfile()));
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.privacy_tip_rounded),
-          title: Text('Privacy', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            // Here you can give your route to navigate
-            Navigator.of(context).pop();
-            Navigator.push(context, CustomPageRoute(widget: Privacy()));
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Log Out', style: TextStyle(fontSize: 18)),
-          onTap: () async {
-            Authentication authentication = Authentication();
-            await authentication.logoutUser();
-            Navigator.pushAndRemoveUntil<dynamic>(
-              context,
-              MaterialPageRoute<dynamic>(
-                builder: (BuildContext context) => WelcomePage(),
-              ),
-              (route) =>
-                  false, //if you want to disable back feature set to false
-            );
-            Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
-          },
-        ),
-      ]));
+  // Drawer _customDrawer() => Drawer(
+  //         child: ListView(children: <Widget>[
+  //       DrawerHeader(
+  //         decoration: BoxDecoration(color: Colour.greyLight),
+  //         child: FutureBuilder(
+  //             future: userRef.doc(user.uid).get(),
+  //             builder: (context, snapshot) {
+  //               if (!snapshot.hasData) {
+  //                 return DrawerShimmer();
+  //               }
+  //               Account userData = Account.fromJson(snapshot.data.data());
+  //               return Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                 children: <Widget>[
+  //                   CircleAvatar(
+  //                     backgroundColor: Colors.transparent,
+  //                     backgroundImage: userData.photoUrl == ''
+  //                         ? AssetImage('./assets/images/avtar.png')
+  //                         : CachedNetworkImageProvider(userData.photoUrl),
+  //                     radius: 40.0,
+  //                   ),
+  //                   Expanded(
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.all(8.0),
+  //                       child: Column(
+  //                         mainAxisAlignment: MainAxisAlignment.center,
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //                         children: <Widget>[
+  //                           Text(
+  //                             userData.username,
+  //                             style: TextStyle(
+  //                                 fontWeight: FontWeight.bold, fontSize: 25.0),
+  //                           ),
+  //                           SizedBox(height: 10.0),
+  //                           Text(
+  //                             userData.email,
+  //                             style: TextStyle(
+  //                                 fontWeight: FontWeight.bold, fontSize: 14.0),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   )
+  //                 ],
+  //               );
+  //             }),
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.edit_rounded),
+  //         title: Text('Edit profile', style: TextStyle(fontSize: 18)),
+  //         onTap: () {
+  //           // Here you can give your route to navigate
+  //           Navigator.of(context).pop();
+  //           Navigator.push(context, CustomPageRoute(widget: EditProfile()));
+  //         },
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.privacy_tip_rounded),
+  //         title: Text('Privacy', style: TextStyle(fontSize: 18)),
+  //         onTap: () {
+  //           // Here you can give your route to navigate
+  //           Navigator.of(context).pop();
+  //           Navigator.push(context, CustomPageRoute(widget: Privacy()));
+  //         },
+  //       ),
+  //       ListTile(
+  //         leading: Icon(Icons.logout),
+  //         title: Text('Log Out', style: TextStyle(fontSize: 18)),
+  //         onTap: () async {
+  //           Authentication authentication = Authentication();
+  //           await authentication.logoutUser();
+  //           Navigator.pushAndRemoveUntil<dynamic>(
+  //             context,
+  //             MaterialPageRoute<dynamic>(
+  //               builder: (BuildContext context) => WelcomePage(),
+  //             ),
+  //             (route) =>
+  //                 false, //if you want to disable back feature set to false
+  //           );
+  //           Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
+  //         },
+  //       ),
+  //     ]));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
-        // actions: [
-        //   GestureDetector(
-        //     onTap: (){
-        //       Navigator.push(context, CustomPageRoute(widget: ProfileShimmer()));
-        //     },
-        //     child: Icon(Icons.settings),
-        //   ),
-        // ],
+        
+        actions: [
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context, CustomPageRoute(widget: Settings()));
+            },
+            child: Icon(Icons.settings),
+          ),
+        ],
         title: Center(
           child: Text(
             'INSCO',
@@ -153,7 +157,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colour.secondaryColor,
       ),
       backgroundColor: Colour.primaryColor,
-      drawer: _customDrawer(),
+      // drawer: _customDrawer(),
       body: Column(
         children: [
           Expanded(

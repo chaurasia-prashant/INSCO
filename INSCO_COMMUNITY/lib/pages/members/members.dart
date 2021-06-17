@@ -4,6 +4,9 @@ import 'package:INSCO_COMMUNITY/pages/members/membersResult.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:INSCO_COMMUNITY/widget/search_shimmer.dart';
+
+import '../homepage.dart';
 
 class MembersPage extends StatefulWidget {
   final String getYear;
@@ -56,9 +59,9 @@ class _MembersPageState extends State<MembersPage> {
       future: searchResultsFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return SearchShimmer();
         }
-
+        
         List<UserResult> searchResults = [];
         snapshot.data.docs.forEach((doc) {
           Account user = Account.fromJson(doc.data());
@@ -89,7 +92,7 @@ class _MembersPageState extends State<MembersPage> {
     ));
   }
 
-  int valueChose = 2018;
+  int valueChose = currentUser.batch != null ? currentUser.batch : 2018;
 
   dropdownBody() {
     return Container(
@@ -184,8 +187,6 @@ class _MembersPageState extends State<MembersPage> {
     );
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -206,7 +207,4 @@ class _MembersPageState extends State<MembersPage> {
       ),
     );
   }
-
 }
-
-

@@ -1,7 +1,9 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/pages/accountSettings/reset_password.dart';
+import 'package:INSCO_COMMUNITY/pages/authentication/view/registration.dart';
 import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/widget/font_text.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:INSCO_COMMUNITY/widget/text_field.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/authStore/local_storage.dart';
@@ -48,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       physics: BouncingScrollPhysics(),
                       children: [
                         SizedBox(
-                          height: screen.vertical(110),
+                          height: screen.vertical(50),
                         ),
                         LatoText(
                           'Welcome\nBack',
@@ -154,9 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => ResetPassword()));
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right:10.0, top:15.0),
-                            child: Container(
+                          child: Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right:10.0, top:15.0, bottom:10.0),
                               child: Text(
                                 'Forget passwor?',
                                 textAlign: TextAlign.right,
@@ -178,7 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: screen.vertical(2),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, CustomPageRoute(widget: RegistrationScreen()));
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: RailwayText(

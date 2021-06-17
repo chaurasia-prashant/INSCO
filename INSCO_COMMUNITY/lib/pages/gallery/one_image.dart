@@ -1,6 +1,7 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/image.dart';
 import 'package:INSCO_COMMUNITY/pages/gallery/upload.dart';
+import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _OneImageState extends State<OneImage> {
     Widget continueButton = FlatButton(
       child: Text("Yes"),
       onPressed: () {
-        Navigator.pop(context);        
+        Navigator.pop(context);
         deletePost();
       },
     );
@@ -56,15 +57,15 @@ class _OneImageState extends State<OneImage> {
 
   Future<void> deletePost() async {
     setState(() {
-          showLoading = true;
+      showLoading = true;
     });
     await _firestore.collection('gallery').doc(widget.imageUrl.postId).delete();
-    // await storageRef.child("post_${widget.imageUrl.postId}.jpg").delete();
-    
+    await storageRef.child("gallery/post_${widget.imageUrl.postId}.jpg").delete();
+
     setState(() {
-          showLoading = false;
-        });
-        Navigator.pop(context);
+      showLoading = false;
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -74,15 +75,14 @@ class _OneImageState extends State<OneImage> {
         backgroundColor: Colour.greyLight,
         appBar: AppBar(
           backgroundColor: Colour.buttonColor,
-          actions: [
+          actions: widget.imageUrl.senderId == user.uid ? [
             GestureDetector(
               onTap: () {
                 showAlertDialog(context);
-                 
               },
               child: Container(child: Icon(Icons.delete)),
             ),
-          ],
+          ] : [Text('')],
         ),
         body: ModalProgressHUD(
           inAsyncCall: showLoading,
@@ -92,12 +92,15 @@ class _OneImageState extends State<OneImage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: CachedNetworkImageProvider(
-                            widget.imageUrl.mediaUrl),
+                  child: Hero(
+                    tag: 'gallery-${widget.imageUrl.postId}',
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: CachedNetworkImageProvider(
+                              widget.imageUrl.mediaUrl),
+                        ),
                       ),
                     ),
                   ),

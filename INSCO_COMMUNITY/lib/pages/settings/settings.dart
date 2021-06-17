@@ -15,6 +15,57 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        try {
+          Authentication authentication = Authentication();
+          await authentication.logoutUser();
+          Navigator.pushAndRemoveUntil<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => WelcomePage(),
+            ),
+            (route) => false, //if you want to disable back feature set to false
+          );
+          Navigator.pop(context);
+          Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
+        } catch (e) {
+          Navigator.pop(context);
+          setState(() {
+            showFlushBar(context, title: 'Logout Alert!', message: e.message);
+          });
+        }
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Log out !!!"),
+      content: Text("Sure to Log out from the device!!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +83,12 @@ class _SettingsState extends State<Settings> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Hero(
-                  tag: 'id-${currentUser.id}',
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: currentUser.photoUrl == ''
-                        ? AssetImage('./assets/images/avtar.png')
-                        : CachedNetworkImageProvider(currentUser.photoUrl),
-                    radius: 40.0,
-                  ),
+                CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: currentUser.photoUrl == ''
+                      ? AssetImage('./assets/images/avtar.png')
+                      : CachedNetworkImageProvider(currentUser.photoUrl),
+                  radius: 40.0,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
@@ -87,18 +135,8 @@ class _SettingsState extends State<Settings> {
         ListTile(
           leading: Icon(Icons.logout),
           title: Text('Log Out', style: TextStyle(fontSize: 18)),
-          onTap: () async {
-            Authentication authentication = Authentication();
-            await authentication.logoutUser();
-            Navigator.pushAndRemoveUntil<dynamic>(
-              context,
-              MaterialPageRoute<dynamic>(
-                builder: (BuildContext context) => WelcomePage(),
-              ),
-              (route) =>
-                  false, //if you want to disable back feature set to false
-            );
-            Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
+          onTap: () {
+            showAlertDialog(context);
           },
         ),
       ]),

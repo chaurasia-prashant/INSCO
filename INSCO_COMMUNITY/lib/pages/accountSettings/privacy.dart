@@ -14,12 +14,9 @@ class Privacy extends StatefulWidget {
 class _PrivacyState extends State<Privacy> {
   // TextEditingController otpController = TextEditingController();
 
-  bool isLoading = false;
+  bool showLoading = false;
   bool _showEmail;
   bool _showMobileNumber;
-  bool phoneVerifyButtonPressed = false;
-  String otp;
-  String verificationCode;
 
   @override
   void initState() {
@@ -27,13 +24,12 @@ class _PrivacyState extends State<Privacy> {
     getPreData();
   }
 
-
   getPreData() {
     _showEmail = currentUser.showEmail;
     _showMobileNumber = currentUser.showMobileNumber;
   }
 
-  void updatePrivicy() async {
+  void updatePrivicy() {
     try {
       FirebaseFirestore.instance
           .collection('accounts')
@@ -41,28 +37,21 @@ class _PrivacyState extends State<Privacy> {
           .update({
         'showEmail': _showEmail,
         'showMobileNumber': _showMobileNumber,
-      }).whenComplete(() async {
+      }).whenComplete(() {
         setState(() {
-          showFlushBar(context, title: 'Privacy Alert!',
+          showLoading = false;
+          showFlushBar(context,
+              title: 'Privacy Alert!',
               message: "Your privacy updated successfully!");
         });
       });
     } catch (e) {
       setState(() {
+        showLoading = false;
         showFlushBar(context, message: e.message);
       });
     }
   }
-
-  SnackBar snackbar({String snackText}) {
-    return SnackBar(
-      content: Text(snackText),
-      backgroundColor: Colors.purple[300],
-      behavior: SnackBarBehavior.floating,
-    );
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +70,15 @@ class _PrivacyState extends State<Privacy> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(
-                  height: 40.0,
-                ),              
-                RailwayText('Update your privacy for email and phone number.'),
+                  height: 10.0,
+                ),
+                RailwayText('Update your privacy for email and phone number.', weight: FontWeight.bold,),
                 SizedBox(
                   height: 15.0,
+                ),
+                RailwayText('Updating privacy allow to control visibility of email and phone number to other members'),
+                SizedBox(
+                  height: 60.0,
                 ),
                 Row(
                   children: [
@@ -146,12 +139,37 @@ class _PrivacyState extends State<Privacy> {
                 ),
                 SizedBox(height: 80.0),
                 Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      updatePrivicy();
-                    },
-                    child: Text('Update'),
-                  ),
+                  child: showLoading
+                      ? Material(
+                          elevation: 8,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(50.0)),
+                          color: Colour.primaryColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: CircularProgressIndicator(),
+                          ))
+                      : Material(
+                          color: Colour.buttonColor,
+                          elevation: 8.0,
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                showLoading = true;
+                              });
+                              updatePrivicy();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 30.0),
+                              child: Text(
+                                'Update',
+                                style: TextStyle(color: Colour.primaryColor),
+                              ),
+                            ),
+                          ),
+                        ),
                 ),
               ],
             ),

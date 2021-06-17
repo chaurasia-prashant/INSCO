@@ -51,7 +51,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       height: screen.vertical(60),
                     ),
                     RailwayText(
-                      'Enter email to reset password',
+                      'To reset your password please enter your email id',
                       fontColor: Colour.tertioryColor,
                       size: 18,
                     ),

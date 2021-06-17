@@ -54,7 +54,7 @@ class _ProfileToOtherState extends State<ProfileToOther> {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
-                      tag: 'id-photoUrl',
+                      tag: 'id-${widget.userId}',
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -230,7 +230,7 @@ class _ProfileToOtherState extends State<ProfileToOther> {
     return Scaffold(
       backgroundColor: Colour.primaryColor,
       appBar: AppBar(
-        title: Center(child: Text("Profile")),
+        title: Text("Profile"),
         automaticallyImplyLeading: true,
         backgroundColor: Colour.buttonColor,
       ),

@@ -7,6 +7,8 @@ time.
 
 import 'package:INSCO_COMMUNITY/pages/authentication/view/login.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/registration.dart';
+import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
+import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:flutter/material.dart';
 
@@ -21,24 +23,32 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlatButton(
-              color: Colors.blue,
-              child: Text('Login'),
-              onPressed: () {
-                Navigator.push(context, CustomPageRoute(widget: LoginScreen()));
-              },
+            RailwayText('Welcome To', size: 40.0, weight: FontWeight.bold,),
+            SizedBox(height: 50.0,),
+            RailwayText('INSCO COMMUNITY', size: 20.0, weight: FontWeight.bold,),
+            SizedBox(height: 30.0,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Button(
+                'Login',
+                onPressed: () {
+                  Navigator.push(context, CustomPageRoute(widget: LoginScreen()));
+                },),
             ),
-            FlatButton(
-              color: Colors.green,
-              child: Text('Sign Up'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RegistrationScreen()));
-              },
-            )
+              SizedBox(height: 15.0,),
+              RailwayText('OR', size: 10.0, weight: FontWeight.bold,),
+            SizedBox(height: 15.0,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Button(
+                'Sign Up',
+                onPressed: () {
+                  Navigator.push(context, CustomPageRoute(widget: RegistrationScreen()));
+                },),
+              ),
+            
           ],
         ),
       ),
