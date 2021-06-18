@@ -22,7 +22,7 @@ getUserData() async {
       // print(currentUser.batch);
     }
   } catch (e) {
-    print(e);
+    // print(e);
   }
 }
 
@@ -31,7 +31,7 @@ void showFlushBar(BuildContext context, {String title, String message}) =>
       title: title,
       message: message,
       icon: Icon(Icons.info_outline_rounded),
-      duration: Duration(seconds: 4),
+      duration: Duration(seconds: 3),
       flushbarPosition: FlushbarPosition.TOP,
       borderRadius: 16,
       barBlur: 20,

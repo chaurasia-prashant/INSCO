@@ -558,7 +558,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     .saveDataInFirebase(account);
                                 await authentication
                                     .saveDataInLocalStorage(account);
-                                debugPrint("All done");
+                                // debugPrint("All done");
                                 //TODO check here
                                 Navigator.pushAndRemoveUntil<dynamic>(
                                   context,
@@ -579,7 +579,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 });
                               }
                             } catch (e) {
-                              print(e.toString());
+                              // print(e.toString());
                               setState(() {
                                 showFlushBar(context,
                                     title: 'Registration Alert!',

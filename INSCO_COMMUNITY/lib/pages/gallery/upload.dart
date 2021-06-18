@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _UploadState extends State<Upload>
         .then((pickedFile) => pickedFile.path));
     setState(() {
       this.file = file;
-      print('file piclked');
+      // print('file piclked');
     });
   }
 
@@ -54,7 +55,7 @@ class _UploadState extends State<Upload>
     UploadTask uploadTask =
         storageRef.child("gallery/post_$postId.jpg").putFile(imageFile);
     TaskSnapshot storageSnap =
-        await uploadTask.whenComplete(() => debugPrint('task completed'));
+        await uploadTask;
     // TaskSnapshot storageSnap = await uploadTask.onComplete;
     String downloadUrl = await storageSnap.ref.getDownloadURL();
     return downloadUrl;
@@ -100,63 +101,95 @@ class _UploadState extends State<Upload>
           "About Post",
           style: TextStyle(color: Colors.black),
         ),
-        actions: [
-          GestureDetector(
-            onTap: file == null ? handleChooseFromGallery : null,
-            child: Container(
-              child: Icon(Icons.add_a_photo),
-            ),
-          )
-        ],
+        // actions: [
+        //   GestureDetector(
+        //     onTap: file == null ? handleChooseFromGallery : null,
+        //     child: Container(
+        //       child: Icon(Icons.add_a_photo),
+        //     ),
+        //   )
+        // ],
       ),
       body: ListView(
         children: <Widget>[
           isUploading ? LinearProgressIndicator() : Text(""),
-          Container(
-            height: 220.0,
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Center(
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: file == null
-                          ? AssetImage("./assets/images/avtar.png")
-                          : FileImage(file),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 300,
+              width: double.infinity,
+              child: file == null
+                  ? GestureDetector(
+                      onTap: file == null ? handleChooseFromGallery : null,
+                      child: Material(
+                        color: Colour.greyLight,
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Colour.buttonColor,
+                          size: 50.0,
+                        ),
+                      ))
+                  : Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: FileImage(file),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
           ),
-          SizedBox(height: 100.0),
-          Padding(
-            padding: EdgeInsets.only(top: 10.0),
-          ),
+          SizedBox(height: 40.0),
           ListTile(
             title: Container(
               width: 250.0,
               child: TextField(
+                minLines: 1,
+                maxLines: 4,
                 controller: captionController,
                 decoration: InputDecoration(
-                  hintText: "Tell about something.....",
+                  hintText: "Add caption to this post...",
                   border: InputBorder.none,
                 ),
               ),
             ),
           ),
-          Divider(),
-          RaisedButton(
-            onPressed: () {
-              handleSubmit();
-              setState(() {
-                isUploading = true;
-              });
-            },
-            child: Text('Upload'),
+          SizedBox(height: 50.0),
+          Center(
+            child: Material(
+              color: Colour.buttonColor,
+              elevation: 8.0,
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+              child: GestureDetector(
+                onTap: () {
+                  if (file != null) {
+                    handleSubmit();
+                    setState(() {
+                      isUploading = true;
+                    });
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12.0, horizontal: 50.0),
+                  child: Text(
+                    'Update',
+                    style: TextStyle(color: Colour.primaryColor),
+                  ),
+                ),
+              ),
+            ),
           ),
+          // RaisedButton(
+          //   onPressed: () {
+          //     handleSubmit();
+          //     setState(() {
+          //       isUploading = true;
+          //     });
+          //   },
+          //   child: Text('Upload'),
+          // ),
         ],
       ),
     );

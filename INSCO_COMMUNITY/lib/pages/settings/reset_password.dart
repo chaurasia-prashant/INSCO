@@ -81,7 +81,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               .sendPasswordResetEmail(email: email);
                           Navigator.pop(context);
                         } catch (e) {
-                          print("error  caught by appp");
+                          // print("error  caught by appp");
                           setState(() {
                             showFlushBar(context, errorText: e.message);
                           });

@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/widget/header.dart';
 import 'package:flutter/material.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -8,8 +9,15 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('HistoryPage'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('History'),
+        ),
+        body: Container(
+          child: Center(child: Text('HistoryPage')),
+        ),
+      ),
     );
   }
 }

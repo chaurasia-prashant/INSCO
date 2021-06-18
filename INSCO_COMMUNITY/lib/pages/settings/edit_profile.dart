@@ -114,7 +114,7 @@ class _EditProfileState extends State<EditProfile> {
         .then((pickedFile) => pickedFile.path));
     setState(() {
       this.file = file;
-      print('file piclked');
+      // print('file piclked');
     });
   }
 
