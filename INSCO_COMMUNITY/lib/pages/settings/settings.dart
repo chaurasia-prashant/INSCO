@@ -1,8 +1,8 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
-import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
+import 'package:INSCO_COMMUNITY/pages/settings/privacy.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
-import 'package:INSCO_COMMUNITY/pages/profile/edit_profile.dart';
+import 'package:INSCO_COMMUNITY/pages/settings/edit_profile.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -80,64 +80,55 @@ class _SettingsState extends State<Settings> {
           decoration: BoxDecoration(color: Colour.greyLight),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: currentUser.photoUrl == ''
-                      ? AssetImage('./assets/images/avtar.png')
-                      : CachedNetworkImageProvider(currentUser.photoUrl),
-                  radius: 40.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          currentUser.username,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Container(
-                        child: Text(
-                          currentUser.email,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14.0),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.white,
+                backgroundImage: currentUser.photoUrl == ''
+                    ? AssetImage('./assets/images/avtar.png')
+                    : CachedNetworkImageProvider(currentUser.photoUrl),
+                radius: 40.0,
+              ),
+              title: Text(
+                currentUser.username,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+              ),
+              subtitle: Text(
+                currentUser.email,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+              ),
             ),
           ),
         ),
-        ListTile(
-          leading: Icon(Icons.edit_rounded),
-          title: Text('Edit profile', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            Navigator.push(context, CustomPageRoute(widget: EditProfile()));
-          },
+        SizedBox(height: 20.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: ListTile(
+            leading: Icon(Icons.edit_rounded),
+            title: Text('Edit profile', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              Navigator.push(context, CustomPageRoute(widget: EditProfile()));
+            },
+          ),
         ),
-        ListTile(
-          leading: Icon(Icons.privacy_tip_rounded),
-          title: Text('Privacy', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            Navigator.push(context, CustomPageRoute(widget: Privacy()));
-          },
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: ListTile(
+            leading: Icon(Icons.privacy_tip_rounded),
+            title: Text('Privacy', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              Navigator.push(context, CustomPageRoute(widget: Privacy()));
+            },
+          ),
         ),
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Log Out', style: TextStyle(fontSize: 18)),
-          onTap: () {
-            showAlertDialog(context);
-          },
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Log Out', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              showAlertDialog(context);
+            },
+          ),
         ),
       ]),
     );

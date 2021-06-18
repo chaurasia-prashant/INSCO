@@ -3,6 +3,7 @@ import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_image.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_shimmer.dart';
+import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                       child: CircleAvatar(
                           radius: 70.0,
-                          backgroundColor: Colour.primaryColor,
+                          backgroundColor: Colour.greyLight,
                           backgroundImage: currentUser.photoUrl == ''
                               ? AssetImage('./assets/images/avtar.png')
                               : CachedNetworkImageProvider(
@@ -185,9 +186,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: GoogleFonts.lato(
                                 fontSize: 13, color: Colour.lineColor),
                           )
-                        : Text(
-                            currentUser.bio,
-                            style: GoogleFonts.lato(fontSize: 14),
+                        : Container(
+                            width: double.infinity,
+                            child: Material(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              color: Colour.greyLight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  currentUser.bio,
+                                  style: GoogleFonts.lato(fontSize: 14),
+                                ),
+                              ),
+                            ),
                           ),
                   ),
                 ),
@@ -213,9 +225,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: 15.0,
                 ),
-                Text(
-                  currentUser.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                Row(
+                  children: [
+                    Text(
+                      'Title',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: Text(
+                        currentUser.title,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Contact number  ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: Text(
+                        "+91${currentUser.mobileNumber}",
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 15.0,
@@ -234,49 +275,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25.0, top: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0),
                   child: currentUser.workPlace == ''
                       ? Text(
                           'Not Updated',
                           style: GoogleFonts.lato(fontSize: 15),
                         )
-                      : Text(
-                          currentUser.workPlace,
-                          style: GoogleFonts.lato(fontSize: 15),
+                      : Container(
+                          width: double.infinity,
+                          child: Material(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            color: Colour.greyLight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                currentUser.workPlace,
+                                style: GoogleFonts.lato(fontSize: 15),
+                              ),
+                            ),
+                          ),
                         ),
                 ),
                 SizedBox(
                   height: 40.0,
                 ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      color: Colour.greyLight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Contact me on',
-                                style: GoogleFonts.lato(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                                height: 40.0,
-                                width: 40.0,
-                                child: Image.asset(
-                                    "./assets/images/whatsapp.png")),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           );

@@ -33,6 +33,7 @@ dependencies:
   path_provider: ^1.6.24
   shared_preferences: ^0.5.12+4
   shimmer: ^1.1.2
+  url_launcher: ^5.7.10
   uuid: ^2.2.2
 
 dev_dependencies:

@@ -22,34 +22,46 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            RailwayText('Welcome To', size: 40.0, weight: FontWeight.bold,),
-            SizedBox(height: 50.0,),
-            RailwayText('INSCO COMMUNITY', size: 20.0, weight: FontWeight.bold,),
-            SizedBox(height: 30.0,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Button(
-                'Login',
-                onPressed: () {
-                  Navigator.push(context, CustomPageRoute(widget: LoginScreen()));
-                },),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white,
+                Color(0xFFD29AFF)
+              ]
             ),
-              SizedBox(height: 15.0,),
-              RailwayText('OR', size: 10.0, weight: FontWeight.bold,),
-            SizedBox(height: 15.0,),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RailwayText('Welcome To', size: 40.0, weight: FontWeight.bold,),
+              SizedBox(height: 20.0,),
+              RailwayText('INSCO COMMUNITY', size: 20.0, weight: FontWeight.bold,),
+              SizedBox(height: 30.0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Button(
-                'Sign Up',
-                onPressed: () {
-                  Navigator.push(context, CustomPageRoute(widget: RegistrationScreen()));
-                },),
+                  'Login',
+                  onPressed: () {
+                    Navigator.push(context, CustomPageRoute(widget: LoginScreen()));
+                  },),
               ),
-            
-          ],
+                SizedBox(height: 15.0,),
+                RailwayText('OR', size: 10.0, weight: FontWeight.bold,),
+              SizedBox(height: 15.0,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: Button(
+                  'Sign Up',
+                  onPressed: () {
+                    Navigator.push(context, CustomPageRoute(widget: RegistrationScreen()));
+                  },),
+                ),
+              
+            ],
+          ),
         ),
       ),
     );

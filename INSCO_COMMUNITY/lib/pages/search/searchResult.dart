@@ -35,7 +35,7 @@ class UserResult extends StatelessWidget {
                     tag: 'id-${user.id}',
                     child: CircleAvatar(
                       radius: 30.0,
-                      backgroundColor: Color(0xFFF3EBFC),
+                      backgroundColor: Colour.greyLight,
                       backgroundImage: user.photoUrl == ""
                           ? AssetImage("./assets/images/avtar.png")
                           : CachedNetworkImageProvider(user.photoUrl),

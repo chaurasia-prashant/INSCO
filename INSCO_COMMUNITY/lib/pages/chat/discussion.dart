@@ -137,13 +137,13 @@ class MessageStream extends StatelessWidget {
         }
         // final messages = snapshot.data.docs;
 
-        List<MessageBox> messageWidgets = [];
+        List<MessageBox> messageWidgets = [];      
         snapshot.data.docs.forEach((doc) {
           ChatData message = ChatData.fromJson(doc.data());
           MessageBox msgs = MessageBox(message);
-          int now = DateTime.now().day;
           if (message.isVisibal) {
-            if ((now - message.msgTime.toDate().day) >= 30) {
+            if (DateTime.now().difference(message.msgTime.toDate()).inDays >=
+                30) {
               FirebaseFirestore.instance
                   .collection('messages')
                   .doc(message.msgId)
@@ -158,7 +158,7 @@ class MessageStream extends StatelessWidget {
         return Expanded(
           child: ListView(
             reverse: true,
-            children: messageWidgets,
+            children:  messageWidgets,
           ),
         );
       },
@@ -195,10 +195,10 @@ class MessageBox extends StatelessWidget {
                 : EdgeInsets.only(right: 60.0, left: 5.0),
             child: GestureDetector(
               onLongPress: () {
-                int timegap =
-                    DateTime.now().difference(message.msgTime.toDate()).inMinutes;
-                print("timegap is : $timegap");
-                if (currentUser.username != message.sender) {
+                int timegap = DateTime.now()
+                    .difference(message.msgTime.toDate())
+                    .inMinutes;
+                if (currentUser.username == message.sender) {
                   if (timegap < 6) {
                     showModalBottomSheet<void>(
                         context: context,
@@ -243,7 +243,7 @@ class MessageBox extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Cannot delete post after 5 minutes",
+                                  "Cannot delete messages after 5 minutes",
                                   style: TextStyle(color: Colour.primaryColor),
                                 ),
                               ),
@@ -295,6 +295,19 @@ class MessageBox extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class NoMessages extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: Text('No messages from last 30 days'),
+        ),
+      ],
     );
   }
 }

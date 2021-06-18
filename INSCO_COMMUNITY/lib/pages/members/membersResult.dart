@@ -1,3 +1,4 @@
+import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_to_other.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
@@ -35,7 +36,7 @@ class UserResult extends StatelessWidget {
                     tag: 'id-${user.id}',
                     child: CircleAvatar(
                       radius: 30.0,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Colour.greyLight,
                       backgroundImage: user.photoUrl == ""
                           ? AssetImage("./assets/images/avtar.png")
                           : CachedNetworkImageProvider(user.photoUrl),

@@ -1,5 +1,5 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
-import 'package:INSCO_COMMUNITY/pages/accountSettings/reset_password.dart';
+import 'package:INSCO_COMMUNITY/pages/settings/reset_password.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/view/registration.dart';
 import 'package:INSCO_COMMUNITY/widget/flatbutton.dart';
 import 'package:INSCO_COMMUNITY/widget/font_text.dart';
@@ -25,23 +25,28 @@ class _LoginScreenState extends State<LoginScreen> {
   String password;
   String email;
 
-
-
   @override
   Widget build(BuildContext context) {
     Screen screen = Screen(context);
     return Container(
       width: double.infinity,
       height: double.infinity,
-        child: Form(
-          key: formKey,
-          child: Scaffold(
-            // backgroundColor: Colors.transparent,
-            // resizeToAvoidBottomInset: false,
-            body: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
+      child: Form(
+        key: formKey,
+        child: Scaffold(
+          // backgroundColor: Colors.transparent,
+          // resizeToAvoidBottomInset: false,
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white, Color(0xFFD29AFF)]),
+              ),
               child: Stack(
                 children: [
                   Padding(
@@ -105,12 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () async {
                             if (formKey.currentState.validate()) {
                               try {
-                                  Authentication authentication =
+                                Authentication authentication =
                                     Authentication();
-                                    
-                                  final user = await authentication.loginUser(
+
+                                final user = await authentication.loginUser(
                                     email, password);
-                                  if (user != null) {
+                                if (user != null) {
                                   final userid =
                                       FirebaseAuth.instance.currentUser.uid;
                                   final data = await FirebaseFirestore.instance
@@ -141,9 +146,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // debugPrint('Login');
                                 }
                               } catch (e) {
-                                
                                 setState(() {
-                                  showFlushBar(context,title: 'Login Alert!', message: e.message);
+                                  showFlushBar(context,
+                                      title: 'Login Alert!',
+                                      message: e.message);
                                 });
                               }
                             }
@@ -158,7 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.only(right:10.0, top:15.0, bottom:10.0),
+                              padding: const EdgeInsets.only(
+                                  right: 10.0, top: 15.0, bottom: 10.0),
                               child: Text(
                                 'Forget passwor?',
                                 textAlign: TextAlign.right,
@@ -181,7 +188,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, CustomPageRoute(widget: RegistrationScreen()));
+                            Navigator.push(context,
+                                CustomPageRoute(widget: RegistrationScreen()));
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -201,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-
+      ),
     );
   }
 }

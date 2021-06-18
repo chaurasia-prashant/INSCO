@@ -1,11 +1,5 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
-import 'package:INSCO_COMMUNITY/modal/account.dart';
-import 'package:INSCO_COMMUNITY/pages/accountSettings/privacy.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/firebase_auth/authentication.dart';
-import 'package:INSCO_COMMUNITY/pages/authentication/view/welcome_page.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/buttons/main_page_button.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/drawer_shimmer.dart';
-import 'package:INSCO_COMMUNITY/pages/profile/edit_profile.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile.dart';
 import 'package:INSCO_COMMUNITY/pages/search/search.dart';
 import 'package:INSCO_COMMUNITY/pages/creators.dart';
@@ -17,11 +11,8 @@ import 'package:INSCO_COMMUNITY/pages/studyPages/notes.dart';
 import 'package:INSCO_COMMUNITY/pages/studyPages/syllabus.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/discussion.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:INSCO_COMMUNITY/widget/search_shimmer.dart';
-import '../homepage.dart';
 
 final user = FirebaseAuth.instance.currentUser;
 
@@ -135,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+        automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
             onTap: (){
