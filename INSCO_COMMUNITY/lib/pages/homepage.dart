@@ -7,8 +7,7 @@ import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final userRef = FirebaseFirestore.instance.collection("accounts");
-
-
+LocalStorage localStorage = LocalStorage();
 Account currentUser;
 
 getUserData() async {
@@ -17,14 +16,12 @@ getUserData() async {
     DocumentSnapshot doc = await userRef.doc(user.uid).get();
     if (user != null) {
       currentUser = Account.fromJson(doc.data());
-      // print(user.uid);
-      // print(currentUser);
-      // print(currentUser.batch);
     }
   } catch (e) {
     // print(e);
   }
 }
+
 
 void showFlushBar(BuildContext context, {String title, String message}) =>
     Flushbar(
@@ -53,20 +50,6 @@ class _HomePageState extends State<HomePage> {
     getUserData();
   }
 
-  // void getUserData() async {
-  //   try {
-  //     final user = FirebaseAuth.instance.currentUser;
-  //     DocumentSnapshot doc = await userRef.doc(user.uid).get();
-  //     if (user != null) {
-  //       currentUser = Account.fromJson(doc.data());
-  //       print(user.uid);
-  //       print(currentUser);
-  //       print(currentUser.batch);
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

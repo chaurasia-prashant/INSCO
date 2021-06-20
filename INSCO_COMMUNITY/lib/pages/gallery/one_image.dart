@@ -80,7 +80,10 @@ class _OneImageState extends State<OneImage> {
               onTap: () {
                 showAlertDialog(context);
               },
-              child: Container(child: Icon(Icons.delete)),
+              child: Container(child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Icon(Icons.delete),
+              )),
             ),
           ] : [Text('')],
         ),

@@ -130,7 +130,7 @@ class MessageStream extends StatelessWidget {
               color: Colour.primaryColor,
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: CircularProgressIndicator(),
+                child: Center(child: CircularProgressIndicator()),
               ),
             ),
           );

@@ -12,10 +12,9 @@ class _CreatorPageState extends State<CreatorPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-	 
         appBar: AppBar(
-		 backgroundColor: Colour.buttonColor,
-          title: Text('History'),
+          backgroundColor: Colour.buttonColor,
+          title: Text('Creators'),
         ),
         backgroundColor: Colour.primaryColor,
         body: Padding(
@@ -24,7 +23,7 @@ class _CreatorPageState extends State<CreatorPage> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Center(
                 child: CircleAvatar(
@@ -83,7 +82,7 @@ class _CreatorPageState extends State<CreatorPage> {
                               width: 30.0,
                             ),
                             Text(
-                                'Python\nApp development\nGame Development\nGraphic Designer')
+                                'Python\nApp development\nGraphic Designer\nInstrumentation')
                           ],
                         ),
                         SizedBox(
@@ -220,7 +219,10 @@ class _CreatorPageState extends State<CreatorPage> {
                     ),
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
             ],
           ),
         ),

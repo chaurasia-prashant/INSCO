@@ -13,6 +13,7 @@ import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../homepage.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +23,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
+
+  bool showLoading = false;
   String password;
   String email;
 
@@ -40,171 +43,188 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               FocusScope.of(context).unfocus();
             },
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.white, Color(0xFFD29AFF)]),
-              ),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(screen.horizontal(4)),
-                    child: ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: [
-                        SizedBox(
-                          height: screen.vertical(50),
-                        ),
-                        LatoText(
-                          'Welcome\nBack',
-                          size: 48,
-                        ),
-                        SizedBox(
-                          height: screen.vertical(25),
-                        ),
-                        RailwayText(
-                          'Enter credentials to login\nin INSCO community.',
-                          fontColor: Colour.tertioryColor,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          height: screen.vertical(45),
-                        ),
-                        CustomTextField(
-                          hintText: 'Email',
-                          validator: emailValidator,
-                          onChanged: (value) {
-                            email = value;
-                          },
-                          textAlignment: TextAlign.start,
-                          keyboard: TextInputType.emailAddress,
-                          preffixWidget: Icon(
-                            Icons.email_outlined,
-                            color: Colour.lineColor,
+            child: ModalProgressHUD(
+              inAsyncCall: showLoading,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.white, Color(0xFFD29AFF)]),
+                ),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(screen.horizontal(4)),
+                      child: ListView(
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          SizedBox(
+                            height: screen.vertical(50),
                           ),
-                        ),
-                        SizedBox(
-                          height: screen.vertical(25),
-                        ),
-                        CustomTextField(
-                          hintText: 'Password',
-                          validator: passwordValidator,
-                          onChanged: (value) {
-                            password = value;
-                            // print(password);
-                          },
-                          textAlignment: TextAlign.start,
-                          hideText: true,
-                          preffixWidget: Icon(
-                            Icons.vpn_key_outlined,
-                            color: Colour.lineColor,
+                          LatoText(
+                            'Welcome\nBack',
+                            size: 48,
                           ),
-                        ),
-                        SizedBox(
-                          height: screen.vertical(25),
-                        ),
-                        Button(
-                          'Login',
-                          onPressed: () async {
-                            if (formKey.currentState.validate()) {
-                              try {
-                                Authentication authentication =
-                                    Authentication();
-
-                                final user = await authentication.loginUser(
-                                    email, password);
-                                if (user != null) {
-                                  final userid =
-                                      FirebaseAuth.instance.currentUser.uid;
-                                  final data = await FirebaseFirestore.instance
-                                      .collection('accounts')
-                                      .doc(userid)
-                                      .get();
-                                  // print(data.data());
-                                  Account account =
-                                      Account.fromJson(data.data());
-                                  LocalStorage localStorage = LocalStorage();
-                                  if (localStorage.prefs == null) {
-                                    localStorage.init();
-                                  }
-                                  await localStorage.setAccount(account);
-                                  Navigator.pushAndRemoveUntil<dynamic>(
-                                    context,
-                                    MaterialPageRoute<dynamic>(
-                                      builder: (BuildContext context) =>
-                                          HomePage(),
-                                    ),
-                                    (route) =>
-                                        false, //if you want to disable back feature set to false
-                                  );
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomePage()));
-                                  // debugPrint('Login');
-                                }
-                              } catch (e) {
+                          SizedBox(
+                            height: screen.vertical(25),
+                          ),
+                          RailwayText(
+                            'Enter credentials to login\nin INSCO community.',
+                            fontColor: Colour.tertioryColor,
+                            size: 18,
+                          ),
+                          SizedBox(
+                            height: screen.vertical(45),
+                          ),
+                          CustomTextField(
+                            hintText: 'Email',
+                            validator: emailValidator,
+                            onChanged: (value) {
+                              email = value;
+                            },
+                            textAlignment: TextAlign.start,
+                            keyboard: TextInputType.emailAddress,
+                            preffixWidget: Icon(
+                              Icons.email_outlined,
+                              color: Colour.lineColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: screen.vertical(25),
+                          ),
+                          CustomTextField(
+                            hintText: 'Password',
+                            validator: passwordValidator,
+                            onChanged: (value) {
+                              password = value;
+                              // print(password);
+                            },
+                            textAlignment: TextAlign.start,
+                            hideText: true,
+                            preffixWidget: Icon(
+                              Icons.vpn_key_outlined,
+                              color: Colour.lineColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: screen.vertical(25),
+                          ),
+                          Button(
+                            'Login',
+                            onPressed: () async {
+                              if (formKey.currentState.validate()) {
                                 setState(() {
-                                  showFlushBar(context,
-                                      title: 'Login Alert!',
-                                      message: e.message);
+                                  showLoading = true;
+                                });
+                                try {
+                                  Authentication authentication =
+                                      Authentication();
+
+                                  final user = await authentication.loginUser(
+                                      email, password);
+                                  if (user != null) {
+                                    final userid =
+                                        FirebaseAuth.instance.currentUser.uid;
+                                    final data = await FirebaseFirestore
+                                        .instance
+                                        .collection('accounts')
+                                        .doc(userid)
+                                        .get();
+                                    // print(data.data());
+                                    Account account =
+                                        Account.fromJson(data.data());
+                                    LocalStorage localStorage = LocalStorage();
+                                    if (localStorage.prefs == null) {
+                                      localStorage.init();
+                                    }
+                                    await localStorage.setAccount(account);
+                                    Navigator.pushAndRemoveUntil<dynamic>(
+                                      context,
+                                      MaterialPageRoute<dynamic>(
+                                        builder: (BuildContext context) =>
+                                            HomePage(),
+                                      ),
+                                      (route) =>
+                                          false, //if you want to disable back feature set to false
+                                    );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()));
+                                    // debugPrint('Login');
+                                    setState(() {
+                                      showLoading = false;
+                                    });
+                                  }
+                                } catch (e) {
+                                  setState(() {
+                                    showLoading = false;
+                                    showFlushBar(context,
+                                        title: 'Login Alert!',
+                                        message: e.message);
+                                  });
+                                }
+                              }else{
+                                setState(() {
+                                  showLoading = false;
                                 });
                               }
-                            }
-                          },
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ResetPassword()));
-                          },
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10.0, top: 15.0, bottom: 10.0),
-                              child: Text(
-                                'Forget passwor?',
-                                textAlign: TextAlign.right,
+                            },
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ResetPassword()));
+                            },
+                            child: Container(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 10.0, top: 15.0, bottom: 10.0),
+                                child: Text(
+                                  'Forget passwor?',
+                                  textAlign: TextAlign.right,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: screen.vertical(30),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RailwayText(
-                            'New to INSCO ?',
-                            size: 14,
+                          SizedBox(
+                            height: screen.vertical(30),
                           ),
-                        ),
-                        SizedBox(
-                          height: screen.vertical(2),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                CustomPageRoute(widget: RegistrationScreen()));
-                          },
-                          child: Padding(
+                          Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: RailwayText(
-                              'SIGN UP',
+                              'New to INSCO ?',
                               size: 14,
-                              weight: FontWeight.bold,
-                              fontColor: Colour.buttonColor,
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: screen.vertical(2),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      widget: RegistrationScreen()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RailwayText(
+                                'SIGN UP',
+                                size: 14,
+                                weight: FontWeight.bold,
+                                fontColor: Colour.buttonColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

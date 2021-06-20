@@ -1,10 +1,11 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/account.dart';
-import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_image.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_shimmer.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../homepage.dart';
@@ -18,13 +19,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    getUser();
   }
 
+  Future<DocumentSnapshot> userResultsFuture;
 
+  getUser() {
+    final _user = FirebaseAuth.instance.currentUser;
+    Future<DocumentSnapshot> users = userRef.doc(_user.uid).get();
+    setState(() {
+      userResultsFuture = users;
+    });
+  }
 
   profileBody() {
     return FutureBuilder(
-        future: userRef.doc(user.uid).get(),
+        future: userResultsFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return ProfileShimmer();
@@ -53,15 +63,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         );
                       },
                       child: Hero(
-					  tag: "${currentUser.username}",
-					  child:CircleAvatar(
-                          radius: 70.0,
-                          backgroundColor: Colour.greyLight,
-                          backgroundImage: currentUser.photoUrl == ''
-                              ? AssetImage('./assets/images/avtar.png')
-                              : CachedNetworkImageProvider(
-                                  currentUser.photoUrl)),
-					  ),
+                        tag: "${currentUser.username}",
+                        child: CircleAvatar(
+                            radius: 70.0,
+                            backgroundColor: Colour.greyLight,
+                            backgroundImage: currentUser.photoUrl == ''
+                                ? AssetImage('./assets/images/avtar.png')
+                                : CachedNetworkImageProvider(
+                                    currentUser.photoUrl)),
+                      ),
                     ),
                   ),
                 ),

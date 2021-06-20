@@ -160,9 +160,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         child: Text(
                           'Your Name',
                           style: GoogleFonts.lato(
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.white),
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                       CustomTextField(

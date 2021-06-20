@@ -80,6 +80,7 @@ class ImageCard extends StatelessWidget {
         tag: 'gallery-${imagedata.postId}',
         child: Container(
           decoration: BoxDecoration(
+            color: Colour.greyLight,
             borderRadius: BorderRadius.all(
               Radius.circular(10.0),
             ),
