@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
           GestureDetector(
             onTap: (){
-              Navigator.push(context, CustomPageRoute(widget: Settings()));
+              Navigator.push(context, CustomPageRoute(widget: SettingsPage()));
             },
             child: Container(
               child: Padding(

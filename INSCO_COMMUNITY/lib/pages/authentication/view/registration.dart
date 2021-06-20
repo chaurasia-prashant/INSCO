@@ -545,7 +545,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             try {
                               final newUser = await authentication
                                   .createUserInFirebase(email, password);
-                              if (newUser != null) {
+                              if (newUser != null){
                                 id = FirebaseAuth.instance.currentUser.uid;
                                 Account account = Account(
                                     id: id,

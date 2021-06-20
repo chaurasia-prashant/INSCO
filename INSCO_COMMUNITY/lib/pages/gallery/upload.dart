@@ -163,7 +163,7 @@ class _UploadState extends State<Upload>
               borderRadius: BorderRadius.all(Radius.circular(50.0)),
               child: GestureDetector(
                 onTap: () {
-                  if (file != null) {
+                  if (file != null && isUploading == false) {
                     handleSubmit();
                     setState(() {
                       isUploading = true;

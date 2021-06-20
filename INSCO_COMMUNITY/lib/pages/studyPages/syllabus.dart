@@ -17,30 +17,30 @@ class _SyllabusPageState extends State<SyllabusPage> {
   @override
   void initState() {
     super.initState();
-    getSyllabus();
+    // getSyllabus();
   }
 
-  getSyllabus() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('syllabus')
-        .orderBy('id', descending: false)
-        .get();
-    List<PdfDoc> pdfDoc =
-        snapshot.docs.map((doc) => PdfDoc.fromDocument(doc)).toList();
-    setState(() {
-      this.pdfDoc = pdfDoc;
-    });
-  }
+  // getSyllabus() async {
+  //   QuerySnapshot snapshot = await FirebaseFirestore.instance
+  //       .collection('syllabus')
+  //       .orderBy('id', descending: false)
+  //       .get();
+  //   List<PdfDoc> pdfDoc =
+  //       snapshot.docs.map((doc) => PdfDoc.fromDocument(doc)).toList();
+  //   setState(() {
+  //     this.pdfDoc = pdfDoc;
+  //   });
+  // }
 
-  buildSyllabus() {
-    if (pdfDoc == null) {
-      return StudyShimmer();
-    } else {
-      return ListView(
-        children: pdfDoc,
-      );
-    }
-  }
+  // buildSyllabus() {
+  //   if (pdfDoc == null) {
+  //     return StudyShimmer();
+  //   } else {
+  //     return ListView(
+  //       children: pdfDoc,
+  //     );
+  //   }
+  // }
 
   
   @override
@@ -49,11 +49,30 @@ class _SyllabusPageState extends State<SyllabusPage> {
       backgroundColor: Colour.primaryColor,
       key: _scaffoldKey,
       appBar: header(context,titleText: "Syllabus"),
-      body: RefreshIndicator(
-        onRefresh: () => getSyllabus(),
-        child: buildSyllabus(),
-      ),
+      body: SyllabusStream(),
     );
   }
 }
 
+class SyllabusStream extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('syllabus')
+        .orderBy('id', descending: false)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return StudyShimmer();
+        }
+        List<PdfDoc> pdfDoc =
+            snapshot.data.docs.map((doc) => PdfDoc.fromDocument(doc)).toList();
+
+        return ListView(
+        children: pdfDoc,
+      );    
+      },
+    );
+  }
+}
