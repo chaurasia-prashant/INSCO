@@ -3,7 +3,6 @@ import 'package:INSCO_COMMUNITY/modal/account.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/main_screen.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_image.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile_shimmer.dart';
-import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -21,89 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  // Drawer _customDrawer() => Drawer(
-  //         child: ListView(children: <Widget>[
-  //       DrawerHeader(
-  //         decoration: BoxDecoration(color: Colour.greyLight),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //           children: <Widget>[
-  //             CircleAvatar(
-  //               backgroundColor: Colors.transparent,
-  //               backgroundImage: currentUser.photoUrl == ''
-  //                   ? AssetImage('./assets/images/avtar.png')
-  //                   : CachedNetworkImageProvider(currentUser.photoUrl),
-  //               radius: 40.0,
-  //             ),
-  //             Expanded(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     currentUser.username,
-  //                     style: TextStyle(
-  //                         fontWeight: FontWeight.bold, fontSize: 25.0),
-  //                   ),
-  //                   SizedBox(height: 10.0),
-  //                   Text(
-  //                     currentUser.email,
-  //                     style: TextStyle(
-  //                         fontWeight: FontWeight.bold, fontSize: 14.0),
-  //                   ),
-  //                 ],
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.edit_rounded),
-  //         title: Text('Edit profile', style: TextStyle(fontSize: 18)),
-  //         onTap: () {
-  //           // Here you can give your route to navigate
-  //           Navigator.of(context).pop();
-  //           Navigator.push(context,
-  //               CustomPageRoute(widget: EditProfile()));
-  //         },
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.privacy_tip_rounded),
-  //         title: Text('Privacy', style: TextStyle(fontSize: 18)),
-  //         onTap: () {
-  //           // Here you can give your route to navigate
-  //           Navigator.of(context).pop();
-  //           Navigator.push(
-  //               context, CustomPageRoute(widget: Privacy()));
-  //         },
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.logout),
-  //         title: Text('Log Out', style: TextStyle(fontSize: 18)),
-  //         onTap: () async {
-  //           Authentication authentication = Authentication();
-  //           await authentication.logoutUser();
-  //           Navigator.pushAndRemoveUntil<dynamic>(
-  //             context,
-  //             MaterialPageRoute<dynamic>(
-  //               builder: (BuildContext context) => WelcomePage(),
-  //             ),
-  //             (route) =>
-  //                 false, //if you want to disable back feature set to false
-  //           );
-  //           Navigator.push(context,
-  //               CustomPageRoute(widget: WelcomePage()));
-  //         },
-  //       ),
-  //       ListTile(
-  //         leading: Icon(Icons.arrow_back),
-  //         title: Text('Go back', style: TextStyle(fontSize: 18)),
-  //         onTap: () {
-  //           // Here you can give your route to navigate
-  //           Navigator.of(context).pop();
-  //         },
-  //       ),
-  //     ]));
+
 
   profileBody() {
     return FutureBuilder(
@@ -135,13 +52,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         );
                       },
-                      child: CircleAvatar(
+                      child: Hero(
+					  tag: "${currentUser.username}",
+					  child:CircleAvatar(
                           radius: 70.0,
                           backgroundColor: Colour.greyLight,
                           backgroundImage: currentUser.photoUrl == ''
                               ? AssetImage('./assets/images/avtar.png')
                               : CachedNetworkImageProvider(
                                   currentUser.photoUrl)),
+					  ),
                     ),
                   ),
                 ),

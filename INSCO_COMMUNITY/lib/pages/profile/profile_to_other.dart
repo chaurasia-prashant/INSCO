@@ -48,7 +48,7 @@ class _ProfileToOtherState extends State<ProfileToOther> {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
-                      tag: 'id-${widget.userId}',
+                      tag: '${memberData.username}',
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(

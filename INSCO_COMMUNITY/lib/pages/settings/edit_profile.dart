@@ -70,6 +70,7 @@ class _EditProfileState extends State<EditProfile> {
         if (file != null) {
           await compressImage();
           mediaUrl = await uploadImage(file);
+		  await storageRef.child("profile/${currentUser.username}/profile_$prePhotoId.jpg").delete();
         }
         FirebaseFirestore.instance
             .collection('accounts')
@@ -83,7 +84,7 @@ class _EditProfileState extends State<EditProfile> {
           'photoUrl': file != null ? mediaUrl : currentUser.photoUrl,
           'photoId': postId,
         }).whenComplete(() async {
-          await storageRef.child("profile/${currentUser.username}/profile_$prePhotoId.jpg").delete();
+          
           setState(() {
             showFlushBar(context,
                 title: 'Profile Alert',

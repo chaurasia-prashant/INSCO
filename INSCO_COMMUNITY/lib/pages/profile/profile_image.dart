@@ -28,12 +28,12 @@ class _ProfileImageState extends State<ProfileImage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Hero(
-                  tag: 'id-photoUrl',
+                  tag: '${widget.username}',
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.contain,
-                        image: CachedNetworkImageProvider(widget.imageUrl),
+                        image: widget.imageUrl == './assets/images/avtar.png' ? AssetImage('./assets/images/avtar.png') : CachedNetworkImageProvider(widget.imageUrl),
                       ),
                     ),
                   ),

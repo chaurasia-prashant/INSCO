@@ -27,6 +27,7 @@ class _SettingsState extends State<Settings> {
       child: Text("Yes"),
       onPressed: () async {
         try {
+		  Navigator.pop(context);
           Authentication authentication = Authentication();
           await authentication.logoutUser();
           Navigator.pushAndRemoveUntil<dynamic>(
@@ -34,10 +35,10 @@ class _SettingsState extends State<Settings> {
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => WelcomePage(),
             ),
-            (route) => false, //if you want to disable back feature set to false
+            (Route<dynamic> route) => false, //if you want to disable back feature set to false
           );
-          Navigator.pop(context);
-          Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
+          
+         Navigator.push(context, CustomPageRoute(widget: WelcomePage()));
         } catch (e) {
           Navigator.pop(context);
           setState(() {

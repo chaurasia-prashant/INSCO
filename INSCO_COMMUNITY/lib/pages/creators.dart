@@ -12,7 +12,9 @@ class _CreatorPageState extends State<CreatorPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+	 
         appBar: AppBar(
+		 backgroundColor: Colour.buttonColor,
           title: Text('History'),
         ),
         backgroundColor: Colour.primaryColor,
