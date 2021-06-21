@@ -44,69 +44,74 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MessageStream(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 10.0, top: 5.0, left: 10.0, right: 5.0),
-              child: Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        decoration: kMessageContainerDecoration,
-                        child: TextField(
-                          controller: messageTextController,
-                          maxLines: 5,
-                          minLines: 1,
-                          // style: TextStyle(color: Colors.white),
-                          decoration: kMessageTextFieldDecoration,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        decoration: kSendButtonDecoration,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (messageTextController.text != '' &&
-                                messageTextController.text != null) {
-                              final msgPath = _firestore.collection('messages');
-                              DocumentReference msgRef = msgPath.doc();
-                              msgRef.set({
-                                'id': currentUser.id,
-                                'sender': currentUser.username,
-                                'msg': messageTextController.text,
-                                'msgTime': DateTime.now(),
-                                'msgId': null,
-                                'userPhotoUrl': currentUser.photoUrl,
-                                'isVisibal': true,
-                              }).whenComplete(
-                                  () => msgPath.doc(msgRef.id).update({
-                                        'msgId': msgRef.id,
-                                      }));
-                              messageTextController.clear();
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            child: Icon(Icons.send_sharp,
-                                color: Colour.primaryColor),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              MessageStream(),
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 10.0, top: 5.0, left: 10.0, right: 5.0),
+                child: Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          decoration: kMessageContainerDecoration,
+                          child: TextField(
+                            controller: messageTextController,
+                            maxLines: 5,
+                            minLines: 1,
+                            // style: TextStyle(color: Colors.white),
+                            decoration: kMessageTextFieldDecoration,
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Container(
+                          decoration: kSendButtonDecoration,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (messageTextController.text != '' &&
+                                  messageTextController.text != null) {
+                                final msgPath = _firestore.collection(
+                                    'messages/${DateTime.now().year}/${DateTime.now().month}');
+                                DocumentReference msgRef = msgPath.doc();
+                                msgRef.set({
+                                  'id': currentUser.id,
+                                  'sender': currentUser.username,
+                                  'msg': messageTextController.text,
+                                  'msgTime': DateTime.now(),
+                                  'msgId': null,
+                                  'isVisibal': true,
+                                }).whenComplete(
+                                    () => msgPath.doc(msgRef.id).update({
+                                          'msgId': msgRef.id,
+                                        }));
+                                messageTextController.clear();
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 10.0),
+                              child: Icon(Icons.send_sharp,
+                                  color: Colour.primaryColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -118,7 +123,7 @@ class MessageStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: _firestore
-          .collection("messages")
+          .collection("messages/${DateTime.now().year}/${DateTime.now().month}")
           .orderBy('msgTime', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
@@ -137,28 +142,29 @@ class MessageStream extends StatelessWidget {
         }
         // final messages = snapshot.data.docs;
 
-        List<MessageBox> messageWidgets = [];      
+        List<MessageBox> messageWidgets = [];
         snapshot.data.docs.forEach((doc) {
           ChatData message = ChatData.fromJson(doc.data());
           MessageBox msgs = MessageBox(message);
-          if (message.isVisibal) {
-            if (DateTime.now().difference(message.msgTime.toDate()).inDays >=
-                30) {
-              FirebaseFirestore.instance
-                  .collection('messages')
-                  .doc(message.msgId)
-                  .update({
-                'isVisibal': false,
-              });
-            } else {
-              messageWidgets.add(msgs);
-            }
-          }
+          messageWidgets.add(msgs);
+          // if (message.isVisibal) {
+          //   if (DateTime.now().difference(message.msgTime.toDate()).inDays >=
+          //       30) {
+          //     FirebaseFirestore.instance
+          //         .collection('messages')
+          //         .doc(message.msgId)
+          //         .update({
+          //       'isVisibal': false,
+          //     });
+          //   } else {
+          //     messageWidgets.add(msgs);
+          //   }
+          // }
         });
         return Expanded(
           child: ListView(
             reverse: true,
-            children:  messageWidgets,
+            children: messageWidgets,
           ),
         );
       },
@@ -222,7 +228,8 @@ class MessageBox extends StatelessWidget {
                                         onTap: () {
                                           try {
                                             _firestore
-                                                .collection('messages')
+                                                .collection(
+                                                    'messages/${DateTime.now().year}/${DateTime.now().month}')
                                                 .doc(message.msgId)
                                                 .delete();
                                             Navigator.pop(context);

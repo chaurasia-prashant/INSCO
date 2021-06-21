@@ -54,8 +54,7 @@ class _UploadState extends State<Upload>
   Future<String> uploadImage(imageFile) async {
     UploadTask uploadTask =
         storageRef.child("gallery/post_$postId.jpg").putFile(imageFile);
-    TaskSnapshot storageSnap =
-        await uploadTask;
+    TaskSnapshot storageSnap = await uploadTask;
     // TaskSnapshot storageSnap = await uploadTask.onComplete;
     String downloadUrl = await storageSnap.ref.getDownloadURL();
     return downloadUrl;
@@ -90,16 +89,16 @@ class _UploadState extends State<Upload>
   Scaffold buildUploadForm() {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white70,
+        backgroundColor: Colour.buttonColor,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back, ),
             onPressed: () {
               Navigator.pop(context);
               clearImage();
             }),
         title: Text(
           "About Post",
-          style: TextStyle(color: Colors.black),
+          // style: TextStyle(color: Colors.black),
         ),
         // actions: [
         //   GestureDetector(
@@ -110,87 +109,92 @@ class _UploadState extends State<Upload>
         //   )
         // ],
       ),
-      body: ListView(
-        children: <Widget>[
-          isUploading ? LinearProgressIndicator() : Text(""),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 300,
-              width: double.infinity,
-              child: file == null
-                  ? GestureDetector(
-                      onTap: file == null ? handleChooseFromGallery : null,
-                      child: Material(
-                        color: Colour.greyLight,
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        child: Icon(
-                          Icons.add_a_photo,
-                          color: Colour.buttonColor,
-                          size: 50.0,
-                        ),
-                      ))
-                  : Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: FileImage(file),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: ListView(
+          children: <Widget>[
+            isUploading ? LinearProgressIndicator() : Text(""),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 300,
+                width: double.infinity,
+                child: file == null
+                    ? GestureDetector(
+                        onTap: file == null ? handleChooseFromGallery : null,
+                        child: Material(
+                          color: Colour.greyLight,
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          child: Icon(
+                            Icons.add_a_photo,
+                            color: Colour.buttonColor,
+                            size: 50.0,
+                          ),
+                        ))
+                    : Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: FileImage(file),
+                          ),
                         ),
                       ),
-                    ),
-            ),
-          ),
-          SizedBox(height: 40.0),
-          ListTile(
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                minLines: 1,
-                maxLines: 4,
-                controller: captionController,
-                decoration: InputDecoration(
-                  hintText: "Add caption to this post...",
-                  border: InputBorder.none,
-                ),
               ),
             ),
-          ),
-          SizedBox(height: 50.0),
-          Center(
-            child: Material(
-              color: Colour.buttonColor,
-              elevation: 8.0,
-              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-              child: GestureDetector(
-                onTap: () {
-                  if (file != null && isUploading == false) {
-                    handleSubmit();
-                    setState(() {
-                      isUploading = true;
-                    });
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 50.0),
-                  child: Text(
-                    'Update',
-                    style: TextStyle(color: Colour.primaryColor),
+            SizedBox(height: 40.0),
+            ListTile(
+              title: Container(
+                width: 250.0,
+                child: TextField(
+                  minLines: 1,
+                  maxLines: 4,
+                  controller: captionController,
+                  decoration: InputDecoration(
+                    hintText: "Add caption to this post...",
+                    border: InputBorder.none,
                   ),
                 ),
               ),
             ),
-          ),
-          // RaisedButton(
-          //   onPressed: () {
-          //     handleSubmit();
-          //     setState(() {
-          //       isUploading = true;
-          //     });
-          //   },
-          //   child: Text('Upload'),
-          // ),
-        ],
+            SizedBox(height: 50.0),
+            Center(
+              child: Material(
+                color: Colour.buttonColor,
+                elevation: 8.0,
+                borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                child: GestureDetector(
+                  onTap: () {
+                    if (file != null && isUploading == false) {
+                      handleSubmit();
+                      setState(() {
+                        isUploading = true;
+                      });
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 50.0),
+                    child: Text(
+                      'Update',
+                      style: TextStyle(color: Colour.primaryColor),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // RaisedButton(
+            //   onPressed: () {
+            //     handleSubmit();
+            //     setState(() {
+            //       isUploading = true;
+            //     });
+            //   },
+            //   child: Text('Upload'),
+            // ),
+          ],
+        ),
       ),
     );
   }

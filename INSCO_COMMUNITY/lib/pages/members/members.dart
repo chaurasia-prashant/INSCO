@@ -113,7 +113,7 @@ class _MembersPageState extends State<MembersPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 100.0),
+                    padding: const EdgeInsets.only(left: 50.0),
                     child: Text(
                       "Members",
                       style: GoogleFonts.lato(

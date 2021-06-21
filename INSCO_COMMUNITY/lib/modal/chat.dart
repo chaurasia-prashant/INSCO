@@ -6,7 +6,6 @@ class ChatData {
   String msg;
   Timestamp msgTime;
   String msgId;
-  String userPhotoUrl;
   bool isVisibal;
 
   ChatData({
@@ -15,7 +14,6 @@ class ChatData {
     this.msg,
     this.msgTime,
     this.msgId,
-    this.userPhotoUrl,
     this.isVisibal,
   });
 
@@ -27,7 +25,6 @@ class ChatData {
     msg = json['msg'];
     msgTime = json['msgTime'];
     msgId = json['msgId'];
-    userPhotoUrl = json['userPhotoUrl'];
     isVisibal = json['isVisibal'];
   }
 
@@ -38,7 +35,6 @@ class ChatData {
     data['msg'] = msg;
     data['msgTime'] = msgTime;
     data['msgId'] = msgId;
-    data['userPhotoUrl'] = userPhotoUrl;
     data['isVisibal'] = isVisibal;
     return data;
   }
