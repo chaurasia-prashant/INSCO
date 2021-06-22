@@ -1,6 +1,8 @@
+import 'package:INSCO_COMMUNITY/pages/chat/about.dart';
 import 'package:INSCO_COMMUNITY/pages/chat/chat_constants.dart';
 import 'package:INSCO_COMMUNITY/constants/color.dart';
 import 'package:INSCO_COMMUNITY/modal/chat.dart';
+import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:flutter/material.dart';
@@ -26,22 +28,16 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
     return Scaffold(
       backgroundColor: Colour.primaryColor,
       appBar: AppBar(
-        title: Center(child: Text("Community Discussion")),
+        title: GestureDetector(
+          onTap: () {
+            Navigator.push(context, CustomPageRoute(widget: AboutDiscussion()));
+          },
+          child: Center(
+            child: Text("Community Discussion"),
+          ),
+        ),
         automaticallyImplyLeading: true,
         backgroundColor: Colour.secondaryColor,
-        actions: [
-          currentUser.title == 'Admin'
-              ? GestureDetector(
-                  onTap: () {
-                    _firestore.collection('messages').get().then((snapshot) {
-                      for (DocumentSnapshot ds in snapshot.docs) {
-                        ds.reference.delete();
-                      }
-                    });
-                  },
-                  child: Container(child: Icon(Icons.clear)))
-              : Text('')
-        ],
       ),
       body: SafeArea(
         child: GestureDetector(
@@ -128,17 +124,7 @@ class MessageStream extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(
-            child: Material(
-              elevation: 8,
-              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-              color: Colour.primaryColor,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            ),
-          );
+          return Center(child: CircularProgressIndicator());
         }
         // final messages = snapshot.data.docs;
 

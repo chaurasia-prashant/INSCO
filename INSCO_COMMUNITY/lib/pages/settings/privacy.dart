@@ -40,6 +40,7 @@ class _PrivacyState extends State<Privacy> {
       }).whenComplete(() {
         setState(() {
           showLoading = false;
+          getUserData();
           showFlushBar(context,
               title: 'Privacy Alert!',
               message: "Your privacy updated successfully!");

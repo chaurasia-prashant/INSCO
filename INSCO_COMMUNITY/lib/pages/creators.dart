@@ -1,4 +1,6 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/pages/homepage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,6 +10,14 @@ class CreatorPage extends StatefulWidget {
 }
 
 class _CreatorPageState extends State<CreatorPage> {
+  getCreatorPhoto() {
+    if (staticData.creatorPhoto == "" || staticData.creatorPhoto == null) {
+      return AssetImage('./assets/images/avtar.png');
+    }else {
+      return CachedNetworkImageProvider(staticData.creatorPhoto);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,7 +39,7 @@ class _CreatorPageState extends State<CreatorPage> {
                 child: CircleAvatar(
                   radius: 70.0,
                   backgroundColor: Colour.greyLight,
-                  backgroundImage: AssetImage('./assets/images/avtar.png'),
+                  backgroundImage: getCreatorPhoto(),
                 ),
               ),
               SizedBox(
@@ -138,91 +148,10 @@ class _CreatorPageState extends State<CreatorPage> {
               SizedBox(
                 height: 20.0,
               ),
-              Container(
-                width: double.infinity,
-                child: Material(
-                  color: Colour.greyLight,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundColor: Colour.primaryColor,
-                                  backgroundImage:
-                                      AssetImage('./assets/images/avtar.png'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Center(
-                                  child: Text(
-                                'Siddharth Shukla',
-                                style: GoogleFonts.lato(fontSize: 10.0),
-                              )),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundColor: Colour.primaryColor,
-                                  backgroundImage:
-                                      AssetImage('./assets/images/avtar.png'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Center(
-                                child: Text(
-                                  'Shubhranshu Srivastava',
-                                  style: GoogleFonts.lato(fontSize: 10.0),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundColor: Colour.primaryColor,
-                                  backgroundImage:
-                                      AssetImage('./assets/images/avtar.png'),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Center(
-                                  child: Text(
-                                'Vikash Mishra',
-                                style: GoogleFonts.lato(fontSize: 10.0),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
+              // CMembers(),
+              // SizedBox(
+              //   height: 20.0,
+              // ),
             ],
           ),
         ),
@@ -230,3 +159,95 @@ class _CreatorPageState extends State<CreatorPage> {
     );
   }
 }
+
+// class CMembers extends StatelessWidget {
+//   const CMembers({
+//     Key key,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: double.infinity,
+//       child: Material(
+//         color: Colour.greyLight,
+//         borderRadius: BorderRadius.all(Radius.circular(10)),
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(vertical: 10.0),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceAround,
+//             children: [
+//               Container(
+//                 child: Column(
+//                   children: [
+//                     Center(
+//                       child: CircleAvatar(
+//                         radius: 30.0,
+//                         backgroundColor: Colour.primaryColor,
+//                         backgroundImage:
+//                             AssetImage('./assets/images/avtar.png'),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 10.0,
+//                     ),
+//                     Center(
+//                         child: Text(
+//                       'Siddharth Shukla',
+//                       style: GoogleFonts.lato(fontSize: 10.0),
+//                     )),
+//                   ],
+//                 ),
+//               ),
+//               Container(
+//                 child: Column(
+//                   children: [
+//                     Center(
+//                       child: CircleAvatar(
+//                         radius: 30.0,
+//                         backgroundColor: Colour.primaryColor,
+//                         backgroundImage:
+//                             AssetImage('./assets/images/avtar.png'),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 10.0,
+//                     ),
+//                     Center(
+//                       child: Text(
+//                         'Shubhranshu Srivastava',
+//                         style: GoogleFonts.lato(fontSize: 10.0),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               Container(
+//                 child: Column(
+//                   children: [
+//                     Center(
+//                       child: CircleAvatar(
+//                         radius: 30.0,
+//                         backgroundColor: Colour.primaryColor,
+//                         backgroundImage:
+//                             AssetImage('./assets/images/avtar.png'),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 10.0,
+//                     ),
+//                     Center(
+//                         child: Text(
+//                       'Vikash Mishra',
+//                       style: GoogleFonts.lato(fontSize: 10.0),
+//                     )),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

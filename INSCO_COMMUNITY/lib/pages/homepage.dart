@@ -1,4 +1,5 @@
 import 'package:INSCO_COMMUNITY/modal/account.dart';
+import 'package:INSCO_COMMUNITY/modal/static.dart';
 import 'package:INSCO_COMMUNITY/pages/authentication/authStore/local_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 final userRef = FirebaseFirestore.instance.collection("accounts");
 LocalStorage localStorage = LocalStorage();
 Account currentUser;
+StaticData staticData;
 
 getUserData() async {
   try {
@@ -22,6 +24,19 @@ getUserData() async {
   }
 }
 
+getStaticData() async {
+  try {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection("staticData")
+        .doc('aiQdgipFKEBud93a88Ff')
+        .get();
+    if (user != null) {
+      staticData = StaticData.fromJson(doc.data());
+    }
+  } catch (e) {
+    // print(e);
+  }
+}
 
 void showFlushBar(BuildContext context, {String title, String message}) =>
     Flushbar(
@@ -48,8 +63,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getUserData();
+    getStaticData();
   }
-
 
   @override
   Widget build(BuildContext context) {
