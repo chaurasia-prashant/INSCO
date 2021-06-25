@@ -134,24 +134,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: currentUser.batch != null ? 20.0 : 0,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Batch',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15.0),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: Text(
-                        currentUser.batch.toString(),
-                        style: GoogleFonts.lato(fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
+                currentUser.batch != null
+                    ? Row(
+                        children: [
+                          Text(
+                            'Batch',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30.0),
+                            child: Text(
+                              currentUser.batch.toString(),
+                              style: GoogleFonts.lato(fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(''),
                 SizedBox(
                   height: 15.0,
                 ),
@@ -209,7 +211,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: currentUser.workPlace == ''
                       ? Text(
                           'Not Updated',
-                          style: GoogleFonts.lato(fontSize: 15),
+                          style: GoogleFonts.lato(
+                              fontSize: 13, color: Colour.lineColor),
                         )
                       : Container(
                           width: double.infinity,

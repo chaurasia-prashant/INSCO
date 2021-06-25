@@ -32,10 +32,7 @@ class _ViewPdfState extends State<ViewPdf> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colour.buttonColor,
-        title: Hero(
-           transitionOnUserGestures: true,
-          tag: 'id-${widget.nameId}',
-          child: Text(widget.nameId.toUpperCase()),),
+        title: Text(widget.nameId.toUpperCase()),
       ),
       body: Center(
         child: PDF().cachedFromUrl(

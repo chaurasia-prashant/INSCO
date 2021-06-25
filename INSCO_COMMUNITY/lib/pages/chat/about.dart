@@ -23,7 +23,7 @@ class _AboutDiscussionState extends State<AboutDiscussion> {
     }
   }
 
-  String title = 'Insco Community Discussion';
+  String title = 'Community Discussion';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

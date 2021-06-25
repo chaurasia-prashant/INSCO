@@ -21,7 +21,7 @@ class _SearchScreenState extends State<SearchScreen>
     if (query != null) {
       Future<QuerySnapshot> users = FirebaseFirestore.instance
           .collection("accounts")
-          .where("username", isGreaterThanOrEqualTo: query)
+          .where("username", isGreaterThanOrEqualTo: query,)
           .get();
       setState(() {
         searchResultsFuture = users;

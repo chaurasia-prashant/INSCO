@@ -33,6 +33,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     arr();
   }
 
+  bool instructionRead = false;
   bool isMember = false;
   bool emailVerifyButtonPressed = false;
   int pageNo = 1;
@@ -45,7 +46,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String password;
   String id;
   Authentication authentication = Authentication();
-  List titleOption = ['HOD', 'Former HOD', 'Teacher', 'Student', 'User'];
+  List titleOption = ['HOD', 'Former HOD', 'Teacher','Alumni','Student', 'User'];
   List batch = [];
   DateTime timestamp = DateTime.now();
   void arr() {
@@ -53,6 +54,134 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       batch.add(i);
     }
   }
+
+  Widget instruction() {
+    return SafeArea(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Material(
+            color: Colour.primaryColor,
+            elevation: 8.0,
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      "Hey!! nice to see you here, let's register yourself and be a part of Insco Community.\n\n",
+                      style: GoogleFonts.lato(fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                  Text(
+                      "Rememder the important points while registering yourself.\n",
+                      style: GoogleFonts.lato( fontWeight: FontWeight.w600),
+                      ),
+                  Text(
+                      "# Once register you cannot edit your 'Name', 'Batch', 'Title', and 'Email'.\n",
+                      style: GoogleFonts.lato( fontWeight: FontWeight.w500),
+                      ),
+                  Text("# So, fill properly your credentials.\n",
+                      style: GoogleFonts.lato( fontWeight: FontWeight.w500),
+                      ),
+                  Text(
+                      "We are not going to share any of your details to any third party.\n",
+                      style: GoogleFonts.lato( fontWeight: FontWeight.w500),
+                      ),
+                  Text("Feel safe and enjoy our plateform.\n",
+                      style: GoogleFonts.lato( fontWeight: FontWeight.w500),
+                      ),
+                  Text(
+                      "By continuing you are hereby confirm all the requirements given above.\n",
+                      style: GoogleFonts.lato( fontWeight: FontWeight.w600),
+                      ),
+                  Expanded(child: SizedBox(height: 20.0)),
+                  Center(
+                    child: Material(
+                      color: Colour.buttonColor,
+                      elevation: 8.0,
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            instructionRead = true;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 30.0),
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(color: Colour.primaryColor),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // showAlertDialog(BuildContext context) {
+  //   // set up the buttons
+  //   Widget doneButton = Material(
+  //     color: Colour.buttonColor,
+  //     elevation: 8.0,
+  //     borderRadius: BorderRadius.all(Radius.circular(50.0)),
+  //     child: GestureDetector(
+  //       onTap: () {
+  //         Navigator.pop(context);
+  //       },
+  //       child: Padding(
+  //         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
+  //         child: Text(
+  //           'Continue',
+  //           style: TextStyle(color: Colour.primaryColor),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+
+  //   // set up the AlertDialog
+  //   AlertDialog alert = AlertDialog(
+  //     title: Text("Welcome to Insco"),
+  //     content: Column(
+  //       children: [
+  //         Text(
+  //             "Hey!! nice to see you here, let's register yourself and be a part of Insco Community.\n"),
+  //         Text("Rememder the important points while registering yourself.\n"),
+  //         Text(
+  //             "# Once register you cannot edit your 'Name', 'Batch', 'Title', and 'Email'. \n"),
+  //         Text("# So, fill properly your credentials.\n"),
+  //         Text(
+  //             "We are not going to share any of your details to any third party.\n"),
+  //         Text("Feel safe and enjoy our plateform.\n"),
+  //         Text(
+  //             "By continuing you are hereby confirm all the requirements given above.\n"),
+  //       ],
+  //     ),
+  //     actions: [
+  //       doneButton,
+  //     ],
+  //   );
+
+  //   // show the dialog
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return alert;
+  //     },
+  //   );
+  // }
 
   void sendOtp(String userEmail) async {
     EmailAuth.sessionName = 'Insco Community';
@@ -97,40 +226,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Form(
-          key: formKey,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.white, Color(0xFFD29AFF)]),
-            ),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(screen.horizontal(4.0)),
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
+        child: !instructionRead
+            ? instruction()
+            : Form(
+                key: formKey,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.white, Color(0xFFD29AFF)]),
+                  ),
+                  child: Stack(
                     children: [
-                      SizedBox(
-                        height: screen.vertical(50.0),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: screen.horizontal(8.0),
-                            backgroundColor: Colour.buttonColor,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.keyboard_arrow_left,
-                                color: Colors.white,
-                                size: screen.horizontal(8.0),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                /*
+                      Padding(
+                        padding: EdgeInsets.all(screen.horizontal(4.0)),
+                        child: ListView(
+                          physics: BouncingScrollPhysics(),
+                          children: [
+                            SizedBox(
+                              height: screen.vertical(50.0),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  radius: screen.horizontal(8.0),
+                                  backgroundColor: Colour.buttonColor,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_left,
+                                      color: Colors.white,
+                                      size: screen.horizontal(8.0),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      /*
                                 this code is for testing
                                 LocalStorage localStorage = LocalStorage();
                                 // if (localStorage.prefs == null) {
@@ -139,195 +270,195 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 // bool pass =
                                 //     localStorage.prefs.getBool('isInscoMember');
                                 */
-                                //TODO implement back function
-                              },
+                                      //TODO implement back function
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: screen.vertical(15.0),
-                      ),
-                      LatoText(
-                        "Let's integrate with INSCO Community",
-                        size: 25,
-                      ),
-                      SizedBox(
-                        height: screen.vertical(20.0),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Your Name',
-                          style: GoogleFonts.lato(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      CustomTextField(
-                        hintText: 'Type your name',
-                        textAlignment: TextAlign.start,
-                        keyboard: TextInputType.name,
-                        validator: usernameValidator,
-                        onChanged: (value) {
-                          name = value;
-                        },
-                      ),
-                      SizedBox(
-                        height: screen.vertical(15.0),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
+                            SizedBox(
+                              height: screen.vertical(15.0),
+                            ),
+                            LatoText(
+                              "Let's integrate with INSCO Community",
+                              size: 25,
+                            ),
+                            SizedBox(
+                              height: screen.vertical(20.0),
+                            ),
+                            Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Are you a pre student of INSCO?',
-                                style: GoogleFonts.lato(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colour.tertioryColor),
-                              ),
-                            ),
-                          ),
-                          Switch(
-                            value: isMember,
-                            onChanged: (value) {
-                              setState(() {
-                                isMember = value;
-                              });
-                            },
-                            inactiveTrackColor: Colour.lineColor,
-                            activeTrackColor: Colour.buttonLight,
-                            activeColor: Colour.buttonColor,
-                          ),
-                        ],
-                      ),
-                      isMember
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Select Your Batch',
+                                'Your Name',
                                 style: GoogleFonts.lato(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                            )
-                          : SizedBox(height: 0.0),
-                      isMember
-                          ? DropdownButtonFormField(
-                              dropdownColor: Colour.secondaryColorDark,
-                              iconEnabledColor: Colors.white,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colour.secondaryColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
+                            ),
+                            CustomTextField(
+                              hintText: 'Type your name',
+                              textAlignment: TextAlign.start,
+                              keyboard: TextInputType.name,
+                              validator: usernameValidator,
+                              onChanged: (value) {
+                                name = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: screen.vertical(15.0),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Are you a pre student of INSCO?',
+                                      style: GoogleFonts.lato(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colour.tertioryColor),
+                                    ),
                                   ),
-                                  borderSide: BorderSide(
-                                      width: 0.0,
-                                      style: BorderStyle.none,
-                                      color: Colors.transparent),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                  borderSide: BorderSide(
-                                      width: 0.0,
-                                      style: BorderStyle.none,
-                                      color: Colors.transparent),
+                                Switch(
+                                  value: isMember,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isMember = value;
+                                    });
+                                  },
+                                  inactiveTrackColor: Colour.lineColor,
+                                  activeTrackColor: Colour.buttonLight,
+                                  activeColor: Colour.buttonColor,
+                                ),
+                              ],
+                            ),
+                            isMember
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Select Your Batch',
+                                      style: GoogleFonts.lato(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(height: 0.0),
+                            isMember
+                                ? DropdownButtonFormField(
+                                    dropdownColor: Colour.secondaryColorDark,
+                                    iconEnabledColor: Colors.white,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colour.secondaryColor,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(12),
+                                        ),
+                                        borderSide: BorderSide(
+                                            width: 0.0,
+                                            style: BorderStyle.none,
+                                            color: Colors.transparent),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)),
+                                        borderSide: BorderSide(
+                                            width: 0.0,
+                                            style: BorderStyle.none,
+                                            color: Colors.transparent),
+                                      ),
+                                    ),
+                                    value: userBatch,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        userBatch = newValue;
+                                      });
+                                    },
+                                    items: batch.map((valueItem) {
+                                      return DropdownMenuItem(
+                                        value: valueItem,
+                                        child: Text(
+                                          'Batch ${valueItem.toString()}',
+                                          style: GoogleFonts.lato(
+                                              color: Colour.lineColor),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  )
+                                : SizedBox(
+                                    height: 0.0,
+                                  ),
+                            SizedBox(
+                              height: screen.vertical(15.0),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Who is using this ?',
+                                style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              value: userBatch,
+                            ),
+                            DropDownField(
+                              textAlignment: TextAlign.start,
+                              items: titleOption,
+                              value: userTitle,
                               onChanged: (newValue) {
                                 setState(() {
-                                  userBatch = newValue;
+                                  userTitle = newValue;
                                 });
                               },
-                              items: batch.map((valueItem) {
-                                return DropdownMenuItem(
-                                  value: valueItem,
-                                  child: Text(
-                                    'Batch ${valueItem.toString()}',
-                                    style: GoogleFonts.lato(
-                                        color: Colour.lineColor),
-                                  ),
-                                );
-                              }).toList(),
-                            )
-                          : SizedBox(
-                              height: 0.0,
                             ),
-                      SizedBox(
-                        height: screen.vertical(15.0),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Who is using this ?',
-                          style: GoogleFonts.lato(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
+                            SizedBox(
+                              height: screen.vertical(50.0),
+                            ),
+                            Button(
+                              'Continue',
+                              onPressed: () {
+                                if (formKey.currentState.validate()) {
+                                  setState(() {
+                                    pageNo = 2;
+                                  });
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              height: screen.vertical(50.0),
+                            ),
+                            RailwayText(
+                              'Already INSCO member ?',
+                              size: 14,
+                            ),
+                            SizedBox(
+                              height: screen.vertical(10.0),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                //TODO implement navigation for login page
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RailwayText(
+                                  'LOGIN',
+                                  fontColor: Colour.buttonColor,
+                                  size: 14,
+                                  weight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      DropDownField(
-                        textAlignment: TextAlign.start,
-                        items: titleOption,
-                        value: userTitle,
-                        onChanged: (newValue) {
-                          setState(() {
-                            userTitle = newValue;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: screen.vertical(50.0),
-                      ),
-                      Button(
-                        'Continue',
-                        onPressed: () {
-                          if (formKey.currentState.validate()) {
-                            setState(() {
-                              pageNo = 2;
-                            });
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: screen.vertical(50.0),
-                      ),
-                      RailwayText(
-                        'Already INSCO member ?',
-                        size: 14,
-                      ),
-                      SizedBox(
-                        height: screen.vertical(10.0),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          //TODO implement navigation for login page
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RailwayText(
-                            'LOGIN',
-                            fontColor: Colour.buttonColor,
-                            size: 14,
-                            weight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
+                ),
+              ),
       ),
     );
   }
@@ -545,7 +676,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             try {
                               final newUser = await authentication
                                   .createUserInFirebase(email, password);
-                              if (newUser != null){
+                              if (newUser != null) {
                                 id = FirebaseAuth.instance.currentUser.uid;
                                 Account account = Account(
                                     id: id,

@@ -1,4 +1,5 @@
 import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/pages/homepage.dart';
 import 'package:INSCO_COMMUNITY/pages/mainPageScreen/buttons/main_page_button.dart';
 import 'package:INSCO_COMMUNITY/pages/profile/profile.dart';
 import 'package:INSCO_COMMUNITY/pages/search/search.dart';
@@ -25,10 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-   
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.push(context, CustomPageRoute(widget: SettingsPage()));
             },
             child: Container(
@@ -114,13 +112,39 @@ class _MainScreenState extends State<MainScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                NavigationButtons(
-                  widScreen: DiscussionScreen(),
-                  icon: Icon(
-                    Icons.chat_bubble,
-                    color: Colors.white,
+                if (currentUser.title != 'User')
+                  NavigationButtons(
+                    widScreen: DiscussionScreen(),
+                    icon: Icon(
+                      Icons.chat_bubble,
+                      color: Colors.white,
+                    ),
+                  )
+                else
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showFlushBar(context, title: 'Alert!!!', message: 'Cannot access to chat');
+                      });
+                    },
+                    child: Material(
+                      elevation: 5.0,
+                      color: Colour.buttonColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 25.0),
+                        child: Center(
+                          child: Icon(
+                            Icons.chat_bubble,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
                 NavigationButtons(
                   widScreen: SearchScreen(),
                   icon: Icon(

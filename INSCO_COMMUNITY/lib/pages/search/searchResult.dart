@@ -55,12 +55,12 @@ class UserResult extends StatelessWidget {
                             style: TextStyle(color: Colour.buttonColor),
                           ),
                         ),
-                        Text(
+                        user.batch != null ? Text(
                           "Batch ${user.batch}",
                           style: TextStyle(
                             color: Colour.buttonColor,
                           ),
-                        ),
+                        ): Text(''),
                       ],
                     ),
                   ),

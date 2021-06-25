@@ -278,15 +278,15 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   SizedBox(height: 5.0),
-                  Text(
-                    "Plese enter a valid whatshapp number.",
-                    style: TextStyle(color: Colors.red[300], fontSize: 10.0),
-                  ),
-                  SizedBox(height: 5.0),
-                  Text(
-                    "Contact is not menadotry but it can be useful for communication and to reach any needy member to you.",
-                    style: TextStyle(color: Colors.red[300], fontSize: 10.0),
-                  ),
+                  // Text(
+                  //   "Plese enter a valid whatshapp number.",
+                  //   style: TextStyle(color: Colors.red[300], fontSize: 10.0),
+                  // ),
+                  // SizedBox(height: 5.0),
+                  // Text(
+                  //   "Contact is not menadotry but it can be useful for communication and to reach any needy member to you.",
+                  //   style: TextStyle(color: Colors.red[300], fontSize: 10.0),
+                  // ),
                   SizedBox(height: 30.0),
                   Center(
                     child: showLoading

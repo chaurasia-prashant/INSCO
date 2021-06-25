@@ -12,6 +12,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = Screen(context);
+    // ignore: deprecated_member_use
     return FlatButton(
       onPressed: onPressed,
       child: Center(

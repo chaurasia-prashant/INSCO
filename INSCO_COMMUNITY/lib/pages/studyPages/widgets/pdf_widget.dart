@@ -60,14 +60,10 @@ class _PdfDocState extends State<PdfDoc> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: Center(
-                      child: Hero(
-                        transitionOnUserGestures: true,
-                        tag: 'id-$name',
-                        child: Text(
-                          name.toUpperCase(),
-                          style: GoogleFonts.lato(
-                              color: Colors.white, fontSize: 20.0),
-                        ),
+                      child: Text(
+                        name.toUpperCase(),
+                        style: GoogleFonts.lato(
+                            color: Colors.white, fontSize: 20.0),
                       ),
                     ),
                   ),

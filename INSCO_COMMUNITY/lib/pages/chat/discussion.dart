@@ -5,8 +5,10 @@ import 'package:INSCO_COMMUNITY/modal/chat.dart';
 import 'package:INSCO_COMMUNITY/widget/page_route_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:INSCO_COMMUNITY/pages/homepage.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -84,11 +86,11 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                                   'sender': currentUser.username,
                                   'msg': messageTextController.text,
                                   'msgTime': DateTime.now(),
-                                  'msgId': null,
-                                  'isVisibal': true,
+                                  'msgId': msgRef.id,
+                                  'isVisibal': false,
                                 }).whenComplete(
                                     () => msgPath.doc(msgRef.id).update({
-                                          'msgId': msgRef.id,
+                                          'isVisibal': true,
                                         }));
                                 messageTextController.clear();
                               }
@@ -183,8 +185,8 @@ class MessageBox extends StatelessWidget {
               : Text(''),
           Padding(
             padding: currentUser.username == message.sender
-                ? EdgeInsets.only(right: 15.0, left: 60.0)
-                : EdgeInsets.only(right: 60.0, left: 5.0),
+                ? EdgeInsets.only(right: 15.0, left: 100.0)
+                : EdgeInsets.only(right: 100.0, left: 5.0),
             child: GestureDetector(
               onLongPress: () {
                 int timegap = DateTime.now()
@@ -268,17 +270,32 @@ class MessageBox extends StatelessWidget {
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 15.0),
-                        child: Text(
+                        child: ExpandableText(
                           message.msg,
+                          collapseText: 'show less',
+                          expandText: 'show more',
+                          maxLines: 5,
+                          urlStyle: GoogleFonts.lato(
+                              color: Colors.orange[100],
+                              fontSize: 14.0,
+                              decoration: TextDecoration.underline,
+                              fontStyle: FontStyle.italic),
+                          onUrlTap: (url) async{
+                            try {                             
+                              await canLaunch(url);
+                              launch(url);
+                            } catch (e) {                              
+                            }
+                          },
                           style: GoogleFonts.lato(
                               color: Colors.white, fontSize: 15.0),
                         )),
                   ),
                   Container(
                     child: currentUser.username == message.sender
-                        ? (message.msgId == null
+                        ? (!message.isVisibal
                             ? Icon(Icons.dangerous,
-                                color: Colors.red, size: 12.0)
+                                color: Colors.orange[500], size: 12.0)
                             : Icon(Icons.check, size: 12.0))
                         : Text(''),
                   ),
@@ -292,15 +309,15 @@ class MessageBox extends StatelessWidget {
   }
 }
 
-class NoMessages extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: Text('No messages from last 30 days'),
-        ),
-      ],
-    );
-  }
-}
+// class NoMessages extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Center(
+//           child: Text('No messages from last 30 days'),
+//         ),
+//       ],
+//     );
+//   }
+// }
