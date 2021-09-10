@@ -1,5 +1,5 @@
-import 'package:INSCO_COMMUNITY/component/color.dart';
-import 'package:INSCO_COMMUNITY/component/font_text.dart';
+import 'package:INSCO_COMMUNITY/constants/color.dart';
+import 'package:INSCO_COMMUNITY/widget/font_text.dart';
 import 'package:INSCO_COMMUNITY/helper/screen_size.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +12,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = Screen(context);
+    // ignore: deprecated_member_use
     return FlatButton(
       onPressed: onPressed,
       child: Center(
@@ -21,6 +22,7 @@ class Button extends StatelessWidget {
           child: LatoText(
             buttonName,
             size: 16,
+            fontColor: Colors.white,
           ),
         ),
       ),

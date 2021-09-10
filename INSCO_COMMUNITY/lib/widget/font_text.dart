@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
+
 class RailwayText extends StatelessWidget {
   final String data;
   final double size;
@@ -13,7 +15,7 @@ class RailwayText extends StatelessWidget {
       this.size = 14,
       this.weight = FontWeight.normal,
       this.style = FontStyle.normal,
-      this.fontColor = Colors.white})
+      this.fontColor = Colors.black})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class LatoText extends StatelessWidget {
     this.size = 14,
     this.weight = FontWeight.normal,
     this.style = FontStyle.normal,
-    this.fontColor = Colors.white,
+    this.fontColor = Colors.black,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

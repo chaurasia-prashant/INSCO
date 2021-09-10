@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'color.dart';
+import '../constants/color.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController textController;
@@ -36,7 +36,7 @@ class CustomTextField extends StatelessWidget {
       this.textController,
       this.validator,
       this.label,
-      this.fillColor = Colour.textfieldColor,
+      this.fillColor = Colour.secondaryColor,
       this.borderWidth = 0,
       this.borderColor = Colors.transparent,
       this.borderStyle = BorderStyle.none,
@@ -61,7 +61,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: preffixWidget,
         prefixStyle: GoogleFonts.lato(
-            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
+            fontSize: 18, fontWeight: FontWeight.bold, color: Colour.lineColor),
         filled: true,
         fillColor: fillColor,
         border: OutlineInputBorder(
@@ -83,10 +83,14 @@ class CustomTextField extends StatelessWidget {
         ),
         labelText: label,
         labelStyle: GoogleFonts.lato(
-            fontSize: 16, fontWeight: FontWeight.normal, color: Colors.grey),
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: Colour.lineColor),
         hintText: hintText,
         hintStyle: GoogleFonts.lato(
-            fontSize: 16, fontWeight: FontWeight.normal, color: Colors.grey),
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: Colour.lineColor),
       ),
     );
   }
